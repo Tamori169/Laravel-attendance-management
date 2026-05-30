@@ -13,4 +13,14 @@ class AttendanceRecord extends Model
         'clock_in',
         'clock_out',
     ];
+
+    public function breakRecords()
+    {
+        return $this->hasMany(BreakRecord::class);
+    }
+
+    public function attendanceCorrectRequests()
+    {
+        return $this->hasMany(AttendanceCorrectRequest::class);
+    }
 }

@@ -10,4 +10,9 @@ class Status extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function attendanceCorrectRequests()
+    {
+        return $this->hasMany(AttendanceCorrectRequest::class);
+    }
 }
