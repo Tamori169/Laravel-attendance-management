@@ -1,0 +1,139 @@
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.header {
+    background-color: #000;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.header_logo {
+    flex: 1;
+    min-width: 0;
+}
+
+.header_logo-image {
+    width: 70%;
+}
+
+.header_logo-image--mobile {
+    display: none;
+}
+
+.header_space {
+    flex: 1;
+    min-width: 0;
+}
+
+.header_nav {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.logout__button-submit,
+.login__link,
+.mypage__link,
+.sell__link {
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.attendance-create_link,
+.attendance-index_link,
+.correction-index_link,
+.attendance-report_link,
+.logout__button-submit {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 0 5px 0;
+}
+
+.login__link,
+.mypage__link,
+.sell__link {
+    display: inline-block;
+}
+
+/* ハンバーガーメニュー */
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    margin: 5px 0;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 15px;
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (max-width: 850px) {
+    .header_logo-image--desktop {
+        display: none;
+    }
+
+    .header_logo-image--mobile {
+        display: block;
+        width: 20%;
+        padding-left: 3%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        background: #000;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 150px;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1000;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .header_nav-items {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .header {
+        max-width: 1540px;
+    }
+}

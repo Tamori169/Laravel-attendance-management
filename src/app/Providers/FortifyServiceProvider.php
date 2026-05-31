@@ -20,7 +20,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // ログインリクエストを実装 //
+        $this->app->bind(
+            \Laravel\Fortify\Http\Requests\LoginRequest::class,
+            \App\Http\Requests\LoginRequest::class
+        );
     }
 
     /**
@@ -31,11 +35,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::createUsersUsing(CreateNewUser::class);
 
         Fortify::registerView(function () {
-            return view('auth.register');
+            return view('auth.staff.register');
         });
 
         Fortify::loginView(function () {
-            return view('auth.login');
+            return view('auth.staff.login');
         });
 
         RateLimiter::for('login', function (Request $request) {
