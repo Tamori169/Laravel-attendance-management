@@ -14,7 +14,7 @@ class BreakCorrectRequest extends Model
         'requested_break_out',
     ];
 
-    public function breakRecord()
+    public function break()
     {
         return $this->belongsTo(BreakRecord::class);
     }
