@@ -16,5 +16,13 @@ use App\Http\Controllers\AttendanceController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'create'])
-    ->name('attendance.create');
+    ->name('staff.attendances.create');
+    Route::post('/attendance/clock_in', [AttendanceController::class, 'clockIn'])
+        ->name('staff.attendances.clockIn');
+    Route::post('/attendance/break_in', [AttendanceController::class, 'breakIn'])
+        ->name('staff.attendances.breakIn');
+    Route::patch('/attendance/break_out', [AttendanceController::class, 'breakOut'])
+        ->name('staff.attendances.breakOut');
+    Route::patch('/attendance/clock_out', [AttendanceController::class, 'clockOut'])
+        ->name('staff.attendances.clockOut');
 });
