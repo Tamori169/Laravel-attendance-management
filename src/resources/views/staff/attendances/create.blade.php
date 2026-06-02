@@ -16,7 +16,7 @@
         </div>
         <!-- 現在時刻 -->
         <div class="current-time">
-            <span class="current-time__date">
+            <span class="current-time__date" id="current-date">
                 @php
                 $now = now('Asia/Tokyo');
                 $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
@@ -24,7 +24,7 @@
 
                 {{ $now->format('Y年n月j日') }}（{{ $weekdays[$now->dayOfWeek] }}）
             </span>
-            <span class="current-time__time">
+            <span class="current-time__time" id="current-time">
                 {{ now('Asia/Tokyo')->format('H:i') }}
             </span>
         </div>
@@ -57,5 +57,34 @@
         @endif
     </div>
 </div>
+
+<script>
+    function updateCurrentDateTime() {
+        const now = new Date();
+
+        const dateText = new Intl.DateTimeFormat('ja-JP', {
+            timeZone: 'Asia/Tokyo',
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            weekday: 'short'
+        }).format(now);
+
+        const timeText = new Intl.DateTimeFormat('ja-JP', {
+            timeZone: 'Asia/Tokyo',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(now);
+
+        const formattedDateText = dateText.replace('/', '年').replace('/', '月').replace('(', '日（').replace(')', '）');
+
+        document.getElementById('current-date').textContent = formattedDateText;
+        document.getElementById('current-time').textContent = timeText;
+    }
+
+    updateCurrentDateTime();
+    setInterval(updateCurrentDateTime, 1000);
+</script>
 
 @endsection
