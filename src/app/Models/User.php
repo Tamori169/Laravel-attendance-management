@@ -51,4 +51,41 @@ class User extends Authenticatable
     {
         return $this->hasMany(AttendanceRecord::class);
     }
+
+    public function getAttendanceStatusAttribute()
+    {
+        $attendanceRecord = AttendanceRecord::where('user_id', $this->id)
+            ->whereDate('date', today('Asia/Tokyo'))
+            ->first();
+
+        $hasAttendanceRecord = AttendanceRecord::where('user_id', $this->id)
+            ->whereDate('date', today('Asia/Tokyo'))
+            ->exists();
+
+        $hasFinishedWork = AttendanceRecord::where('user_id', $this->id)
+            ->whereDate('date', today('Asia/Tokyo'))
+            ->whereNotNull('clock_in')
+            ->whereNotNull('clock_out')
+            ->exists();
+
+        $isOnBreak = $hasAttendanceRecord &&
+            $attendanceRecord->breakRecords()
+            ->whereNotNull('break_in')
+            ->whereNull('break_out')
+            ->exists();
+
+        if (!$hasAttendanceRecord) {
+            return '勤務外';
+        }
+
+        if ($hasFinishedWork) {
+            return '退勤済';
+        }
+
+        if ($isOnBreak) {
+            return '休憩中';
+        }
+
+        return '出勤中';
+    }
 }
