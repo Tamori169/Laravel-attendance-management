@@ -41,11 +41,11 @@
             <ul class="nav-menu js-nav-menu">
                 <!-- 勤怠 -->
                 <li class="header_nav-items">
-                    <a class="attendance-create_link" href="{{ route('staff.attendances.create') }}">勤怠</a>
+                    <a class="attendance-create_link" href="{{ route('staffAttendance.create') }}">勤怠</a>
                 </li>
                 <!-- 勤怠一覧 -->
                 <li class="header_nav-items">
-                    <a class="attendance-index_link" href="{{ route('staff.attendances.monthlyIndex') }}">勤怠一覧</a>
+                    <a class="attendance-index_link" href="{{ route('staffAttendance.index') }}">勤怠一覧</a>
                 </li>
                 <!-- 申請一覧 -->
                 <li class="header_nav-items">

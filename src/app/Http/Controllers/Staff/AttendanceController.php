@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
+use App\Http\Controllers\Controller;
 use App\Models\AttendanceRecord;
 use App\Models\BreakRecord;
 use Carbon\Carbon;
@@ -78,7 +79,7 @@ class AttendanceController extends Controller
         return redirect()->route('staff.attendances.create');
     }
 
-    public function monthlyIndex(Request $request)
+    public function index(Request $request)
     {
         $month = $request->query('month', now('Asia/Tokyo')->format('Y-m'));
         $currentMonth = Carbon::parse($month);

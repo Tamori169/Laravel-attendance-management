@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +15,16 @@ use App\Http\Controllers\AttendanceController;
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'create'])
-    ->name('staff.attendances.create');
-    Route::post('/attendance/clock_in', [AttendanceController::class, 'clockIn'])
-        ->name('staff.attendances.clockIn');
-    Route::post('/attendance/break_in', [AttendanceController::class, 'breakIn'])
-        ->name('staff.attendances.breakIn');
-    Route::patch('/attendance/break_out', [AttendanceController::class, 'breakOut'])
-        ->name('staff.attendances.breakOut');
-    Route::patch('/attendance/clock_out', [AttendanceController::class, 'clockOut'])
-        ->name('staff.attendances.clockOut');
-    Route::get('/attendance/list', [AttendanceController::class, 'monthlyIndex'])
-        ->name('staff.attendances.monthlyIndex');
+    Route::get('/attendance', [StaffAttendanceController::class, 'create'])
+    ->name('staffAttendance.create');
+    Route::post('/attendance/clock_in', [StaffAttendanceController::class, 'clockIn'])
+        ->name('staffAttendance.clockIn');
+    Route::post('/attendance/break_in', [StaffAttendanceController::class, 'breakIn'])
+        ->name('staffAttendance.breakIn');
+    Route::patch('/attendance/break_out', [StaffAttendanceController::class, 'breakOut'])
+        ->name('staffAttendance.breakOut');
+    Route::patch('/attendance/clock_out', [StaffAttendanceController::class, 'clockOut'])
+        ->name('staffAttendance.clockOut');
+    Route::get('/attendance/list', [StaffAttendanceController::class, 'index'])
+        ->name('staffAttendance.index');
 });

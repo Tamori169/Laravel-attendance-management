@@ -29,7 +29,7 @@
         </div>
         <!-- ボタン -->
         @if(auth()->user()->attendance_status === '勤務外')
-        <form class="attendance-buttons" action="{{ route('staff.attendances.clockIn') }}" method="post">
+        <form class="attendance-buttons" action="{{ route('staffAttendance.clockIn') }}" method="post">
             @csrf
             <button class="attendance-buttons__clock_in" type="submit">出勤</button>
         </form>
@@ -38,18 +38,18 @@
             <form class="attendance-buttons" method="post">
                 @csrf
                 @method('PATCH')
-                <button class="attendance-buttons__clock_out" formaction="{{ route('staff.attendances.clockOut') }}" type="submit">退勤</button>
+                <button class="attendance-buttons__clock_out" formaction="{{ route('staffAttendance.clockOut') }}" type="submit">退勤</button>
             </form>
             <form class="attendance-buttons" method="post">
                 @csrf
-                <button class="attendance-buttons__break_in" formaction="{{ route('staff.attendances.breakIn') }}" type="submit">休憩入</button>
+                <button class="attendance-buttons__break_in" formaction="{{ route('staffAttendance.breakIn') }}" type="submit">休憩入</button>
             </form>
         </div>
         @elseif(auth()->user()->attendance_status === '休憩中')
         <form class="attendance-buttons" method="post">
             @csrf
             @method('PATCH')
-            <button class="attendance-buttons__break_out" formaction="{{ route('staff.attendances.breakOut') }}" type="submit">休憩戻</button>
+            <button class="attendance-buttons__break_out" formaction="{{ route('staffAttendance.breakOut') }}" type="submit">休憩戻</button>
         </form>
         @elseif(auth()->user()->attendance_status === '退勤済')
         <div class="massage">
