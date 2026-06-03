@@ -17,17 +17,17 @@
 <body>
     <header class="header">
         <!-- ロゴ -->
-        <a class="header_logo" href="">
-            <img class="header_logo-image header_logo-image--desktop" src="{{ asset('images/logos/coachtech_header-logo_desktop.png') }}"
+        <a class="header__logo" href="">
+            <img class="header__logo-image header__logo-image--desktop" src="{{ asset('images/logos/coachtech_header-logo_desktop.png') }}"
                 alt="COACHTECH">
-            <img class="header_logo-image header_logo-image--mobile" src="{{ asset('images/logos/coachtech_header-logo_mobile.png') }}"
+            <img class="header__logo-image header__logo-image--mobile" src="{{ asset('images/logos/coachtech_header-logo_mobile.png') }}"
                 alt="COACHTECH">
         </a>
         <!-- 真ん中の空白 -->
-        <div class="header_space">
+        <div class="header__space">
         </div>
         <!-- メニュー -->
-        <nav class="header_nav">
+        <nav class="header__nav">
             @section('nav')
             <!-- ハンバーガーメニュー（モバイル用） -->
             <ul class="hamburger js-hamburger">
@@ -40,23 +40,23 @@
             <!-- ナビゲーションメニュー（デスクトップ用） -->
             <ul class="nav-menu js-nav-menu">
                 <!-- 勤怠 -->
-                <li class="header_nav-items">
-                    <a class="attendance-create_link" href="{{ route('staffAttendance.create') }}">勤怠</a>
+                <li class="header__nav-items">
+                    <a class="attendance-create__link" href="{{ route('staffAttendance.create') }}">勤怠</a>
                 </li>
                 <!-- 勤怠一覧 -->
-                <li class="header_nav-items">
-                    <a class="attendance-index_link" href="{{ route('staffAttendance.index') }}">勤怠一覧</a>
+                <li class="header__nav-items">
+                    <a class="attendance-index__link" href="{{ route('staffAttendance.index') }}">勤怠一覧</a>
                 </li>
                 <!-- 申請一覧 -->
-                <li class="header_nav-items">
-                    <a class="correction-index_link" href="">申請</a>
+                <li class="header__nav-items">
+                    <a class="correction-index__link" href="">申請</a>
                 </li>
                 <!-- レポート -->
-                <li class="header_nav-items">
-                    <a class="attendance-report_link" href="">レポート</a>
+                <li class="header__nav-items">
+                    <a class="attendance-report__link" href="">レポート</a>
                 </li>
                 <!-- ログアウト -->
-                <li class="header_nav-items">
+                <li class="header__nav-items">
                     <form class="logout__button" method="post" action="{{ route('logout') }}">
                         @csrf
                         <button class="logout__button-submit" type="submit">ログアウト</button>

@@ -13,25 +13,25 @@ body {
     padding-right: 2%;
 }
 
-.header_logo {
+.header__logo {
     flex: 1;
     min-width: 0;
 }
 
-.header_logo-image {
+.header__logo-image {
     width: 70%;
 }
 
-.header_logo-image--mobile {
+.header__logo-image--mobile {
     display: none;
 }
 
-.header_space {
+.header__space {
     flex: 1;
     min-width: 0;
 }
 
-.header_nav {
+.header__nav {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -39,30 +39,20 @@ body {
     gap: 15px;
 }
 
-.logout__button-submit,
-.login__link,
-.mypage__link,
-.sell__link {
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.attendance-create_link,
-.attendance-index_link,
-.correction-index_link,
-.attendance-report_link,
+.attendance-create__link,
+.attendance-index__link,
+.correction-index__link,
+.attendance-report__link,
 .logout__button-submit {
     color: #fff;
     text-decoration: none;
     font-size: 16px;
-    padding: 5px 0 5px 0;
+    border: none;
+    cursor: pointer;
 }
 
-.login__link,
-.mypage__link,
-.sell__link {
-    display: inline-block;
+.logout__button-submit {
+    background-color: #000;
 }
 
 /* ハンバーガーメニュー */
