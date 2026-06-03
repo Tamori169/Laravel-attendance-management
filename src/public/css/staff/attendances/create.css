@@ -1,0 +1,83 @@
+body {
+    letter-spacing: 0.2em;
+}
+
+.attendance-create__content {
+    display: flex;
+    flex-direction: column;
+    background-color: #eee;
+    height: 100vh;
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.attendance-status {
+    background-color: #ccc;
+    width: 7%;
+    padding: 7px 10px;
+    border-radius: 20px;
+    color: #666;
+}
+
+.current-time__date {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.current-time__time {
+    display: block;
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.attendance-buttons {
+    margin-top: 40px;
+    width: 12%;
+}
+
+.attendance-buttons__wrapper {
+    display: flex;
+    width: 100%;
+    gap: 10%;
+    justify-content: center;
+}
+
+.attendance-buttons__clock_in,
+.attendance-buttons__clock_out,
+.attendance-buttons__break_in,
+.attendance-buttons__break_out {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.attendance-buttons__clock_in,
+.attendance-buttons__clock_out {
+    background-color: #000;
+    color: #fff;
+}
+
+.attendance-buttons__break_in,
+.attendance-buttons__break_out {
+    background-color: #fff;
+    color: #000;
+}
+
+.massage {
+    margin-top: 40px;
+}
+
+.massage__text {
+    font-size: 24px;
+    font-weight: bold;
+}
