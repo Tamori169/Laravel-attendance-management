@@ -25,4 +25,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('staff.attendances.breakOut');
     Route::patch('/attendance/clock_out', [AttendanceController::class, 'clockOut'])
         ->name('staff.attendances.clockOut');
+    Route::get('/attendance/list', [AttendanceController::class, 'monthlyIndex'])
+        ->name('staff.attendances.monthlyIndex');
 });

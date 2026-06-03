@@ -23,4 +23,40 @@ class AttendanceRecord extends Model
     {
         return $this->hasMany(AttendanceCorrectRequest::class);
     }
+
+    public function getBreakMinutesAttribute()
+    {
+        return $this->breakRecords->sum(function ($breakRecord) {
+            if (!$breakRecord->break_in || !$breakRecord->break_out) {
+                return 0;
+            }
+
+            return $breakRecord->break_in->diffInMinutes($breakRecord->break_out);
+        });
+    }
+
+    public function getWorkMinutesAttribute()
+    {
+        if (!$this->clock_in || !$this->clock_out) {
+            return 0;
+        }
+
+        return $this->clock_in->diffInMinutes($this->clock_out) - $this->break_minutes;
+    }
+
+    public function getFormattedBreakTimeAttribute()
+    {
+        $hours = floor($this->break_minutes / 60);
+        $minutes = $this->break_minutes % 60;
+
+        return sprintf('%d:%02d', $hours, $minutes);
+    }
+
+    public function getFormattedWorkTimeAttribute()
+    {
+        $hours = floor($this->work_minutes / 60);
+        $minutes = $this->work_minutes % 60;
+
+        return sprintf('%d:%02d', $hours, $minutes);
+    }
 }

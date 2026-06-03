@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AttendanceRecord;
 use App\Models\BreakRecord;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -74,5 +76,28 @@ class AttendanceController extends Controller
             ]);
 
         return redirect()->route('staff.attendances.create');
+    }
+
+    public function monthlyIndex(Request $request)
+    {
+        $month = $request->query('month', now('Asia/Tokyo')->format('Y-m'));
+        $currentMonth = Carbon::parse($month);
+
+        $startOfMonth = $currentMonth->copy()->startOfMonth();
+        $endOfMonth = $currentMonth->copy()->endOfMonth();
+
+        $attendanceRecords = AttendanceRecord::with('breakRecords')
+            ->where('user_id', auth()->id())
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->get()
+            ->keyBy(fn($attendanceRecord) => $attendanceRecord->date->format('Y-m-d'));
+
+        $attendanceRecordList = collect(CarbonPeriod::create($startOfMonth, $endOfMonth))
+            ->map(fn ($date) => [
+                'date' => $date,
+                'attendance_record' => $attendanceRecords->get($date->format('Y-m-d'))
+            ]);
+
+        return view('staff.attendances.index', compact('currentMonth', 'attendanceRecordList'));
     }
 }
