@@ -1,7 +1,3 @@
-body {
-    letter-spacing: 0.2em;
-}
-
 .attendance-create__content {
     display: flex;
     flex-direction: column;
@@ -16,6 +12,7 @@ body {
 }
 
 .attendance-status {
+    letter-spacing: 0.1em;
     background-color: #ccc;
     width: 7%;
     padding: 7px 10px;
@@ -24,6 +21,7 @@ body {
 }
 
 .current-time__date {
+    letter-spacing: 0.1em;
     display: block;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -31,6 +29,7 @@ body {
 }
 
 .current-time__time {
+    letter-spacing: 0.1em;
     display: block;
     font-size: 80px;
     font-weight: bold;
@@ -63,12 +62,14 @@ body {
 
 .attendance-buttons__clock_in,
 .attendance-buttons__clock_out {
+    letter-spacing: 0.1em;
     background-color: #000;
     color: #fff;
 }
 
 .attendance-buttons__break_in,
 .attendance-buttons__break_out {
+    letter-spacing: 0.1em;
     background-color: #fff;
     color: #000;
 }

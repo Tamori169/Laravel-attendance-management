@@ -21,7 +21,7 @@ class AttendanceController extends Controller
         $user = auth()->user();
 
         if($user->attendanceStatus !== '勤務外'){
-            return redirect()->route('staff.attendances.create');
+            return redirect()->route('staffAttendances.create');
         }
 
         AttendanceRecord::create([
@@ -30,7 +30,7 @@ class AttendanceController extends Controller
             'clock_in' => now('Asia/Tokyo'),
         ]);
 
-        return redirect()->route('staff.attendances.create');
+        return redirect()->route('staffAttendance.create');
     }
 
     public function breakIn()
@@ -44,7 +44,7 @@ class AttendanceController extends Controller
             'break_in' => now('Asia/Tokyo'),
         ]);
 
-        return redirect()->route('staff.attendances.create');
+        return redirect()->route('staffAttendance.create');
     }
 
     public function breakOut()
@@ -62,7 +62,7 @@ class AttendanceController extends Controller
                 'break_out' => now('Asia/Tokyo'),
             ]);
 
-        return redirect()->route('staff.attendances.create');
+        return redirect()->route('staffAttendance.create');
     }
 
     public function clockOut()
@@ -76,7 +76,7 @@ class AttendanceController extends Controller
                 'clock_out' => now('Asia/Tokyo'),
             ]);
 
-        return redirect()->route('staff.attendances.create');
+        return redirect()->route('staffAttendance.create');
     }
 
     public function index(Request $request)
