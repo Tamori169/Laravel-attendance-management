@@ -101,4 +101,13 @@ class AttendanceController extends Controller
 
         return view('staff.attendances.index', compact('currentMonth', 'attendanceRecordList'));
     }
+
+    public function show($id)
+    {
+        $attendanceRecord = AttendanceRecord::with('breakRecords')
+            ->where('id', $id)
+            ->firstOrFail();
+
+        return view('common.attendances.show', compact('attendanceRecord'));
+    }
 }

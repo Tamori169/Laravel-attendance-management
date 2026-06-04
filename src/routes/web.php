@@ -27,4 +27,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('staffAttendance.clockOut');
     Route::get('/attendance/list', [StaffAttendanceController::class, 'index'])
         ->name('staffAttendance.index');
+    Route::get('/attendance/detail/{id}', [StaffAttendanceController::class, 'show'])
+        ->name('staffAttendance.show');
 });

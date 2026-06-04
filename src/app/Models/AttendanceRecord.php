@@ -14,6 +14,12 @@ class AttendanceRecord extends Model
         'clock_out',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+        'clock_in' => 'datetime',
+        'clock_out' => 'datetime',
+    ];
+
     public function breakRecords()
     {
         return $this->hasMany(BreakRecord::class);

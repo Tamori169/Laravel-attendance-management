@@ -17,12 +17,12 @@
 <body>
     <header class="header">
         <!-- ロゴ -->
-        <a class="header__logo" href="">
+        <h1 class="header__logo" href="">
             <img class="header__logo-image header__logo-image--desktop" src="{{ asset('images/logos/coachtech_header-logo_desktop.png') }}"
                 alt="COACHTECH">
             <img class="header__logo-image header__logo-image--mobile" src="{{ asset('images/logos/coachtech_header-logo_mobile.png') }}"
                 alt="COACHTECH">
-        </a>
+        </h1>
         <!-- 真ん中の空白 -->
         <div class="header__space">
         </div>
