@@ -14,7 +14,7 @@ use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController
 |
 */
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
     Route::get('/attendance', [StaffAttendanceController::class, 'create'])
     ->name('staffAttendance.create');
     Route::post('/attendance/clock_in', [StaffAttendanceController::class, 'clockIn'])

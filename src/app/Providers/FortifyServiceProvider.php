@@ -26,6 +26,16 @@ class FortifyServiceProvider extends ServiceProvider
             \Laravel\Fortify\Http\Requests\LoginRequest::class,
             \App\Http\Requests\LoginRequest::class
         );
+
+        // 会員登録後のリダイレクト先をメール認証誘導画面に変更
+        $this->app->instance(
+            \Laravel\Fortify\Http\Responses\RegisterResponse::class,
+            new class implements \Laravel\Fortify\Contracts\RegisterResponse {
+                public function toResponse($request) {
+                    return redirect('/email/verify'); 
+                }
+            }
+        );
     }
 
     /**
@@ -41,6 +51,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::loginView(function () {
             return view('auth.staff.login');
+        });
+
+        Fortify::verifyEmailView(function () {
+            return view('auth.staff.verify-email');
         });
 
         RateLimiter::for('login', function (Request $request) {
