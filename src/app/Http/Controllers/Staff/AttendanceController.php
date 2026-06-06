@@ -108,6 +108,6 @@ class AttendanceController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
-        return view('common.attendances.show', compact('attendanceRecord'));
+        return view('staff.attendances.show', compact('attendanceRecord'));
     }
 }

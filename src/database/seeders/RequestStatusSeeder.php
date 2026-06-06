@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Status;
+use App\Models\RequestStatus;
 use Illuminate\Database\Seeder;
 
-class StatusSeeder extends Seeder
+class RequestStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        Status::create(['name' => 'pending']);
-        Status::create(['name' => 'approved']);
+        RequestStatus::create(['name' => 'pending']);
+        RequestStatus::create(['name' => 'approved']);
     }
 }

@@ -16,9 +16,8 @@ class CreateBreakCorrectRequestsTable extends Migration
         Schema::create('break_correct_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attendance_correct_request_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('break_record_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->datetime('requested_break_in')->nullable();
-            $table->datetime('requested_break_out')->nullable();
+            $table->datetime('requested_break_in');
+            $table->datetime('requested_break_out');
             $table->timestamps();
         });
     }

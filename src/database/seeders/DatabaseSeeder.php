@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             // AttendanceRecordSeeder::class,
-            StatusSeeder::class,
+            RequestStatusSeeder::class,
         ]);
     }
 }
