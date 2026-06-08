@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
+use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,6 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('staffAttendance.index');
     Route::get('/attendance/detail/{id}', [StaffAttendanceController::class, 'show'])
         ->name('staffAttendance.show');
+    Route::post('/attendance/detail/{id}', [StaffCorrectionController::class, 'store'])
+        ->name('staffCorrection.store');
 });

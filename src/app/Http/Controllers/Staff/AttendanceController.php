@@ -104,10 +104,13 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        $attendanceRecord = AttendanceRecord::with('breakRecords')
-            ->where('id', $id)
-            ->firstOrFail();
+        $user = auth()->user();
 
-        return view('staff.attendances.show', compact('attendanceRecord'));
+        $attendanceRecord = AttendanceRecord::where('id', $id)
+            ->firstOrFail();
+        
+        $breakRecords = BreakRecord::where('attendance_record_id', $id)->get();
+
+        return view('staff.attendances.show', compact('user', 'attendanceRecord', 'breakRecords'));
     }
 }
