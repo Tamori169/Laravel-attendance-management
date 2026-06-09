@@ -33,19 +33,54 @@
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">出勤・退勤</th>
                 <td class="attendance-detail__description">
+                    @if($attendanceCorrectRequest)
+                    <span class="requested-time__text">
+                        {{ $attendanceCorrectRequest->requested_clock_in->format('H:i') }}
+                    </span>
+                    @else
                     <input class="attendance-detail__form-input" type="text"
                         name="requested_clock_in"
                         value="{{ $attendanceRecord->clock_in->format('H:i') }}">
+                    @endif
                 </td>
                 <td class="attendance-detail__tilde">
                     <span class="attendance-detail__tilde-text">〜</span>
                 </td>
                 <td class="attendance-detail__description">
+                    @if($attendanceCorrectRequest)
+                    <span class="requested-time__text">
+                        {{ $attendanceCorrectRequest->requested_clock_out->format('H:i') }}
+                    </span>
+                    @else
                     <input class="attendance-detail__form-input" type="text" name="requested_clock_out"
                         value="{{ $attendanceRecord->clock_out->format('H:i') }}">
+                    @endif
                 </td>
                 <td class="attendance-detail__description"></td>
             </tr>
+            @if($attendanceCorrectRequest)
+            @foreach($attendanceCorrectRequest->breakCorrectRequests as $breakCorrectRequest)
+            <tr class="attendance-detail__row">
+                <th class="attendance-detail__header">
+                    休憩{{ $loop->iteration === 1 ? '' : $loop->iteration }}
+                </th>
+                <td class="attendance-detail__description">
+                    <span class="requested-time__text">
+                        {{ $breakCorrectRequest->requested_break_in->format('H:i') }}
+                    </span>
+                </td>
+                <td class="attendance-detail__tilde">
+                    <span class="attendance-detail__tilde-text">〜</span>
+                </td>
+                <td class="attendance-detail__description">
+                    <span class="requested-time__text">
+                        {{ $breakCorrectRequest->requested_break_out->format('H:i') }}
+                    </span>
+                </td>
+                <td class="attendance-detail__description"></td>
+            </tr>
+            @endforeach
+            @else
             @foreach($breakRecords as $breakRecord)
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">
@@ -67,10 +102,12 @@
                 <td class="attendance-detail__description"></td>
             </tr>
             @endforeach
+            @endif
             @php
             $nextBreakIndex = $breakRecords->count();
             $nextBreakLabelNumber = $breakRecords->count() + 1;
             @endphp
+            @unless($attendanceCorrectRequest)
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">
                     休憩{{ $nextBreakLabelNumber === 1 ? '' : $nextBreakLabelNumber }}
@@ -88,17 +125,41 @@
                 </td>
                 <td class="attendance-detail__description"></td>
             </tr>
+            @endunless
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">備考</th>
+                @if($attendanceCorrectRequest)
+                <td class="attendance-detail__description readonly-comment" colspan="3">
+                    <span class="requested-comment__text">
+                        {{ $attendanceCorrectRequest->comment }}
+                    </span>
+                </td>
+                @else
                 <td class="attendance-detail__description" colspan="3">
                     <textarea class="attendance-detail__form-textarea" name="comment">{{ old('comment') }}</textarea>
+                    <div class="form__error">
+                        <span class="form__error-text">
+                            @error('comment')
+                            {{ $message }}
+                            @enderror
+                        </span>
+                    </div>
                 </td>
+                @endif
                 <td class="attendance-detail__description"></td>
             </tr>
         </table>
+        @if($attendanceCorrectRequest)
+        <div class="correction-request__message">
+            <span class="correction-request__message-text">
+                *承認待ちのため修正はできません。
+            </span>
+        </div>
+        @else
         <div class="correction-request__button">
             <button class="correction-request__button-submit" type="submit">修正</button>
         </div>
+        @endif
     </form>
 </div>
 @endsection

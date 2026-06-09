@@ -14,6 +14,11 @@ class BreakCorrectRequest extends Model
         'requested_break_out',
     ];
 
+    protected $casts = [
+        'requested_break_in' => 'datetime',
+        'requested_break_out' => 'datetime',
+    ];
+
     public function breakRecord()
     {
         return $this->belongsTo(BreakRecord::class);

@@ -9,11 +9,16 @@ class AttendanceCorrectRequest extends Model
 {
     protected $fillable = [
         'attendance_record_id',
-        'status_id',
+        'request_status_id',
         'requested_clock_in',
         'requested_clock_out',
         'comment',
         'approved_at',
+    ];
+
+    protected $casts = [
+        'requested_clock_in' => 'datetime',
+        'requested_clock_out' => 'datetime',
     ];
 
     public function attendanceRecord()

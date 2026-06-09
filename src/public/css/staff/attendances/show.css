@@ -71,7 +71,8 @@
     outline: none;
 }
 
-.attendance-detail__form-input {
+.attendance-detail__form-input,
+.requested-time__text {
     width: 100%;
     text-align: center;
     font-size: 18px;
@@ -81,7 +82,8 @@
 
 }
 
-.attendance-detail__form-textarea {
+.attendance-detail__form-textarea
+.requested-comment__text {
     width: 100%;
     height: 70px;
     margin-top: 10px;
@@ -90,7 +92,18 @@
     font-family: 'Noto Sans JP', sans-serif;
 }
 
-.correction-request__button {
+.readonly-comment {
+    text-align: left;
+}
+
+.form__error-text {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.correction-request__button,
+.correction-request__message {
     margin: 0 auto;
     text-align: right;
     width: 65%;
@@ -113,4 +126,10 @@
 
 .correction-request__button-submit:hover {
     background-color: #333;
+}
+
+.correction-request__message-text {
+    color: #ef4444;
+    letter-spacing: 0.2em;
+    font-weight: bold;
 }
