@@ -24,28 +24,34 @@ class CorrectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'requested_clock_in' => ['required', 'date_format:H:i'],
-            'requested_clock_out' => ['required', 'date_format:H:i', 'after_or_equal:requested_clock_in'],
-            'requested_break_in' => ['date_format:H:i', 'after_or_equal:requested_clock_in', 'before_or_equal:requested_clock_out'],
-            'requested_break_out' => ['date_format:H:i', 'before_or_equal:requested_clock_out'],
-            'comment' => ['required','max:255']
+            'requested_clock_out' => [
+                'after_or_equal:requested_clock_in',
+            ],
+            'requested_breaks.*.break_in' => [
+                'nullable',
+                'required_with:requested_breaks.*.break_out',
+                'after_or_equal:requested_clock_in',
+                'before_or_equal:requested_clock_out',
+            ],
+            'requested_breaks.*.break_out' => [
+                'nullable',
+                'required_with:requested_breaks.*.break_in',
+                'before_or_equal:requested_clock_out',
+            ],
+            'comment' => [
+                'required',
+            ]
         ];
     }
 
     public function messages()
     {
         return [
-            'requested_clock_in.required' => '出勤時間を入力してください',
-            'requested_clock_in.date_format' => '出勤時間をHH:MM形式で入力してください',
-            'requested_clock_out.required' => '退勤時間を入力してください',
-            'requested_clock_out.date_format' => '退勤時間をHH:MM形式で入力してください',
             'requested_clock_out.after_or_equal' => '出勤時間もしくは退勤時間が不適切な値です',
-            'requested_break_in.date_format' => '休憩開始時間をHH:MM形式で入力してください',
-            'requested_break_in.after_or_equal' => '休憩時間が不適切な値です',
-            'requested_break_out.date_format' => '休憩終了時間をHH:MM形式で入力してください',
-            'requested_break_in.before_or_equal' => '休憩時間もしくは退勤時間が不適切な値です',
+            'requested_breaks.*.break_in.after_or_equal' => '休憩時間が不適切な値です',
+            'requested_breaks.*.break_in.before_or_equal' => '休憩時間が不適切な値です',
+            'requested_breaks.*.break_out.before_or_equal' => '休憩時間もしくは退勤時間が不適切な値です',
             'comment.required' => '備考を記入してください',
-            'comment.max' => '備考は255文字以内で記入してください',
         ];
     }
 }
