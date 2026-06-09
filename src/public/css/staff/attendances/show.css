@@ -82,7 +82,7 @@
 
 }
 
-.attendance-detail__form-textarea
+.attendance-detail__form-textarea,
 .requested-comment__text {
     width: 100%;
     height: 70px;

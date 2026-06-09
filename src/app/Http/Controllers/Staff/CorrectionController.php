@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CorrectionRequest;
 use App\Models\AttendanceRecord;
 use App\Models\AttendanceCorrectRequest;
 use App\Models\BreakRecord;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class CorrectionController extends Controller
 {
-    public function store(Request $request, $id)
+    public function store(CorrectionRequest $request, $id)
     {
         DB::transaction(function () use ($request, $id) {
             $attendanceRecord = AttendanceRecord::findOrFail($id);

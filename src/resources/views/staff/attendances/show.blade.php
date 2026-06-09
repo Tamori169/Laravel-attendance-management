@@ -38,8 +38,7 @@
                         {{ $attendanceCorrectRequest->requested_clock_in->format('H:i') }}
                     </span>
                     @else
-                    <input class="attendance-detail__form-input" type="text"
-                        name="requested_clock_in"
+                    <input class="attendance-detail__form-input" type="text" name="requested_clock_in"
                         value="{{ $attendanceRecord->clock_in->format('H:i') }}">
                     @endif
                 </td>
