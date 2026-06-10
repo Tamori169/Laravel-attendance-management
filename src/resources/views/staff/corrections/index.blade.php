@@ -27,34 +27,34 @@
             </a>
         </div>
     </div>
-    <table class="correction-index__table">
-        <tr class="correction-index__row">
-            <th class="correction-index__header">状態</th>
-            <th class="correction-index__header">名前</th>
-            <th class="correction-index__header">対象日時</th>
-            <th class="correction-index__header">申請理由</th>
-            <th class="correction-index__header">申請日時</th>
-            <th class="correction-index__header">詳細</th>
+    <table class="correction-list">
+        <tr class="correction-list__row">
+            <th class="correction-list__header">状態</th>
+            <th class="correction-list__header">名前</th>
+            <th class="correction-list__header">対象日時</th>
+            <th class="correction-list__header">申請理由</th>
+            <th class="correction-list__header">申請日時</th>
+            <th class="correction-list__header">詳細</th>
         </tr>
         @foreach($attendanceCorrectRequests as $attendanceCorrectRequest)
-        <tr class="correction-index__row">
-            <td class="correction-index__description">
+        <tr class="correction-list__row">
+            <td class="correction-list__description">
                 {{ $attendanceCorrectRequest->requestStatus->label }}
             </td>
-            <td class="correction-index__description">
+            <td class="correction-list__description">
                 {{ $user->name }}
             </td>
-            <td class="correction-index__description">
-                {{ $attendanceCorrectRequest->attendanceRecord->date }}
+            <td class="correction-list__description">
+                {{ $attendanceCorrectRequest->attendanceRecord->date->format('Y/m/d') }}
             </td>
-            <td class="correction-index__description">
+            <td class="correction-list__description">
                 {{ $attendanceCorrectRequest->comment }}
             </td>
-            <td class="correction-index__description">
+            <td class="correction-list__description">
                 {{ $attendanceCorrectRequest->created_at->format('Y/m/d') }}
             </td>
-            <td class="correction-index__description">
-                <a class="attendance-list__link"
+            <td class="correction-list__description">
+                <a class="correction-list__link"
                     href="{{ route('staffAttendance.show', ['id' => $attendanceCorrectRequest->attendanceRecord->id]) }}">
                     詳細
                 </a>
