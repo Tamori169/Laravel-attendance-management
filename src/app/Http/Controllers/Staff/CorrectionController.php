@@ -46,4 +46,26 @@ class CorrectionController extends Controller
 
         return redirect()->route('staffAttendance.show', ['id' => $id]);
     }
+
+    public function index(Request $request)
+    {
+        $user = auth()->user();
+        $tab = $request->query('tab');
+
+        if ($tab === 'approved') {
+            $statusId = 2;
+        } else {
+            $statusId = 1;
+        }
+
+        $attendanceCorrectRequests = AttendanceCorrectRequest::where('user_id', $user->id)
+            ->where('request_status_id', $statusId)
+            ->latest()
+            ->get();
+
+        return view('staff.correction.index', compact(
+            'user',
+            'attendanceCorrectRequests'
+        ));
+    }
 }

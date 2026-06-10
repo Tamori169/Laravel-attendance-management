@@ -32,4 +32,6 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('staffAttendance.show');
     Route::post('/attendance/detail/{id}', [StaffCorrectionController::class, 'store'])
         ->name('staffCorrection.store');
+    Route::get('/stamp_correction_request/list', [StaffCorrectionController::class, 'index'])
+        ->name('staffCorrection.index');
 });
