@@ -58,12 +58,18 @@ class CorrectionController extends Controller
             $statusId = 1;
         }
 
-        $attendanceCorrectRequests = AttendanceCorrectRequest::where('user_id', $user->id)
+        $attendanceCorrectRequests = AttendanceCorrectRequest::with([
+            'attendanceRecord',
+            'requestStatus',
+            ])
+            ->whereHas('attendanceRecord', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->where('request_status_id', $statusId)
             ->latest()
             ->get();
 
-        return view('staff.correction.index', compact(
+        return view('staff.corrections.index', compact(
             'user',
             'attendanceCorrectRequests'
         ));

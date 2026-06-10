@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="attendance-index">
-    <div class="attendancce-index__heading">
+    <div class="attendance-index__heading">
         <h2 class="attendance-index__heading-text">
             勤怠一覧
         </h2>

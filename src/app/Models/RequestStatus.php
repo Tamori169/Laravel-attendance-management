@@ -12,14 +12,12 @@ class RequestStatus extends Model
         'name',
     ];
 
-    protected function label()
+    public function getLabelAttribute()
     {
-        return Attribute::get(function () {
-            return match ($this->name) {
-                'pending' => '承認待ち',
-                'approved' => '承認済み',
-            };
-        });
+        return match ($this->name) {
+            'pending' => '承認待ち',
+            'approved' => '承認済み',
+        };
     }
 
     public function attendanceCorrectRequests()

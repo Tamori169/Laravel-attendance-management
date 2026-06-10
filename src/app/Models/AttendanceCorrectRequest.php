@@ -31,7 +31,7 @@ class AttendanceCorrectRequest extends Model
         return $this->hasMany(BreakCorrectRequest::class);
     }
 
-    public function status()
+    public function requestStatus()
     {
         return $this->belongsTo(RequestStatus::class);
     }
