@@ -43,9 +43,9 @@
                 <li class="header__nav-items">
                     <a class="attendance-index__link" href="">勤怠一覧</a>
                 </li>
-                <!-- レポート -->
+                <!-- スタッフ一覧 -->
                 <li class="header__nav-items">
-                    <a class="attendance-report__link" href="">スタッフ一覧</a>
+                    <a class="staff-index__link" href="{{ route('adminStaff.index') }}">スタッフ一覧</a>
                 </li>
                 <!-- 申請一覧 -->
                 <li class="header__nav-items">

@@ -1,0 +1,78 @@
+.staff-index {
+    width: 100%;
+    background-color: #eee;
+    padding-top: 10px;
+    padding-bottom: 400px;
+}
+
+.staff-index__heading {
+    width: 100%;
+}
+
+.staff-index__heading-text {
+    width: 65%;
+    margin: 0 auto;
+    margin-top: 70px;
+    text-align: left;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-left: 5px solid #000;
+    padding-left: 20px;
+}
+
+.staff-list {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 70px;
+    width: 65%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+}
+
+.staff-list__row {
+    height: 50px;
+    border-top: 2px solid #eee;
+}
+
+.staff-list__row:first-of-type {
+    border: none;
+}
+
+.staff-list__row:nth-of-type(2) {
+    border-top: 4px solid #eee;
+}
+
+.staff-list__header,
+.staff-list__description {
+    letter-spacing: 0.2em;
+    font-weight: bold;
+    color: #666;
+}
+
+.staff-list__header:first-of-type,
+.staff-list__description:first-of-type,
+.staff-list__header:nth-of-type(2),
+.staff-list__description:nth-of-type(2) {
+    width: 15%;
+}
+
+.staff-list__header:nth-of-type(4),
+.staff-list__description:nth-of-type(4),
+.staff-list__header:last-of-type,
+.staff-list__description:last-of-type {
+    width: 15%;
+}
+
+.staff-list__link {
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+}
+
+.staff-list__link:hover {
+    color: #333;
+}

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
 use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
 
@@ -47,4 +48,8 @@ Route::view('/admin/login', 'auth.admin.login')
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
         ->name('adminAttendance.index');
+    Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])
+        ->name('adminStaff.index');
+    Route::get('/admin/attendance/staff/{id}', [AdminStaffController::class, 'show'])
+        ->name('adminStaff.show');
 });

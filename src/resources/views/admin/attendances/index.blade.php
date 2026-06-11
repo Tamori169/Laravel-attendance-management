@@ -5,3 +5,5 @@
 @endsection
 
 @section('content')
+勤怠一覧画面
+@endsection
