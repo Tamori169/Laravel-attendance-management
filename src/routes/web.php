@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
 use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
 
@@ -15,6 +16,7 @@ use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController
 |
 */
 
+// 一般ユーザー用ミドルウェア認証グループ
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/attendance', [StaffAttendanceController::class, 'create'])
     ->name('staffAttendance.create');
@@ -34,4 +36,15 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('staffCorrection.store');
     Route::get('/stamp_correction_request/list', [StaffCorrectionController::class, 'index'])
         ->name('staffCorrection.index');
+});
+
+// 管理者処理
+Route::view('/admin/login', 'auth.admin.login')
+    ->middleware('guest')
+    ->name('admin.login');
+
+// 管理者用ミドルウェア認証グループ
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
+        ->name('adminAttendance.index');
 });

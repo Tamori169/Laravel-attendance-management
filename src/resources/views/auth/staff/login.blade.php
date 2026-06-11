@@ -16,6 +16,7 @@
     </div>
     <form class="form" action="{{ route('login') }}" method="POST" novalidate>
         @csrf
+        <input type="hidden" name="login_type" value="staff">
         <!-- メールアドレス -->
         <div class="form__group">
             <div class="form__group-title">

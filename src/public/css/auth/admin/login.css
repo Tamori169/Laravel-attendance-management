@@ -1,0 +1,101 @@
+.login-form {
+    text-align: center;
+    margin: 0 auto;
+    width: 55%;
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+.form {
+    margin-top: 30px;
+}
+
+.form__group {
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.form__group-title,
+.form__group-content {
+    margin: 0 auto;
+    text-align: left;
+    width: 80%;
+}
+
+.form__group-content {
+    margin-top: 5px;
+}
+
+.form__label--item {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.form__item-input {
+    width: 100%;
+    height: 40px;
+    border: 0.5px solid #666;
+    border-radius: 3px;
+    outline: none;
+    padding: 5px 0 5px 10px;
+    font-size: 15px;
+}
+
+.form__error {
+    line-height: 1.5;
+    min-height: 1.5em;
+}
+
+.form__error-text {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form__button {
+    margin-top: 40px;
+}
+
+.form__button-submit {
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #000;
+    border: #000 solid 0.5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.form__button-submit:hover {
+    background-color: #333;
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .login-form__heading-text {
+        font-size: 22px;
+    }
+
+    .form__label--item {
+        font-size: 16px;
+    }
+
+    .form__button-submit {
+        font-size: 20px;
+    }
+
+    .form__error-text {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .login-form {
+        max-width: 1540px;
+    }
+}

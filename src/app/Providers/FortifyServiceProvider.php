@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\RedirectIfWrongLoginType;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
@@ -11,7 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -63,13 +67,48 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
+        // ユーザー権限に応じてログイン後の遷移先を指定
+        $this->app->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $user = $request->user();
+
+                    if ($user->role->name === 'admin') {
+                        return redirect('/admin/attendance/list');
+                    }
+
+                    return redirect('/attendance');
+                }
+            };
+        });
+
+        // ユーザー権限に応じてログアウト後の遷移先を指定
         $this->app->singleton(LogoutResponse::class, function () {
             return new class implements LogoutResponse {
                 public function toResponse($request)
                 {
+                    if ($request->input('login_type') === 'admin') {
+                        return redirect('/admin/login');
+                    }
+
                     return redirect('/login');
                 }
             };
+        });
+
+        Fortify::authenticateThrough(function ($request) {
+            return array_filter([
+                config('fortify.limiters.login')
+                    ? null
+                    : EnsureLoginIsNotThrottled::class,
+
+                AttemptToAuthenticate::class,
+
+                RedirectIfWrongLoginType::class,
+
+                PrepareAuthenticatedSession::class,
+            ]);
         });
     }
 }

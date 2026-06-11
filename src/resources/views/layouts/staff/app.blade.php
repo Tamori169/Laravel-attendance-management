@@ -59,6 +59,7 @@
                 <li class="header__nav-items">
                     <form class="logout__button" method="post" action="{{ route('logout') }}">
                         @csrf
+                        <input type="hidden" name="login_type" value="staff">
                         <button class="logout__button-submit" type="submit">ログアウト</button>
                     </form>
                 </li>
