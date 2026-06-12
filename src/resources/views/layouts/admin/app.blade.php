@@ -49,7 +49,7 @@
                 </li>
                 <!-- 申請一覧 -->
                 <li class="header__nav-items">
-                    <a class="correction-index__link" href="">申請</a>
+                    <a class="correction-index__link" href="{{ route('adminCorrection.index') }}">申請</a>
                 </li>
                 <!-- ログアウト -->
                 <li class="header__nav-items">

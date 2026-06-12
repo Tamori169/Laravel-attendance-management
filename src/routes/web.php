@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
+use App\Http\Controllers\Admin\CorrectionController as AdminCorrectionController;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
 use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
 
@@ -52,4 +53,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('adminStaff.index');
     Route::get('/admin/attendance/staff/{id}', [AdminStaffController::class, 'show'])
         ->name('adminStaff.show');
+    Route::get('/admin/attendance/staff/{id}/export', [AdminStaffController::class, 'export'])
+        ->name('adminStaff.export');
+    Route::get('/stamp_correction_request/list', [AdminCorrectionController::class, 'index'])
+        ->name('adminCorrection.index');
+    
 });
