@@ -1,0 +1,142 @@
+.attendance-index {
+    width: 100%;
+    background-color: #eee;
+    padding-top: 10px;
+    padding-bottom: 450px;
+}
+
+.attendance-index__heading {
+    width: 100%;
+}
+
+.attendance-index__heading-text {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 70px;
+    text-align: left;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-left: 5px solid #000;
+    padding-left: 20px;
+}
+
+.date-navigation {
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 60%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.date-navigation__previous-day,
+.date-navigation__next-day {
+    display: flex;
+    width: 20%;
+    padding: 10px 20px;
+    gap: 5px;
+}
+
+.date-navigation__previous-day {
+    justify-content: flex-start;
+}
+
+.date-navigation__next-day {
+    justify-content: flex-end;
+}
+
+.date-navigation__today {
+    display: flex;
+    width: 25%;
+    padding: 10px 20px;
+    gap: 5px;
+}
+
+.arrow {
+    color: #888;
+    font-weight: bold;
+}
+
+.date-navigation__link {
+    color: #666;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.date-navigation__link:hover {
+    color: #333;
+}
+
+.date-navigation__icon,
+.date-navigation__text {
+    color: #000;
+}
+
+.date-navigation__icon {
+    width: 15%;
+}
+
+.date-navigation__text {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.attendance-list {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 60%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+}
+
+.attendance-list__row {
+    height: 50px;
+    border-top: 2px solid #eee;
+}
+
+.attendance-list__row:first-of-type {
+    border: none;
+}
+
+.attendance-list__row:nth-of-type(2) {
+    border-top: 4px solid #eee;
+}
+
+.attendance-list__header:first-of-type,
+.attendance-list__description:first-of-type,
+.attendance-list__header:last-of-type,
+.attendance-list__description:last-of-type {
+    width: 20%;
+}
+
+.attendance-list__header,
+.attendance-list__description {
+    letter-spacing: 0.2em;
+    width: 15%;
+    color: #666;
+    font-weight: bold;
+}
+
+.attendance-list__link {
+    text-decoration: none;
+    cursor: pointer;
+    color: #000;
+}
+
+.attendance-list__link:hover {
+    color: #333;
+}
+
+.attendance-list__alternate {
+    color: #000;
+}
