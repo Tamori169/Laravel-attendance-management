@@ -16,13 +16,13 @@
     <div class="tabs">
         <div class="tab__item">
             <a class="tab__link {{ request('tab') != 'approved' ? 'is-active' : '' }}"
-                href="{{ route('adminCorrection.index', ['tab' => 'pending']) }}">
+                href="{{ route('correction.index', ['tab' => 'pending']) }}">
                 承認待ち
             </a>
         </div>
         <div class="tab__item">
             <a class="tab__link {{ request('tab') == 'approved' ? 'is-active' : '' }}"
-                href="{{ route('adminCorrection.index', ['tab' => 'approved']) }}">
+                href="{{ route('correction.index', ['tab' => 'approved']) }}">
                 承認済み
             </a>
         </div>

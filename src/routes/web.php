@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
-use App\Http\Controllers\Admin\CorrectionController as AdminCorrectionController;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
 use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
 
@@ -36,11 +36,9 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('staffAttendance.show');
     Route::post('/attendance/detail/{id}', [StaffCorrectionController::class, 'store'])
         ->name('staffCorrection.store');
-    Route::get('/stamp_correction_request/list', [StaffCorrectionController::class, 'index'])
-        ->name('staffCorrection.index');
 });
 
-// 管理者処理
+// 管理者ログイン
 Route::view('/admin/login', 'auth.admin.login')
     ->middleware('guest')
     ->name('admin.login');
@@ -55,7 +53,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('adminStaff.show');
     Route::get('/admin/attendance/staff/{id}/export', [AdminStaffController::class, 'export'])
         ->name('adminStaff.export');
-    Route::get('/stamp_correction_request/list', [AdminCorrectionController::class, 'index'])
-        ->name('adminCorrection.index');
-    
 });
+
+// 申請一覧画面（パス共有のためミドルウェア認証で区別）
+Route::get('/stamp_correction_request/list', [CorrectionController::class, 'index'])
+    ->middleware(['auth', 'staff.verified'])
+    ->name('correction.index');
