@@ -6,12 +6,30 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CorrectionRequest;
 use App\Models\AttendanceRecord;
+use App\Models\BreakRecord;
 use App\Models\AttendanceCorrectRequest;
 use App\Models\BreakCorrectRequest;
 use Illuminate\Support\Facades\DB;
 
 class CorrectionController extends Controller
 {
+    public function create($id)
+    {
+        $user = auth()->user();
+
+        $attendanceRecord = AttendanceRecord::where('id', $id)
+            ->firstOrFail();
+
+        $breakRecords = BreakRecord::where('attendance_record_id', $id)->get();
+
+        $attendanceCorrectRequest = AttendanceCorrectRequest::with('breakCorrectRequests')
+            ->where('attendance_record_id', $id)
+            ->where('request_status_id', 1)
+            ->first();
+
+        return view('staff.corrections.create', compact('user', 'attendanceRecord', 'breakRecords', 'attendanceCorrectRequest'));
+    }
+
     public function store(CorrectionRequest $request, $id)
     {
         DB::transaction(function () use ($request, $id) {
@@ -35,13 +53,13 @@ class CorrectionController extends Controller
 
                 BreakCorrectRequest::create([
                     'attendance_correct_request_id' => $attendanceCorrectRequest->id,
-                    'requested_break_in' => $attendanceRecord->date->format('Y-m-d') . ' ' . $request->requested_break_in . ':00',
-                    'requested_break_out' => $attendanceRecord->date->format('Y-m-d') . ' ' . $request->requested_break_out . ':00',
+                    'requested_break_in' => $attendanceRecord->date->format('Y-m-d') . ' ' . $breakIn . ':00',
+                    'requested_break_out' => $attendanceRecord->date->format('Y-m-d') . ' ' . $breakOut . ':00',
                 ]);
             }
         });
 
-        return redirect()->route('staffAttendance.show', ['id' => $id]);
+        return redirect()->route('staffCorrection.create', ['id' => $id]);
     }
 
     public function index(Request $request)
