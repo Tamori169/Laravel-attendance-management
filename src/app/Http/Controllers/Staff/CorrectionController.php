@@ -6,30 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CorrectionRequest;
 use App\Models\AttendanceRecord;
-use App\Models\BreakRecord;
 use App\Models\AttendanceCorrectRequest;
 use App\Models\BreakCorrectRequest;
 use Illuminate\Support\Facades\DB;
 
 class CorrectionController extends Controller
 {
-    public function create($id)
-    {
-        $user = auth()->user();
-
-        $attendanceRecord = AttendanceRecord::where('id', $id)
-            ->firstOrFail();
-
-        $breakRecords = BreakRecord::where('attendance_record_id', $id)->get();
-
-        $attendanceCorrectRequest = AttendanceCorrectRequest::with('breakCorrectRequests')
-            ->where('attendance_record_id', $id)
-            ->where('request_status_id', 1)
-            ->first();
-
-        return view('staff.corrections.create', compact('user', 'attendanceRecord', 'breakRecords', 'attendanceCorrectRequest'));
-    }
-
     public function store(CorrectionRequest $request, $id)
     {
         DB::transaction(function () use ($request, $id) {
@@ -59,7 +41,7 @@ class CorrectionController extends Controller
             }
         });
 
-        return redirect()->route('staffCorrection.create', ['id' => $id]);
+        return redirect()->route('staffAttendance.show', ['id' => $id]);
     }
 
     public function index(Request $request)

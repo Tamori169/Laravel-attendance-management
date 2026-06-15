@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\AttendanceRecord;
+use App\Models\AttendanceCorrectRequest;
 use App\Models\BreakRecord;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -100,5 +101,22 @@ class AttendanceController extends Controller
             ]);
 
         return view('staff.attendances.index', compact('currentMonth', 'attendanceRecordList'));
+    }
+
+    public function show($id)
+    {
+        $user = auth()->user();
+
+        $attendanceRecord = AttendanceRecord::where('id', $id)
+            ->firstOrFail();
+
+        $breakRecords = BreakRecord::where('attendance_record_id', $id)->get();
+
+        $attendanceCorrectRequest = AttendanceCorrectRequest::with('breakCorrectRequests')
+            ->where('attendance_record_id', $id)
+            ->where('request_status_id', 1)
+            ->first();
+
+        return view('staff.attendances.show', compact('user', 'attendanceRecord', 'breakRecords', 'attendanceCorrectRequest'));
     }
 }
