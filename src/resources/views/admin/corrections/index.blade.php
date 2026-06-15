@@ -55,7 +55,8 @@
             </td>
             <td class="correction-list__description">
                 <a class="correction-list__link"
-                    href="">
+                    href="{{ route('adminCorrection.edit',
+                    ['attendance_correct_request_id' => $attendanceCorrectRequest->id]) }}">
                     詳細
                 </a>
             </td>

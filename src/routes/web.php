@@ -47,16 +47,16 @@ Route::view('/admin/login', 'auth.admin.login')
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
         ->name('adminAttendance.index');
+    Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'edit'])
+        ->name('adminAttendance.edit');
+    Route::patch('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
+        ->name('adminAttendance.update');
     Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])
         ->name('adminStaff.index');
     Route::get('/admin/attendance/staff/{id}', [AdminStaffController::class, 'show'])
         ->name('adminStaff.show');
     Route::get('/admin/attendance/staff/{id}/export', [AdminStaffController::class, 'export'])
         ->name('adminStaff.export');
-    Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'edit'])
-        ->name('adminAttendance.edit');
-    Route::patch('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
-        ->name('adminAttendance.update');
 });
 
 // 申請一覧画面（パス共有のためミドルウェア認証で区別）
