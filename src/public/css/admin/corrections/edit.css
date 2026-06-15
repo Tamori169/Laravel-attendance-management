@@ -112,7 +112,8 @@
     margin-top: 30px;
 }
 
-.correction-approval__button-submit {
+.correction-approval__button-submit,
+.alternate__button {
     text-align: center;
     width: 15%;
     height: 60px;
@@ -124,6 +125,10 @@
     border-radius: 10px;
     appearance: none;
     cursor: pointer;
+}
+
+.alternate__button {
+    background-color: #666;
 }
 
 .correction-approval__button-submit:hover {

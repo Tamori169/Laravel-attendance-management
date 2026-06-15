@@ -14,7 +14,7 @@
     <form class="form"
         action="{{ route('adminCorrection.update',
         ['attendance_correct_request_id' => $attendanceCorrectRequest->id]) }}"
-        method="PATCH" novalidate>
+        method="POST" novalidate>
         @csrf
         @method('PATCH')
         <table class="attendance-detail__table">
@@ -87,7 +87,11 @@
             </tr>
         </table>
         <div class="correction-approval__button">
+            @if ($attendanceCorrectRequest->request_status_id === 2)
+            <button type="button" class="alternate__button" disabled>承認済み</button>
+            @else
             <button class="correction-approval__button-submit" type="submit">承認</button>
+            @endif
         </div>
     </form>
 </div>
