@@ -41,7 +41,7 @@
             <ul class="nav-menu js-nav-menu">
                 <!-- 勤怠一覧 -->
                 <li class="header__nav-items">
-                    <a class="attendance-index__link" href="">勤怠一覧</a>
+                    <a class="attendance-index__link" href="{{ route('adminAttendance.index') }}">勤怠一覧</a>
                 </li>
                 <!-- スタッフ一覧 -->
                 <li class="header__nav-items">

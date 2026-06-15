@@ -53,6 +53,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('adminStaff.show');
     Route::get('/admin/attendance/staff/{id}/export', [AdminStaffController::class, 'export'])
         ->name('adminStaff.export');
+    Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'edit'])
+        ->name('adminAttendance.edit');
+    Route::patch('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
+        ->name('adminAttendance.update');
 });
 
 // 申請一覧画面（パス共有のためミドルウェア認証で区別）

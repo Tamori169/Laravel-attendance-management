@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CorrectionRequest;
 use App\Models\AttendanceRecord;
 use App\Models\AttendanceCorrectRequest;
-use App\Models\BreakRecord;
 use App\Models\BreakCorrectRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -33,8 +32,6 @@ class CorrectionController extends Controller
                 if (empty($breakIn) && empty($breakOut)) {
                     continue;
                 }
-
-                $breakaRecord = BreakRecord::findOrFail($id);
 
                 BreakCorrectRequest::create([
                     'attendance_correct_request_id' => $attendanceCorrectRequest->id,
