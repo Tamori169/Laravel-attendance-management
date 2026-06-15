@@ -13,7 +13,7 @@
     </div>
     <form class="form"
         action="{{ route('adminAttendance.update', ['id' => $attendanceRecord->id]) }}"
-        method="POST" novalidate>
+        method="PATCH" novalidate>
         @csrf
         @method('PATCH')
         <table class="attendance-detail__table">

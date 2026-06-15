@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\CorrectionController as AdminCorrectionController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
 use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
@@ -51,6 +52,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('adminAttendance.edit');
     Route::patch('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
         ->name('adminAttendance.update');
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}',
+    [AdminCorrectionController::class, 'edit'])
+        ->name('adminCorrection.edit');
+    Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}',
+    [AdminCorrectionController::class, 'update'])
+        ->name('adminCorrection.update');
     Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])
         ->name('adminStaff.index');
     Route::get('/admin/attendance/staff/{id}', [AdminStaffController::class, 'show'])
