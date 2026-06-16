@@ -20,7 +20,6 @@ class CreateAttendanceCorrectRequestsTable extends Migration
             $table->datetime('requested_clock_in');
             $table->datetime('requested_clock_out');
             $table->string('comment');
-            $table->timestamp('approved_at')->nullable();
             $table->timestamps();
         });
     }

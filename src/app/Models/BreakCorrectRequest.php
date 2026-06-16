@@ -9,7 +9,6 @@ class BreakCorrectRequest extends Model
 {
     protected $fillable = [
         'attendance_correct_request_id',
-        'break_record_id',
         'requested_break_in',
         'requested_break_out',
     ];
@@ -18,11 +17,6 @@ class BreakCorrectRequest extends Model
         'requested_break_in' => 'datetime',
         'requested_break_out' => 'datetime',
     ];
-
-    public function breakRecord()
-    {
-        return $this->belongsTo(BreakRecord::class);
-    }
 
     public function attendanceCorrectRequest()
     {

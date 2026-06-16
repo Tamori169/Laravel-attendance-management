@@ -13,7 +13,6 @@ class AttendanceCorrectRequest extends Model
         'requested_clock_in',
         'requested_clock_out',
         'comment',
-        'approved_at',
     ];
 
     protected $casts = [

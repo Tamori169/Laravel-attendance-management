@@ -22,9 +22,4 @@ class BreakRecord extends Model
     {
         return $this->belongsTo(AttendanceRecord::class);
     }
-
-    public function breakCorrectRequests()
-    {
-        return $this->hasMany(BreakCorrectRequest::class);
-    }
 }
