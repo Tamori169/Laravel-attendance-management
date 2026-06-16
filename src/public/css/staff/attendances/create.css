@@ -52,6 +52,7 @@
 .attendance-buttons__break_in,
 .attendance-buttons__break_out {
     width: 100%;
+    height: 60px;
     border: none;
     border-radius: 10px;
     padding: 10px 20px;
