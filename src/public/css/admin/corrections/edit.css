@@ -38,24 +38,6 @@
     border-top: 2px solid #eee;
 }
 
-.attendance-detail__row:has(+ .error__row) {
-    height: 70px;
-}
-
-.attendance-detail__row:has(+ .error__row) .attendance-detail__description,
-.attendance-detail__row:has(+ .error__row) .attendance-detail__tilde {
-    vertical-align: bottom;
-}
-
-.attendance-detail__row:has(.attendance-detail__form-textarea):has(+ .error__row) {
-    height: 90px;
-}
-
-.attendance-detail__row:has(.attendance-detail__form-textarea):has(+ .error__row) .attendance-detail__form-textarea {
-    height: 70px;
-    margin-top: 0;
-}
-
 .attendance-detail__header,
 .attendance-detail__tilde,
 .attendance-detail__description {

@@ -11,7 +11,7 @@
             勤怠詳細
         </h2>
     </div>
-    <form class="form"
+    <div class="attendance-detail__content"
         action="{{ route('adminCorrection.update',
         ['attendance_correct_request_id' => $attendanceCorrectRequest->id]) }}"
         method="POST" novalidate>
@@ -86,13 +86,13 @@
                 <td class="attendance-detail__description"></td>
             </tr>
         </table>
-        <div class="correction-approval__button">
+        <form class="correction-approval__button">
             @if ($attendanceCorrectRequest->request_status_id === 2)
             <button type="button" class="alternate__button" disabled>承認済み</button>
             @else
             <button class="correction-approval__button-submit" type="submit">承認</button>
             @endif
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 @endsection
