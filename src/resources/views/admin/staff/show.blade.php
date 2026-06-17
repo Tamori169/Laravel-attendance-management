@@ -66,7 +66,7 @@
             <td class="attendance-list__description">
                 @if ($attendanceRecordItem['attendance_record'])
                 <a class="attendance-list__link"
-                    href="{{ route('adminAttendance.edit', ['id' => $attendanceRecordItem['attendance_record']->id]) }}">
+                    href="{{ route('adminAttendance.show', ['id' => $attendanceRecordItem['attendance_record']->id]) }}">
                     詳細
                 </a>
                 @else

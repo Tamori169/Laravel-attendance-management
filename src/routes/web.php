@@ -48,8 +48,8 @@ Route::view('/admin/login', 'auth.admin.login')
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
         ->name('adminAttendance.index');
-    Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'edit'])
-        ->name('adminAttendance.edit');
+    Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])
+        ->name('adminAttendance.show');
     Route::patch('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
         ->name('adminAttendance.update');
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}',

@@ -28,7 +28,7 @@ class AttendanceController extends Controller
         return view('admin.attendances.index', compact('attendanceRecords', 'today'));
     }
 
-    public function edit($id)
+    public function show($id)
     {
         $attendanceRecord = AttendanceRecord::with('user')
             ->where('id', $id)
@@ -41,7 +41,7 @@ class AttendanceController extends Controller
             ->where('request_status_id', 1)
             ->first();
 
-        return view('admin.attendances.edit', compact('attendanceRecord', 'breakRecords', 'attendanceCorrectRequest'));
+        return view('admin.attendances.show', compact('attendanceRecord', 'breakRecords', 'attendanceCorrectRequest'));
     }
 
     public function update(EditRequest $request, $id)
