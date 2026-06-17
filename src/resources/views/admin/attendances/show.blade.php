@@ -53,7 +53,7 @@
                     </span>
                     @else
                     <input class="attendance-detail__form-input" type="text" name="clock_out"
-                        value="{{ old('clock_out', $attendanceRecord->clock_out->format('H:i')) }}">
+                        value="{{ old('clock_out', $attendanceRecord->clock_out?->format('H:i')) }}">
                     @endif
                 </td>
                 <td class="attendance-detail__description"></td>
@@ -106,7 +106,7 @@
                 <td class="attendance-detail__description">
                     <input class="attendance-detail__form-input" type="text"
                         name="breaks[{{ $loop->index }}][break_out]"
-                        value="{{ old("breaks.{$loop->index}.break_out", $breakRecord->break_out->format('H:i')) }}">
+                        value="{{ old("breaks.{$loop->index}.break_out", $breakRecord->break_out?->format('H:i')) }}">
                 </td>
                 <td class="attendance-detail__description"></td>
             </tr>
