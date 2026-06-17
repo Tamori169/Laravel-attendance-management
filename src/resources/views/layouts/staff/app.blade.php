@@ -17,7 +17,7 @@
 <body>
     <header class="header">
         <!-- ロゴ -->
-        <h1 class="header__logo" >
+        <h1 class="header__logo">
             <img class="header__logo-image header__logo-image--desktop" src="{{ asset('images/logos/coachtech_header-logo_desktop.png') }}"
                 alt="COACHTECH">
             <img class="header__logo-image header__logo-image--mobile" src="{{ asset('images/logos/coachtech_header-logo_mobile.png') }}"
@@ -36,6 +36,28 @@
             </ul>
             <!-- ナビゲーションメニュー（デスクトップ用） -->
             <ul class="nav-menu js-nav-menu">
+                @if(auth()->check() && auth()->user()->attendance_status === '退勤済')
+                <!-- 勤怠一覧 -->
+                <li class="header__nav-items">
+                    <a class="attendance-index__link" href="{{ route('staffAttendance.index') }}">今月の出勤一覧</a>
+                </li>
+                <!-- 申請一覧 -->
+                <li class="header__nav-items">
+                    <a class="correction-index__link" href="{{ route('correction.index') }}">申請</a>
+                </li>
+                <!-- レポート -->
+                <li class="header__nav-items">
+                    <a class="attendance-report__link" href="">レポート</a>
+                </li>
+                <!-- ログアウト -->
+                <li class="header__nav-items">
+                    <form class="logout__button" method="post" action="{{ route('logout') }}">
+                        @csrf
+                        <input type="hidden" name="login_type" value="staff">
+                        <button class="logout__button-submit" type="submit">ログアウト</button>
+                    </form>
+                </li>
+                @else
                 <!-- 勤怠 -->
                 <li class="header__nav-items">
                     <a class="attendance-create__link" href="{{ route('staffAttendance.create') }}">勤怠</a>
@@ -60,6 +82,7 @@
                         <button class="logout__button-submit" type="submit">ログアウト</button>
                     </form>
                 </li>
+                @endif
             </ul>
             @show
         </nav>
