@@ -76,6 +76,19 @@
                 <td class="attendance-detail__description"></td>
             </tr>
             @endforeach
+            @php
+            $nextBreakIndex = $attendanceCorrectRequest->breakCorrectRequests->count();
+            $nextBreakLabelNumber = $attendanceCorrectRequest->breakCorrectRequests->count() + 1;
+            @endphp
+            <tr class="attendance-detail__row">
+                <th class="attendance-detail__header">
+                    休憩{{ $nextBreakLabelNumber === 1 ? '' : $nextBreakLabelNumber }}
+                </th>
+                <td class="attendance-detail__description"></td>
+                <td class="attendance-detail__tilde"></td>
+                <td class="attendance-detail__description"></td>
+                <td class="attendance-detail__description"></td>
+            </tr>
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">備考</th>
                 <td class="attendance-detail__description readonly-comment" colspan="3">
