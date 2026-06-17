@@ -19,24 +19,22 @@ body {
 }
 
 .header__logo-image {
-    width: 70%;
+    width: 50%;
 }
 
 .header__logo-image--mobile {
     display: none;
 }
 
-.header__space {
+.header__nav {
     flex: 1;
     min-width: 0;
 }
 
-.header__nav {
-    flex: 1;
-    min-width: 0;
+.nav-menu {
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
+    gap: 5%;
 }
 
 .attendance-create__link,
@@ -71,11 +69,6 @@ body {
     height: 3px;
     background: #fff;
     margin: 5px 0;
-}
-
-.nav-menu {
-    display: flex;
-    gap: 15px;
 }
 
 /* レスポンシブ対応 */

@@ -62,7 +62,7 @@
         <!-- ログインボタン -->
         <div class="form__button">
             <button class="form__button-submit" type="submit">
-                ログインする
+                管理者ログインする
             </button>
         </div>
     </form>
