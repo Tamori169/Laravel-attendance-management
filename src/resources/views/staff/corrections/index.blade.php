@@ -54,10 +54,17 @@
                 {{ $attendanceCorrectRequest->created_at->format('Y/m/d') }}
             </td>
             <td class="correction-list__description">
+                @if ($attendanceCorrectRequest->request_status_id === 2)
+                <a class="correction-list__link"
+                    href="{{ route('staffCorrection.show', ['id' => $attendanceCorrectRequest->id]) }}">
+                    詳細
+                </a>
+                @else
                 <a class="correction-list__link"
                     href="{{ route('staffAttendance.show', ['id' => $attendanceCorrectRequest->attendanceRecord->id]) }}">
                     詳細
                 </a>
+                @endif
             </td>
         </tr>
         @endforeach

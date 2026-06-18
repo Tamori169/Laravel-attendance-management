@@ -37,6 +37,8 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('staffAttendance.show');
     Route::post('/attendance/detail/{id}', [StaffCorrectionController::class, 'store'])
         ->name('staffCorrection.store');
+    Route::get('/attendance/detail/{id}/approved', [StaffCorrectionController::class, 'show'])
+        ->name('staffCorrection.show');
 });
 
 // 管理者ログイン

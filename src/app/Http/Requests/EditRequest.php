@@ -54,6 +54,7 @@ class EditRequest extends FormRequest
             ],
             'comment' => [
                 'required',
+                'max:255',
             ]
         ];
     }
@@ -75,6 +76,7 @@ class EditRequest extends FormRequest
             'breaks.*.break_out.after_or_equal' => '休憩開始時間もしくは休憩終了時間が不適切な値です',
             'breaks.*.break_out.required_with' => '休憩時間は両方入力してください',
             'comment.required' => '備考を記入してください',
+            'comment.max' => '備考は255文字以内で記入してください',
         ];
     }
 

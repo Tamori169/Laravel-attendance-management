@@ -71,4 +71,15 @@ class CorrectionController extends Controller
             'attendanceCorrectRequests'
         ));
     }
+
+    public function show($id)
+    {
+        $attendanceCorrectRequest = AttendanceCorrectRequest::with([
+            'attendanceRecord.user',
+            'breakCorrectRequests',
+        ])
+        ->findOrFail($id);
+
+        return view('staff.corrections.show', compact('attendanceCorrectRequest'));
+    }
 }
