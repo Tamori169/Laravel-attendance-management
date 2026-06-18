@@ -73,6 +73,6 @@ class AttendanceController extends Controller
             }
         });
 
-        return redirect()->route('adminAttendance.edit', ['id' => $id]);
+        return redirect()->route('adminAttendance.show', ['id' => $id]);
     }
 }
