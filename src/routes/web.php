@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController
 use App\Http\Controllers\Admin\CorrectionController as AdminCorrectionController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Staff\AttendanceController as StaffAttendanceController;
+use App\Http\Controllers\Staff\AttendanceReportController as StaffAttendanceReportController;
 use App\Http\Controllers\Staff\CorrectionController as StaffCorrectionController;
 
 /*
@@ -39,6 +40,8 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('staffCorrection.store');
     Route::get('/attendance/detail/{id}/approved', [StaffCorrectionController::class, 'show'])
         ->name('staffCorrection.show');
+    Route::get('/attendance/report', [StaffAttendanceReportController::class, 'report'])
+        ->name('staffAttendanceReport.report');
 });
 
 // 管理者ログイン
