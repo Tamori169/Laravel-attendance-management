@@ -1,0 +1,122 @@
+.attendance-report {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.attendance-report__heading-text {
+    width: 70%;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.attendance-report__description {
+    margin-top: 20px;
+}
+
+.attendance-report__description-text {
+    width: 70%;
+    text-align: left;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.attendance-report__summary {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.attendance-report__summary-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.attendance-report__summary-wrapper {
+    width: 32.5%;
+    padding: 20px 2%;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.attendance-report__summary-label {
+    display: block;
+}
+
+.attendance-report__summary-value {
+    margin-top: 25px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.attendance-report__trend {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.attendance-trend__table {
+    width: 100%;
+}
+
+.attendance-trend__table-row {
+    border-bottom: 1px solid #ddd;
+}
+
+.attendance-trend__table-header,
+.attendance-trend__table-description {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.attendance-trend__table-header:first-of-type {
+    text-align: left;
+    width: 60%;
+}
+
+.attendance-trend__table-header:nth-of-type(2),
+.attendance-trend__table-description:nth-of-type(2) {
+    text-align: center;
+}
+
+.attendance-trend__table-header:last-of-type,
+.attendance-trend__table-description:last-of-type {
+    text-align: right;
+}
+
+.attendance-report__detection {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.attendance-report__addition-text {
+    color: #666;
+    font-weight: bold;
+}
+
+.attendance-report__detection-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.attendance-report__detection-wrapper {
+    width: 32.5%;
+    padding: 20px 2%;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.attendance-report__detection-label {
+    display: block;
+}
+
+.attendance-report__detection-value {
+    margin-top: 25px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
