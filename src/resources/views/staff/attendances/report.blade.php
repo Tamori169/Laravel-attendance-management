@@ -102,15 +102,15 @@
         <div class="attendance-report__detection-content">
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">遅刻回数</span>
-                <span class="attendance-report__detection-value">2回</span>
+                <span class="attendance-report__detection-value">２回</span>
             </div>
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">早退回数</span>
-                <span class="attendance-report__detection-value">1回</span>
+                <span class="attendance-report__detection-value">１回</span>
             </div>
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">長時間労働日数</span>
-                <span class="attendance-report__detection-value">1日</span>
+                <span class="attendance-report__detection-value">１日</span>
             </div>
         </div>
     </div>
