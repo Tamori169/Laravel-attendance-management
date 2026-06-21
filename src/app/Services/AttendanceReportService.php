@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\AttendanceRecord;
-use App\Models\User;
 use Carbon\Carbon;
 
 class AttendanceReportService
@@ -32,10 +31,10 @@ class AttendanceReportService
         ];
     }
 
-    private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate)
+    private function calculateTotalWorkingMinutes(int $id, Carbon $startDate, Carbon $endDate)
     {
         $attendanceRecords = AttendanceRecord::with('breakRecords')
-            ->where('user_id', $userId)
+            ->where('user_id', $id)
             ->whereBetween('date', [$startDate, $endDate])
             ->get();
 
@@ -63,5 +62,57 @@ class AttendanceReportService
         );
 
         return $totalWorkingMinutes;
+    }
+
+    private function calculateOvertimeMinutes(int $id, Carbon $startDate, Carbon $endDate)
+    {
+        $attendanceRecords = AttendanceRecord::with('breakRecords')
+            ->where('user_id', $id)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->whereTime('clock_out', '>', '18:00:00')
+            ->get();
+
+        $totalOvertimeMinutes = $attendanceRecords->sum(
+            function ($attendanceRecord) {
+                $overtimeStart = $attendanceRecord->clock_out
+                    ->copy()
+                    ->setTime(18, 0);
+
+                if ($attendanceRecord->clock_in->gt($overtimeStart)) {
+                    $overtimeStart = $attendanceRecord->clock_in;
+                }
+
+                $breakMinutes = $attendanceRecord->breakRecords->sum(
+                    function ($breakRecord) use ($overtimeStart, $attendanceRecord) {
+                        if (
+                            !$breakRecord->break_in ||
+                            !$breakRecord->break_out
+                        ) {
+                            return 0;
+                        }
+
+                        $breakStart = $breakRecord->break_in->gt($overtimeStart)
+                            ? $breakRecord->break_in
+                            : $overtimeStart;
+
+                        $breakEnd = $breakRecord->break_out;
+
+                        if ($breakEnd->lte($breakStart)) {
+                            return 0;
+                        }
+
+                        return $breakStart->diffInMinutes($breakEnd);
+                    }
+                );
+
+                $overtimeEnd = $attendanceRecord->clock_out;
+
+                $overtimeMinutes = $overtimeStart->diffInMinutes($overtimeEnd);
+
+                return $overtimeMinutes - $breakMinutes;
+            }
+        );
+
+        return $totalOvertimeMinutes;
     }
 }
