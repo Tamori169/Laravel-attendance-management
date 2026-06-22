@@ -7,34 +7,248 @@ use Carbon\Carbon;
 
 class AttendanceReportService
 {
-    public function make($user)
+    public function make($userId)
     {
         return[
-            'six_months_working_hours' => $this->calculateSixMonthsWorkingHours($user),
-            'six_months_overtime_hours' => $this->calculateSixMonthsOvertimeHours($user),
-            'six_months_average_working_hours' => $this->calculateSixMonthsAverageWorkingHours($user),
-            'five_month_ago_working_hours' => $this->calculateFiveMonthAgoWorkingHours($user),
-            'five_month_ago_overtime_hours' => $this->calculateFiveMonthAgoOvertimeHours($user),
-            'four_month_ago_working_hours' => $this->calculateFourMonthAgoWorkingHours($user),
-            'four_month_ago_overtime_hours' => $this->calculateFourMonthAgoOvertimeHours($user),
-            'three_month_ago_working_hours' => $this->calculateThreeMonthAgoWorkingHours($user),
-            'three_month_ago_overtime_hours' => $this->calculateThreeMonthAgoOvertimeHours($user),
-            'two_month_ago_working_hours' => $this->calculateTwoMonthAgoWorkingHours($user),
-            'two_month_ago_overtime_hours' => $this->calculateTwoMonthAgoOvertimeHours($user),
-            'previous_month_working_hours' => $this->calculatePreviousMonthWorkingHours($user),
-            'previous_month_overtime_hours' => $this->calculatePreviousMonthOvertimeHours($user),
-            'current_month_working_hours' => $this->calculateCurrentMonthWorkingHours($user),
-            'current_month_overtime_hours' => $this->calculateCurrentMonthOvertimeHours($user),
-            'late_count' => $this->calculateLateCount($user),
-            'early_leave_count' => $this->calculateEarlyLeaveCount($user),
-            'long_working_hours_count' => $this->calculateLongWorkingHoursCount($user),
+            'six_months_working_minutes' => $this->calculateSixMonthsWorkingMinutes($userId),
+            'six_months_overtime_minutes' => $this->calculateSixMonthsOvertimeMinutes($userId),
+            'six_months_average_working_minutes' => $this->calculateSixMonthsAverageWorkingMinutes($userId),
+            'five_month_ago_working_minutes' => $this->calculateFiveMonthsAgoWorkingMinutes($userId),
+            'five_month_ago_overtime_minutes' => $this->calculateFiveMonthsAgoOvertimeMinutes($userId),
+            'four_month_ago_working_minutes' => $this->calculateFourMonthsAgoWorkingMinutes($userId),
+            'four_month_ago_overtime_minutes' => $this->calculateFourMonthsAgoOvertimeMinutes($userId),
+            'three_month_ago_working_minutes' => $this->calculateThreeMonthsAgoWorkingMinutes($userId),
+            'three_month_ago_overtime_minutes' => $this->calculateThreeMonthsAgoOvertimeMinutes($userId),
+            'two_month_ago_working_minutes' => $this->calculateTwoMonthsAgoWorkingMinutes($userId),
+            'two_month_ago_overtime_minutes' => $this->calculateTwoMonthsAgoOvertimeMinutes($userId),
+            'previous_month_working_minutes' => $this->calculateLastMonthWorkingMinutes($userId),
+            'previous_month_overtime_minutes' => $this->calculateLastMonthOvertimeMinutes($userId),
+            'current_month_working_minutes' => $this->calculateCurrentMonthWorkingMinutes($userId),
+            'current_month_overtime_minutes' => $this->calculateCurrentMonthOvertimeMinutes($userId),
+            'late_count' => $this->calculateLateCount($userId),
+            'early_leave_count' => $this->calculateEarlyLeaveCount($userId),
+            'long_working_day_count' => $this->calculateLongWorkingDayCount($userId),
         ];
     }
 
-    private function calculateTotalWorkingMinutes(int $id, Carbon $startDate, Carbon $endDate)
+    private function calculateSixMonthsWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonths(5)->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateSixMonthsOvertimeMinutes($userId)
+    {
+        $startDate = now()->subMonths(5)->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateSixMonthsAverageWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonths(5)->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        $totalWorkingMinutes = $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+
+        $totalWorkingDays = AttendanceRecord::where('user_id', $userId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->whereNotNull('clock_in')
+            ->whereNotNull('clock_out')
+            ->count();
+
+        $averageWorkingMinutes = $totalWorkingMinutes/ $totalWorkingDays;
+
+        return round($averageWorkingMinutes);
+    }
+
+    private function calculateFiveMonthsAgoWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonths(5)->startOfMonth();
+        $endDate = now()->subMonths(5)->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateFiveMonthsAgoOvertimeMinutes($userId)
+    {
+        $startDate = now()->subMonths(5)->startOfMonth();
+        $endDate = now()->subMonths(5)->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateFourMonthsAgoWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonths(4)->startOfMonth();
+        $endDate = now()->subMonths(4)->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateFourMonthsAgoOvertimeMinutes($userId)
+    {
+        $startDate = now()->subMonths(4)->startOfMonth();
+        $endDate = now()->subMonths(4)->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateThreeMonthsAgoWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonths(3)->startOfMonth();
+        $endDate = now()->subMonths(3)->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateThreeMonthsAgoOvertimeMinutes($userId)
+    {
+        $startDate = now()->subMonths(3)->startOfMonth();
+        $endDate = now()->subMonths(3)->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateTwoMonthsAgoWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonths(2)->startOfMonth();
+        $endDate = now()->subMonths(2)->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateTwoMonthsAgoOvertimeMinutes($userId)
+    {
+        $startDate = now()->subMonths(2)->startOfMonth();
+        $endDate = now()->subMonths(2)->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateLastMonthWorkingMinutes($userId)
+    {
+        $startDate = now()->subMonth()->startOfMonth();
+        $endDate = now()->subMonth()->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateLastMonthOvertimeMinutes($userId)
+    {
+        $startDate = now()->subMonth()->startOfMonth();
+        $endDate = now()->subMonth()->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateCurrentMonthWorkingMinutes($userId)
+    {
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        return $this->calculateTotalWorkingMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateCurrentMonthOvertimeMinutes($userId)
+    {
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        return $this->calculateTotalOvertimeMinutes(
+            $userId,
+            $startDate,
+            $endDate,
+        );
+    }
+
+    private function calculateLateCount($userId)
+    {
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        return AttendanceRecord::where('user_id', $userId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->whereNotNull('clock_in')
+            ->whereTime('clock_in', '>', '09:00:00')
+            ->count();
+    }
+
+    private function calculateEarlyLeaveCount($userId)
+    {
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        return AttendanceRecord::where('user_id', $userId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->whereNotNull('clock_out')
+            ->whereTime('clock_out', '<', '18:00:00')
+            ->count();
+    }
+
+    private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate)
     {
         $attendanceRecords = AttendanceRecord::with('breakRecords')
-            ->where('user_id', $id)
+            ->where('user_id', $userId)
             ->whereBetween('date', [$startDate, $endDate])
             ->get();
 
@@ -64,10 +278,10 @@ class AttendanceReportService
         return $totalWorkingMinutes;
     }
 
-    private function calculateOvertimeMinutes(int $id, Carbon $startDate, Carbon $endDate)
+    private function calculateTotalOvertimeMinutes(int $userId, Carbon $startDate, Carbon $endDate)
     {
         $attendanceRecords = AttendanceRecord::with('breakRecords')
-            ->where('user_id', $id)
+            ->where('user_id', $userId)
             ->whereBetween('date', [$startDate, $endDate])
             ->whereTime('clock_out', '>', '18:00:00')
             ->get();
