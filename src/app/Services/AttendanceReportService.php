@@ -21,8 +21,8 @@ class AttendanceReportService
             'three_month_ago_overtime_minutes' => $this->calculateThreeMonthsAgoOvertimeMinutes($userId),
             'two_month_ago_working_minutes' => $this->calculateTwoMonthsAgoWorkingMinutes($userId),
             'two_month_ago_overtime_minutes' => $this->calculateTwoMonthsAgoOvertimeMinutes($userId),
-            'previous_month_working_minutes' => $this->calculateLastMonthWorkingMinutes($userId),
-            'previous_month_overtime_minutes' => $this->calculateLastMonthOvertimeMinutes($userId),
+            'last_month_working_minutes' => $this->calculateLastMonthWorkingMinutes($userId),
+            'last_month_overtime_minutes' => $this->calculateLastMonthOvertimeMinutes($userId),
             'current_month_working_minutes' => $this->calculateCurrentMonthWorkingMinutes($userId),
             'current_month_overtime_minutes' => $this->calculateCurrentMonthOvertimeMinutes($userId),
             'late_count' => $this->calculateLateCount($userId),
@@ -245,6 +245,44 @@ class AttendanceReportService
             ->count();
     }
 
+    private function calculateLongWorkingDayCount($userId)
+    {
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        $attendanceRecords = AttendanceRecord::with('breakRecords')
+            ->where('user_id', $userId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->whereNotNull('clock_in')
+            ->whereNotNull('clock_out')
+            ->get();
+
+        return $attendanceRecords->filter(function ($attendanceRecord) {
+            $breakMinutes = $attendanceRecord->breakRecords->sum(
+                function ($breakRecord) {
+                    if (
+                        !$breakRecord->break_in ||
+                        !$breakRecord->break_out
+                    ) {
+                        return 0;
+                    }
+
+                    return $breakRecord->break_in->diffInMinutes(
+                        $breakRecord->break_out
+                    );
+                }
+            );
+
+            $attendanceMinutes = $attendanceRecord->clock_in->diffInMinutes(
+                $attendanceRecord->clock_out
+            );
+
+            $workingMinutes = $attendanceMinutes - $breakMinutes;
+
+            return $workingMinutes > 600;
+        })->count();
+    }
+
     private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate)
     {
         $attendanceRecords = AttendanceRecord::with('breakRecords')
@@ -270,8 +308,7 @@ class AttendanceReportService
 
                 $attendanceMinutes =$attendanceRecord->clock_in->diffInMinutes($attendanceRecord->clock_out);
 
-                $workingMinutes = $attendanceMinutes - $breakMinutes;
-
+                return $attendanceMinutes - $breakMinutes;
             }
         );
 

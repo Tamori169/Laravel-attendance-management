@@ -24,15 +24,24 @@
         <div class="attendance-report__summary-content">
             <div class="attendance-report__summary-wrapper">
                 <span class="attendance-report__summary-label">総労働時間</span>
-                <span class="attendance-report__summary-value">744h 0m</span>
+                <span class="attendance-report__summary-value">
+                    {{ intdiv($reports['six_months_working_minutes'], 60) }}h
+                    {{ $reports['six_months_working_minutes'] % 60 }}m
+                </span>
             </div>
             <div class="attendance-report__summary-wrapper">
                 <span class="attendance-report__summary-label">総残業時間</span>
-                <span class="attendance-report__summary-value">10h 0m</span>
+                <span class="attendance-report__summary-value">
+                    {{ intdiv($reports['six_months_overtime_minutes'], 60) }}h
+                    {{ $reports['six_months_overtime_minutes'] % 60 }}m
+                </span>
             </div>
             <div class="attendance-report__summary-wrapper">
-                <span class="attendance-report__summary-label">平均残業時間/日</span>
-                <span class="attendance-report__summary-value">8h 5m</span>
+                <span class="attendance-report__summary-label">平均労働時間/日</span>
+                <span class="attendance-report__summary-value">
+                    {{ intdiv($reports['six_months_average_working_minutes'], 60) }}h
+                    {{ $reports['six_months_average_working_minutes'] % 60 }}m
+                </span>
             </div>
         </div>
     </div>
@@ -49,45 +58,93 @@
             </tr>
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="2025-12">2025-12</time>
+                    <time datetime="{{ $months['five_months_ago'] }}">
+                        {{ $months['five_months_ago'] }}
+                    </time>
                 </td>
-                <td class="attendance-trend__table-description">120h 0m</td>
-                <td class="attendance-trend__table-description">0h 0m</td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['five_month_ago_working_minutes'], 60) }}h
+                    {{ $reports['five_month_ago_working_minutes'] % 60 }}m
+                </td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['five_month_ago_overtime_minutes'], 60) }}h
+                    {{ $reports['five_month_ago_overtime_minutes'] % 60 }}m
+                </td>
             </tr>
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="2026-01">2026-01</time>
+                    <time datetime="{{ $months['five_months_ago'] }}">
+                        {{ $months['four_months_ago'] }}
+                    </time>
                 </td>
-                <td class="attendance-trend__table-description">120h 0m</td>
-                <td class="attendance-trend__table-description">0h 0m</td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['four_month_ago_working_minutes'], 60) }}h
+                    {{ $reports['four_month_ago_working_minutes'] % 60 }}m
+                </td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['four_month_ago_overtime_minutes'], 60) }}h
+                    {{ $reports['four_month_ago_overtime_minutes'] % 60 }}m
+                </td>
             </tr>
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="2026-02">2026-02</time>
+                    <time datetime="{{ $months['five_months_ago'] }}">
+                        {{ $months['three_months_ago'] }}
+                    </time>
                 </td>
-                <td class="attendance-trend__table-description">120h 0m</td>
-                <td class="attendance-trend__table-description">0h 0m</td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['three_month_ago_working_minutes'], 60) }}h
+                    {{ $reports['three_month_ago_working_minutes'] % 60 }}m
+                </td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['three_month_ago_overtime_minutes'], 60) }}h
+                    {{ $reports['three_month_ago_overtime_minutes'] % 60 }}m
+                </td>
             </tr>
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="2026-03">2026-03</time>
+                    <time datetime="{{ $months['five_months_ago'] }}">
+                        {{ $months['two_months_ago'] }}
+                    </time>
                 </td>
-                <td class="attendance-trend__table-description">120h 0m</td>
-                <td class="attendance-trend__table-description">0h 0m</td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['two_month_ago_working_minutes'], 60) }}h
+                    {{ $reports['two_month_ago_working_minutes'] % 60 }}m
+                </td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['two_month_ago_overtime_minutes'], 60) }}h
+                    {{ $reports['two_month_ago_overtime_minutes'] % 60 }}m
+                </td>
             </tr>
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="2026-04">2026-04</time>
+                    <time datetime="{{ $months['five_months_ago'] }}">
+                        {{ $months['last_month'] }}
+                    </time>
                 </td>
-                <td class="attendance-trend__table-description">120h 0m</td>
-                <td class="attendance-trend__table-description">0h 0m</td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['last_month_working_minutes'], 60) }}h
+                    {{ $reports['last_month_working_minutes'] % 60 }}m
+                </td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['last_month_overtime_minutes'], 60) }}h
+                    {{ $reports['last_month_overtime_minutes'] % 60 }}m
+                </td>
             </tr>
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="2026-05">2026-05</time>
+                    <time datetime="{{ $months['five_months_ago'] }}">
+                        {{ $months['current_month'] }}
+                    </time>
                 </td>
-                <td class="attendance-trend__table-description">144h 0m</td>
-                <td class="attendance-trend__table-description">10h 0m</td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['current_month_working_minutes'], 60) }}h
+                    {{ $reports['current_month_working_minutes'] % 60 }}m
+                </td>
+                <td class="attendance-trend__table-description">
+                    {{ intdiv($reports['current_month_overtime_minutes'], 60) }}h
+                    {{ $reports['current_month_overtime_minutes'] % 60 }}m
+                </td>
             </tr>
         </table>
     </div>
@@ -102,15 +159,15 @@
         <div class="attendance-report__detection-content">
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">遅刻回数</span>
-                <span class="attendance-report__detection-value">２回</span>
+                <span class="attendance-report__detection-value">{{ $reports['late_count'] }}回</span>
             </div>
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">早退回数</span>
-                <span class="attendance-report__detection-value">１回</span>
+                <span class="attendance-report__detection-value">{{ $reports['early_leave_count'] }}回</span>
             </div>
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">長時間労働日数</span>
-                <span class="attendance-report__detection-value">１日</span>
+                <span class="attendance-report__detection-value">{{ $reports['long_working_day_count'] }}日</span>
             </div>
         </div>
     </div>
