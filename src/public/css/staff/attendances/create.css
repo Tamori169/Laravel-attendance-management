@@ -83,3 +83,23 @@
     font-size: 24px;
     font-weight: bold;
 }
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-status {
+        width: 15%;
+        }
+
+    .attendance-buttons {
+        width: 20%;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-create__content {
+        max-width: 1540px;
+    }
+}

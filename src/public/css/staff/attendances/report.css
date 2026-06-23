@@ -120,3 +120,40 @@
     font-weight: bold;
 }
 
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-report__heading-text {
+        width: 90%;
+        max-width: 720px;
+    }
+
+    .attendance-report__description-text {
+        width: 90%;
+        max-width: 720px;
+    }
+
+    .attendance-report__summary {
+        width: 90%;
+        max-width: 720px;
+    }
+
+    .attendance-report__trend {
+        width: 90%;
+        max-width: 720px;
+    }
+
+    .attendance-report__detection {
+        width: 90%;
+        max-width: 720px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-report {
+        max-width: 1540px;
+    }
+}
+

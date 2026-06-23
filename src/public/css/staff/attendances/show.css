@@ -100,7 +100,6 @@
     font-weight: bold;
     letter-spacing: 0.2em;
     padding: 5px;
-
 }
 
 .attendance-detail__form-textarea,
@@ -167,4 +166,54 @@
     color: #ef4444;
     letter-spacing: 0.2em;
     font-weight: bold;
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-detail__heading-text {
+        width: 85%;
+        max-width: 680px;
+        font-size: 22px;
+    }
+
+    .attendance-detail__table {
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .attendance-detail__form-input,
+    .requested-time__text {
+        font-size: 16px;
+    }
+
+    .error__description-text {
+        font-size: 14px;
+    }
+
+    .correction-request__button,
+    .correction-request__message {
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .attendance-detail__header {
+        width: 35%;
+    }
+
+    .attendance-detail__description {
+        width: 20%;
+    }
+
+    .attendance-detail__description:last-of-type {
+        width: 15%;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-detail {
+        max-width: 1540px;
+    }
 }

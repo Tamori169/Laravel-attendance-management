@@ -139,4 +139,36 @@
 
 .attendance-list__alternate {
     color: #000;
-}    
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-index__heading-text {
+        font-size: 22px;
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .month-navigation {
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .month-navigation__text {
+        font-size: 20px;
+    }
+
+    .attendance-list {
+        width: 85%;
+        max-width: 680px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-index {
+        max-width: 1540px;
+    }
+}

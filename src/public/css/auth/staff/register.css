@@ -84,6 +84,11 @@
 
 @media screen and (min-width: 768px) and (max-width: 850px) {
 
+    .register-form {
+        width: 70%;
+        max-width: 550px;
+    }
+
     .register-form__heading-text {
         font-size: 22px;
     }
