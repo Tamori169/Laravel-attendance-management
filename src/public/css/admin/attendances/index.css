@@ -2,7 +2,7 @@
     width: 100%;
     background-color: #eee;
     padding-top: 10px;
-    padding-bottom: 450px;
+    padding-bottom: 600px;
 }
 
 .attendance-index__heading {
@@ -139,4 +139,40 @@
 
 .attendance-list__alternate {
     color: #000;
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-index__heading-text {
+        font-size: 22px;
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .date-navigation {
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .date-navigation__today {
+        width: 30%;
+    }
+
+    .date-navigation__text {
+        font-size: 18px;
+    }
+
+    .attendance-list {
+        width: 85%;
+        max-width: 680px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-index {
+        max-width: 1540px;
+    }
 }

@@ -76,6 +76,11 @@
 
 @media screen and (min-width: 768px) and (max-width: 850px) {
 
+    .login-form {
+        width: 75%;
+        max-width: 580px;
+    }
+
     .login-form__heading-text {
         font-size: 22px;
     }

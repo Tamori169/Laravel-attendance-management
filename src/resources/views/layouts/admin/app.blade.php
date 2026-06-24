@@ -18,9 +18,7 @@
     <header class="header">
         <!-- ロゴ -->
         <h1 class="header__logo" >
-            <img class="header__logo-image header__logo-image--desktop" src="{{ asset('images/logos/coachtech_header-logo_desktop.png') }}"
-                alt="COACHTECH">
-            <img class="header__logo-image header__logo-image--mobile" src="{{ asset('images/logos/coachtech_header-logo_mobile.png') }}"
+            <img class="header__logo-image" src="{{ asset('images/logos/coachtech_header-logo.png') }}"
                 alt="COACHTECH">
         </h1>
         <!-- メニュー -->
@@ -28,8 +26,6 @@
             @section('nav')
             <!-- ハンバーガーメニュー（モバイル用） -->
             <ul class="hamburger js-hamburger">
-                <li></li>
-                <li></li>
                 <li></li>
                 <li></li>
                 <li></li>

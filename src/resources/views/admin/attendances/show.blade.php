@@ -191,8 +191,8 @@
             </tr>
         </table>
         @if($attendanceCorrectRequest)
-        <div class="update__message">
-            <span class="update__message-text">
+        <div class="correction-request__message">
+            <span class="correction-request__message-text">
                 *承認待ちのため修正はできません。
             </span>
         </div>

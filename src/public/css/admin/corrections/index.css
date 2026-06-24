@@ -2,7 +2,7 @@
     width: 100%;
     background-color: #eee;
     padding-top: 10px;
-    padding-bottom: 400px;
+    padding-bottom: 800px;
 }
 
 .correction-index__heading {
@@ -33,7 +33,7 @@
 
 .tab__item {
     position: relative;
-    width: 10%;
+    width: 12%;
     letter-spacing: 0.2em;
 }
 
@@ -95,4 +95,38 @@
 
 .correction-list__link:hover {
     color: #333;
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .correction-index__heading-text {
+        width: 90%;
+        max-width: 720px;
+        font-size: 22px;
+    }
+
+    .tabs {
+        width: 90%;
+        max-width: 720px;
+    }
+
+    .tab__link {
+        font-size: 16px;
+    }
+
+    .correction-list {
+        width: 90%;
+        max-width: 720px;
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .correction-index {
+        max-width: 1540px;
+    }
 }

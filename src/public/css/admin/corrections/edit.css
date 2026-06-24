@@ -2,7 +2,7 @@
     width: 100%;
     background-color: #eee;
     padding-top: 10px;
-    padding-bottom: 100px;
+    padding-bottom: 300px;
 }
 
 .attendance-detail__heading {
@@ -118,4 +118,46 @@
 
 .correction-approval__button-submit:hover {
     background-color: #333;
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .attendance-detail__heading-text {
+        width: 85%;
+        max-width: 680px;
+        font-size: 22px;
+    }
+
+    .attendance-detail__table {
+        width: 85%;
+        max-width: 680px;
+    }
+
+    .requested-time__text {
+        font-size: 16px;
+    }
+
+    .attendance-detail__header {
+        width: 35%;
+    }
+
+    .attendance-detail__description {
+        width: 20%;
+    }
+
+    .attendance-detail__description:last-of-type {
+        width: 15%;
+    }
+
+    .correction-approval__button {
+        width: 85%;
+        max-width: 680px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance-detail {
+        max-width: 1540px;
+    }
 }

@@ -2,7 +2,7 @@
     width: 100%;
     background-color: #eee;
     padding-top: 10px;
-    padding-bottom: 400px;
+    padding-bottom: 800px;
 }
 
 .staff-index__heading {
@@ -55,10 +55,7 @@
 .staff-list__header:first-of-type,
 .staff-list__description:first-of-type,
 .staff-list__header:nth-of-type(2),
-.staff-list__description:nth-of-type(2) {
-    width: 15%;
-}
-
+.staff-list__description:nth-of-type(2),
 .staff-list__header:nth-of-type(4),
 .staff-list__description:nth-of-type(4),
 .staff-list__header:last-of-type,
@@ -75,4 +72,34 @@
 
 .staff-list__link:hover {
     color: #333;
+}
+
+/* レスポンシブ対応 */
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .staff-index__heading-text {
+        width: 90%;
+        max-width: 720px;
+        font-size: 22px;
+    }
+
+    .staff-list {
+        width: 90%;
+        max-width: 720px;
+    }
+
+    .staff-list__header:first-of-type,
+    .staff-list__description:first-of-type,
+    .staff-list__header:last-of-type,
+    .staff-list__description:last-of-type {
+        width: 10%;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .staff-index {
+        max-width: 1540px;
+    }
 }
