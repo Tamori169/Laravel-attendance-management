@@ -43,7 +43,7 @@
                 </li>
                 <!-- レポート -->
                 <li class="header__nav-items">
-                    <a class="attendance-report__link" href="">レポート</a>
+                    <a class="attendance-report__link" href="{{ route('staffAttendanceReport.report') }}">レポート</a>
                 </li>
                 <!-- ログアウト -->
                 <li class="header__nav-items">
