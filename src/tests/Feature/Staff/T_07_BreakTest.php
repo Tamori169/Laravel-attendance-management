@@ -3,7 +3,6 @@
 namespace Tests\Feature\Staff;
 
 use App\Models\AttendanceRecord;
-use App\Models\BreakRecord;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
