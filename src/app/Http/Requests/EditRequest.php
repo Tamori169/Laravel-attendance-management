@@ -27,14 +27,14 @@ class EditRequest extends FormRequest
         return [
             'clock_in' => [
                 'bail',
-                'date_format:H:i',
                 'required',
+                'date_format:H:i',
             ],
             'clock_out' => [
                 'bail',
+                'required',
                 'date_format:H:i',
                 'after_or_equal:clock_in',
-                'required',
             ],
             'breaks.*.break_in' => [
                 'bail',

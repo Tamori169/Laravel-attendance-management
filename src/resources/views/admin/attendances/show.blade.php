@@ -61,6 +61,11 @@
             <tr class="error__row">
                 <td class="error__description" colspan="4">
                     <span class="error__description-text">
+                        @error('clock_in')
+                        {{ $message }}
+                        @enderror
+                    </span>
+                    <span class="error__description-text">
                         @error('clock_out')
                         {{ $message }}
                         @enderror
