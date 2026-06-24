@@ -14,7 +14,7 @@ class RequestStatusSeeder extends Seeder
      */
     public function run()
     {
-        RequestStatus::create(['name' => 'pending']);
-        RequestStatus::create(['name' => 'approved']);
+        RequestStatus::create(['id' => 1, 'name' => 'pending']);
+        RequestStatus::create(['id' => 2, 'name' => 'approved']);
     }
 }
