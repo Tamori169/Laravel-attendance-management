@@ -18,8 +18,6 @@ class T_11_RequestCorrectionTest extends TestCase
 
     public function test_出勤時間が退勤時間より後になっている場合、エラーメッセージが表示される()
     {
-        $this->markTestIncomplete('実装中');
-
         $this->seed(RoleSeeder::class);
         $user = User::factory()->staff()->create();
 
@@ -36,6 +34,7 @@ class T_11_RequestCorrectionTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->post($url, [
+            'requested_clock_in' => '09:00',
             'requested_clock_out' => '08:30',
             'comment' => '遅延のため',
         ]);
@@ -45,8 +44,6 @@ class T_11_RequestCorrectionTest extends TestCase
 
     public function test_休憩開始時間が退勤時間より後になっている場合、エラーメッセージが表示される()
     {
-        $this->markTestIncomplete('実装中');
-
         $this->seed(RoleSeeder::class);
         $user = User::factory()->staff()->create();
 
@@ -63,9 +60,12 @@ class T_11_RequestCorrectionTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->post($url, [
+            'requested_clock_in' => '09:00',
+            'requested_clock_out' => '18:00',
             'requested_breaks' => [
                 0 => [
-                    'break_in' => '2026-06-24 18:30:00',
+                    'break_in' => '18:30',
+                    'break_out' => '13:00',
                 ],
             ],
             'comment' => '遅延のため',
@@ -76,8 +76,6 @@ class T_11_RequestCorrectionTest extends TestCase
 
     public function test_休憩終了時間が退勤時間より後になっている場合、エラーメッセージが表示される()
     {
-        $this->markTestIncomplete('実装中');
-
         $this->seed(RoleSeeder::class);
         $user = User::factory()->staff()->create();
 
@@ -94,9 +92,12 @@ class T_11_RequestCorrectionTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->post($url, [
+            'requested_clock_in' => '09:00',
+            'requested_clock_out' => '18:00',
             'requested_breaks' => [
                 0 => [
-                    'break_out' => '2026-06-24 18:30:00',
+                    'break_in' => '12:00',
+                    'break_out' => '18:30',
                 ],
             ],
             'comment' => '遅延のため',
@@ -131,8 +132,6 @@ class T_11_RequestCorrectionTest extends TestCase
 
     public function test_修正申請処理が実行される()
     {
-        $this->markTestIncomplete('実装中');
-
         $knownDate = Carbon::create(2026, 6, 25, 9, 0, 0, 'Asia/Tokyo');
         Carbon::setTestNow($knownDate);
 
@@ -156,11 +155,12 @@ class T_11_RequestCorrectionTest extends TestCase
         $response->assertStatus(200);
 
         $postResponse = $this->post($url, [
-            'requested_clock_in' => '2026-06-24 09:30:00',
+            'requested_clock_in' => '09:30',
+            'requested_clock_out' => '18:00',
             'requested_breaks' => [
                 0 => [
-                    'break_in' => '2026-06-24 12:00:00',
-                    'break_out' => '2026-06-24 13:00:00',
+                    'break_in' => '12:00',
+                    'break_out' => '13:00',
                 ],
             ],
             'comment' => '遅延のため',
@@ -175,15 +175,18 @@ class T_11_RequestCorrectionTest extends TestCase
 
         $this->assertDatabaseHas('attendance_correct_requests', [
             'attendance_record_id' => $attendanceRecord->id,
+            'request_status_id' => '1',
             'requested_clock_in' => '2026-06-24 09:30:00',
+            'requested_clock_out' => '2026-06-24 18:00:00',
         ]);
 
         $attendanceCorrectRequest =
-        AttendanceCorrectRequest::where('attendance_record_id', $attendanceRecord->id);
+        AttendanceCorrectRequest::where('attendance_record_id', $attendanceRecord->id)->first();
 
         $this->assertDatabaseHas('break_correct_requests', [
             'attendance_correct_request_id' => $attendanceCorrectRequest->id,
-            'requested_clock_in' => '2026-06-24 09:30:00',
+            'requested_break_in' => '2026-06-24 12:00:00',
+            'requested_break_out' => '2026-06-24 13:00:00',
         ]);
 
         $response = $this->actingAs($admin)->get('/stamp_correction_request/list?tab=pending');

@@ -41,7 +41,6 @@ class EditRequest extends FormRequest
                 'date_format:H:i',
                 'after_or_equal:clock_in',
                 'before_or_equal:clock_out',
-                'before_or_equal:breaks.*.break_out',
                 'required_with:breaks.*.break_out',
                 'nullable',
             ],
@@ -51,7 +50,7 @@ class EditRequest extends FormRequest
                 'before_or_equal:clock_out',
                 'required_with:breaks.*.break_in',
                 'nullable',
-                'after_or_equal:break_out',
+                'after_or_equal:break_in',
             ],
             'comment' => [
                 'required',
