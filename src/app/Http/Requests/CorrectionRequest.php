@@ -41,6 +41,7 @@ class CorrectionRequest extends FormRequest
                 'date_format:H:i',
                 'after_or_equal:requested_clock_in',
                 'before_or_equal:requested_clock_out',
+                'before_or_equal:requested_breaks.*.break_out',
                 'required_with:requested_breaks.*.break_out',
                 'nullable',
             ],

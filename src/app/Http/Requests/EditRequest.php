@@ -41,6 +41,7 @@ class EditRequest extends FormRequest
                 'date_format:H:i',
                 'after_or_equal:clock_in',
                 'before_or_equal:clock_out',
+                'before_or_equal:breaks.*.break_out',
                 'required_with:breaks.*.break_out',
                 'nullable',
             ],
