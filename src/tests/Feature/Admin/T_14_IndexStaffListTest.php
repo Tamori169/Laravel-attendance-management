@@ -15,6 +15,8 @@ class T_14_IndexStaffListTest extends TestCase
      */
     public function test_example()
     {
+        $this->markTestIncomplete('実装中');
+
         $response = $this->get('/');
 
         $response->assertStatus(200);

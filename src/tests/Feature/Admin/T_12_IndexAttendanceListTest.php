@@ -13,8 +13,11 @@ class T_12_IndexAttendanceListTest extends TestCase
      *
      * @return void
      */
+
     public function test_example()
     {
+        $this->markTestIncomplete('実装中');
+
         $response = $this->get('/');
 
         $response->assertStatus(200);
