@@ -9,10 +9,23 @@ use App\Models\AttendanceRecord;
 use App\Models\AttendanceCorrectRequest;
 use App\Models\BreakCorrectRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class CorrectionController extends Controller
 {
-    public function store(CorrectionRequest $request, $id)
+    /**
+     * 勤怠情報の修正申請処理。
+     *
+     * 指定された勤怠情報に紐づく修正申請レコードを新規作成。
+     * 作成時は「承認待ち」ステータスで作成され、管理者ユーザーによる承認処理で「承認済み」に更新される。
+     * 作成後は勤怠詳細画面にリダイレクトする。
+     *
+     * @param CorrectionRequest $request バリデーション済みのリクエストオブジェクト
+     * @param int $id 対象となる出勤レコードのid
+     * @return RedirectResponse 勤怠詳細画面へのリダイレクト
+     */
+    public function store(CorrectionRequest $request, int $id): RedirectResponse
     {
         DB::transaction(function () use ($request, $id) {
             $attendanceRecord = AttendanceRecord::findOrFail($id);
@@ -44,7 +57,17 @@ class CorrectionController extends Controller
         return redirect()->route('staffAttendance.show', ['id' => $id]);
     }
 
-    public function index(Request $request)
+    /**
+     * 申請一覧画面を表示。
+     *
+     * ログインユーザーの修正申請レコードを取得し一覧画面に表示。
+     * リクエスト内のクエリに応じて、「承認待ち」もしくは「承認済み」のいずれかの
+     * 情報を取得し表示する。
+     *
+     * @param Request $request 表示対象のステータスを指定するクエリ(タブ)を含むリクエストオブジェクト
+     * @return View 申請一覧画面のビュー
+     */
+    public function index(Request $request): View
     {
         $user = auth()->user();
         $tab = $request->query('tab');
@@ -72,7 +95,16 @@ class CorrectionController extends Controller
         ));
     }
 
-    public function show($id)
+    /**
+     * 勤怠詳細画面(修正申請承認済み)を表示。
+     *
+     * 指定された修正申請レコードを取得し勤怠詳細画面に表示。
+     * なお、本画面は申請一覧(承認済み)の「詳細」から遷移した場合のみに表示される。
+     *
+     * @param int $id 表示対象となる修正申請レコードのid
+     * @return View 勤怠詳細画面(修正申請承認済み)のビュー
+     */
+    public function show(int $id): View
     {
         $attendanceCorrectRequest = AttendanceCorrectRequest::with([
             'attendanceRecord.user',

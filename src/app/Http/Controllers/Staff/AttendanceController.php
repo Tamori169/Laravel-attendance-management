@@ -9,15 +9,31 @@ use App\Models\BreakRecord;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class AttendanceController extends Controller
 {
-    public function create()
+    /**
+     * 勤怠登録画面を表示。
+     *
+     * @return View 勤怠登録画面のビュー
+     */
+    public function create(): View
     {
         return view('staff.attendances.create');
     }
 
-    public function clockIn()
+    /**
+     * 出勤処理を実行。
+     *
+     * ログインユーザーの勤務ステータスが「勤務外」の時、新たに出勤レコードを新規作成。
+     * 退勤時間(clock_out)は空で保存され、退勤時に更新される。
+     * 作成後は勤怠登録画面にリダイレクト。
+     *
+     * @return RedirectResponse 勤怠登録画面へのリダイレクト
+     */
+    public function clockIn(): RedirectResponse
     {
         $user = auth()->user();
 
@@ -34,7 +50,16 @@ class AttendanceController extends Controller
         return redirect()->route('staffAttendance.create');
     }
 
-    public function breakIn()
+    /**
+     * 休憩開始処理を実行。
+     *
+     * ログインユーザーの当日の出勤レコードに紐づいた休憩レコードを新規作成。
+     * 休憩終了時間(break_out)は空で保存され、休憩終了時に更新される。
+     * 作成後は勤怠登録画面にリダイレクト。
+     *
+     * @return RedirectResponse 勤怠登録画面へのリダイレクト
+     */
+    public function breakIn(): RedirectResponse
     {
         $attendanceRecord = AttendanceRecord::where('user_id', auth()->id())
             ->where('date', now('Asia/Tokyo')->toDateString())
@@ -48,7 +73,16 @@ class AttendanceController extends Controller
         return redirect()->route('staffAttendance.create');
     }
 
-    public function breakOut()
+    /**
+     * 休憩終了処理を実行。
+     *
+     * 既にStaff/AttendanceController@breakInで作成済みの休憩レコードに対して
+     * 休憩終了時間(break_out)を追加で保存。
+     * 作成後は勤怠登録画面にリダイレクト。
+     *
+     * @return RedirectResponse 勤怠登録画面へのリダイレクト
+     */
+    public function breakOut(): RedirectResponse
     {
         $attendanceRecord = AttendanceRecord::where('user_id', auth()->id())
             ->where('date', now('Asia/Tokyo')->toDateString())
@@ -66,7 +100,16 @@ class AttendanceController extends Controller
         return redirect()->route('staffAttendance.create');
     }
 
-    public function clockOut()
+    /**
+     * 退勤処理を実行。
+     *
+     * 既にStaff/AttendanceController@clockInで作成済みの出勤レコードに対して
+     * 退勤時間(clock_out)を追加で保存。
+     * 作成後は勤怠登録画面にリダイレクト。
+     *
+     * @return RedirectResponse 勤怠登録画面へのリダイレクト
+     */
+    public function clockOut(): RedirectResponse
     {
         $attendanceRecord = AttendanceRecord::where('user_id', auth()->id())
             ->where('date', now('Asia/Tokyo')->toDateString())
@@ -80,7 +123,17 @@ class AttendanceController extends Controller
         return redirect()->route('staffAttendance.create');
     }
 
-    public function index(Request $request)
+    /**
+     * 出勤情報一覧画面を表示。
+     *
+     * ログインユーザーの指定月の出勤情報を収集し、日毎にマッピング。
+     * 出勤情報の月次一覧画面を表示する。
+     * なお、指定がない場合は当月の出勤情報を表示。
+     *
+     * @param Request $request 表示対象となる年月情報(指定がない場合は当月)を含むリクエストオブジェクト
+     * @return View 出勤一覧画面のビュー
+     */
+    public function index(Request $request): View
     {
         $month = $request->query('month', now('Asia/Tokyo')->format('Y-m'));
         $currentMonth = Carbon::parse($month);
@@ -103,7 +156,17 @@ class AttendanceController extends Controller
         return view('staff.attendances.index', compact('currentMonth', 'attendanceRecordList'));
     }
 
-    public function show($id)
+    /**
+     * 勤怠詳細画面を表示。
+     *
+     * ログインユーザーの指定日の勤怠情報(休憩情報含む)を取得し詳細画面に表示。
+     * なお、詳細画面では勤怠情報の修正申請が可能(Staff/CorrectionController@store)。
+     * また、修正申請中は修正後の勤怠情報が表示される。
+     *
+     * @param int $id 表示対象となる出勤レコードのid。
+     * @return View 勤怠詳細画面のビュー
+     */
+    public function show(int $id): View
     {
         $user = auth()->user();
 
