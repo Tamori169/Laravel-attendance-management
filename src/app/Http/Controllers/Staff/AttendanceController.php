@@ -124,13 +124,13 @@ class AttendanceController extends Controller
     }
 
     /**
-     * 出勤情報一覧画面を表示。
+     * 勤怠一覧画面を表示。
      *
      * ログインユーザーの指定月の出勤情報を収集し、日毎にマッピング。
-     * 出勤情報の月次一覧画面を表示する。
-     * なお、指定がない場合は当月の出勤情報を表示。
+     * 勤怠情報の月次一覧画面を表示する。
+     * なお、指定がない場合は当月の勤怠情報を表示。
      *
-     * @param Request $request 表示対象となる年月情報(指定がない場合は当月)を含むリクエストオブジェクト
+     * @param Request $request 表示対象となる年月情報(クエリパラメータ)を含むリクエストオブジェクト
      * @return View 出勤一覧画面のビュー
      */
     public function index(Request $request): View

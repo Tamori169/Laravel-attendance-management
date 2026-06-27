@@ -3,16 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AttendanceRecord;
-use App\Models\BreakRecord;
 use App\Models\AttendanceCorrectRequest;
-use App\Models\BreakCorrectRequest;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CorrectionController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * 申請一覧画面を表示。
+     *
+     * 一般ユーザーによる修正申請レコードを取得し一覧画面に表示。
+     * リクエスト内のクエリに応じて、「承認待ち」もしくは「承認済み」のいずれかの
+     * 情報を取得し表示する。
+     *
+     * @param Request $request 表示対象のステータスを指定するクエリ(タブ)を含むリクエストオブジェクト
+     * @return View 申請一覧画面のビュー
+     */
+    public function index(Request $request): View
     {
         $tab = $request->query('tab');
 
@@ -36,7 +45,16 @@ class CorrectionController extends Controller
         return view('admin.corrections.index', compact('attendanceCorrectRequests'));
     }
 
-    public function edit($attendance_correct_request_id)
+    /**
+     * 修正申請承認画面を表示。
+     *
+     * 一般ユーザーによる修正申請レコードのうち、$attendance_correct_request_idで
+     * 指定された修正申請レコード(休憩の修正申請レコードを含む)を取得し承認画面に表示。
+     *
+     * @param int $attendance_correct_request_id 承認対象の修正申請レコードのid
+     * @return View 申請一覧画面のビュー
+     */
+    public function edit(int $attendance_correct_request_id): View
     {
         $attendanceCorrectRequest = AttendanceCorrectRequest::with([
             'attendanceRecord.user',
@@ -47,7 +65,18 @@ class CorrectionController extends Controller
         return view('admin.corrections.edit', compact('attendanceCorrectRequest'));
     }
 
-    public function update($attendance_correct_request_id)
+    /**
+     * 修正申請の承認処理。
+     *
+     * Staff/CorrectionController@storeにて新規作成された修正申請レコードの更新。
+     * ステータスを「承認済み」に変更する。
+     * また、入力情報に基づき勤怠レコードを更新。休憩レコードは既存分を削除後、新規作成する。
+     * 処理後は修正申請承認画面にリダイレクト。
+     *
+     * @param int $attendance_correct_request_id 承認対象の修正申請レコードのid
+     * @return RedirectResponse 修正申請承認画面へのリダイレクト
+     */
+    public function update(int $attendance_correct_request_id): RedirectResponse
     {
         DB::transaction(function () use ($attendance_correct_request_id) {
             $attendanceCorrectRequest = AttendanceCorrectRequest::with([

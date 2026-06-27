@@ -21,7 +21,7 @@ class CorrectionController extends Controller
      * 作成時は「承認待ち」ステータスで作成され、管理者ユーザーによる承認処理で「承認済み」に更新される。
      * 作成後は勤怠詳細画面にリダイレクトする。
      *
-     * @param CorrectionRequest $request バリデーション済みのリクエストオブジェクト
+     * @param CorrectionRequest $request 修正情報(バリデーション済み)を含むリクエストオブジェクト
      * @param int $id 対象となる出勤レコードのid
      * @return RedirectResponse 勤怠詳細画面へのリダイレクト
      */

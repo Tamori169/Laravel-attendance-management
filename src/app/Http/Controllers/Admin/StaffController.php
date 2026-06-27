@@ -7,11 +7,20 @@ use App\Models\AttendanceRecord;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StaffController extends Controller
 {
-    public function index()
+    /**
+     * スタッフ一覧画面を表示。
+     *
+     * 全一般ユーザーの名前およびメールアドレスを取得し一覧画面に表示。
+     *
+     * @return View スタッフ一覧画面のビュー
+     */
+    public function index(): View
     {
         $users = User::where('role_id',1)
         ->get();
@@ -19,7 +28,16 @@ class StaffController extends Controller
         return view('admin.staff.index',compact('users'));
     }
 
-    public function show(Request $request, $id)
+    /**
+     * スタッフ別勤怠一覧画面を表示。
+     *
+     * 全一般ユーザーの名前およびメールアドレスを取得し一覧画面に表示。
+     *
+     * @param Request $request 表示対象となる年月情報(クエリパラメータ)を含むリクエストオブジェクト
+     * @param int $id 表示対象となる一般ユーザーのid
+     * @return View スタッフ別勤怠一覧画面のビュー
+     */
+    public function show(Request $request, int $id): View
     {
         $user = User::findOrFail($id);
 
@@ -44,7 +62,19 @@ class StaffController extends Controller
         return view('admin.staff.show', compact('user', 'currentMonth', 'attendanceRecordList'));
     }
 
-    public function export(Request $request, $id)
+
+    /**
+     * 勤怠実績のCSVファイル出力処理
+     *
+     * idにて指定された一般ユーザーの月次勤怠レコードを取得し、その月の全日数の勤怠データをCSV形式に変換。
+     * ブラウザに対しストリームダウンロードを実行する。
+     * なお、年月指定がない場合は当月の勤怠実績が対象。
+     *
+     * @param Request $request 対象月（month）のクエリパラメータを含むリクエストオブジェクト
+     * @param int $id 出力対象となるユーザーのid
+     * @return StreamedResponse CSVダウンロード用のストリームレスポンス
+     */
+    public function export(Request $request, int $id): StreamedResponse
     {
         $user = User::findOrFail($id);
 
