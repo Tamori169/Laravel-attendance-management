@@ -4,9 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AttendanceRecord extends Model
 {
+    /**
+     * 一括代入可能な属性。
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'user_id',
         'date',
@@ -14,23 +21,37 @@ class AttendanceRecord extends Model
         'clock_out',
     ];
 
+    /**
+     * 属性の型変換定義。
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'date' => 'date',
         'clock_in' => 'datetime',
         'clock_out' => 'datetime',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function breakRecords()
+    /**
+     * @return HasMany<BreakRecord, $this>
+     */
+    public function breakRecords(): HasMany
     {
         return $this->hasMany(BreakRecord::class);
     }
 
-    public function attendanceCorrectRequests()
+    /**
+     * @return HasMany<AttendanceCorrectRequest, $this>
+     */
+    public function attendanceCorrectRequests(): HasMany
     {
         return $this->hasMany(AttendanceCorrectRequest::class);
     }
