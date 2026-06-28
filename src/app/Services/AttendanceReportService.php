@@ -7,7 +7,13 @@ use Carbon\Carbon;
 
 class AttendanceReportService
 {
-    public function make($userId)
+    /**
+     * 勤怠レポートのデータを作成。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return array array<string, int> 勤怠レポートのデータ
+     */
+    public function make(int $userId): array
     {
         return[
             'six_months_working_minutes' => $this->calculateSixMonthsWorkingMinutes($userId),
@@ -31,7 +37,16 @@ class AttendanceReportService
         ];
     }
 
-    private function calculateSixMonthsWorkingMinutes($userId)
+    /**
+     * 直近6ヶ月間の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 直近6ヶ月間の総労働時間（分単位）
+     */
+    private function calculateSixMonthsWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonths(5)->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -43,7 +58,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateSixMonthsOvertimeMinutes($userId)
+    /**
+     * 直近6ヶ月間の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 直近6ヶ月間の総残業時間（分単位）
+     */
+    private function calculateSixMonthsOvertimeMinutes(int $userId): int
     {
         $startDate = now()->subMonths(5)->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -55,7 +79,13 @@ class AttendanceReportService
         );
     }
 
-    private function calculateSixMonthsAverageWorkingMinutes($userId)
+    /**
+     * 直近6ヶ月間の1日あたりの平均労働時間を分単位で集計。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 直近6ヶ月間の1日あたりの平均労働時間（分単位）
+     */
+    private function calculateSixMonthsAverageWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonths(5)->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -77,7 +107,16 @@ class AttendanceReportService
         return round($averageWorkingMinutes);
     }
 
-    private function calculateFiveMonthsAgoWorkingMinutes($userId)
+    /**
+     * 5ヶ月前の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 5ヶ月前の総労働時間（分単位）
+     */
+    private function calculateFiveMonthsAgoWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonths(5)->startOfMonth();
         $endDate = now()->subMonths(5)->endOfMonth();
@@ -89,7 +128,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateFiveMonthsAgoOvertimeMinutes($userId)
+    /**
+     * 5ヶ月前の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 5ヶ月前の総残業時間（分単位）
+     */
+    private function calculateFiveMonthsAgoOvertimeMinutes(int $userId): int
     {
         $startDate = now()->subMonths(5)->startOfMonth();
         $endDate = now()->subMonths(5)->endOfMonth();
@@ -101,7 +149,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateFourMonthsAgoWorkingMinutes($userId)
+    /**
+     * 4ヶ月前の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 4ヶ月前の総労働時間（分単位）
+     */
+    private function calculateFourMonthsAgoWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonths(4)->startOfMonth();
         $endDate = now()->subMonths(4)->endOfMonth();
@@ -113,7 +170,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateFourMonthsAgoOvertimeMinutes($userId)
+    /**
+     * 4ヶ月前の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 4ヶ月前の総残業時間（分単位）
+     */
+    private function calculateFourMonthsAgoOvertimeMinutes(int $userId): int
     {
         $startDate = now()->subMonths(4)->startOfMonth();
         $endDate = now()->subMonths(4)->endOfMonth();
@@ -125,7 +191,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateThreeMonthsAgoWorkingMinutes($userId)
+    /**
+     * 3ヶ月前の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 3ヶ月前の総労働時間（分単位）
+     */
+    private function calculateThreeMonthsAgoWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonths(3)->startOfMonth();
         $endDate = now()->subMonths(3)->endOfMonth();
@@ -137,7 +212,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateThreeMonthsAgoOvertimeMinutes($userId)
+    /**
+     * 3ヶ月前の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 3ヶ月前の総残業時間（分単位）
+     */
+    private function calculateThreeMonthsAgoOvertimeMinutes(int $userId): int
     {
         $startDate = now()->subMonths(3)->startOfMonth();
         $endDate = now()->subMonths(3)->endOfMonth();
@@ -149,7 +233,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateTwoMonthsAgoWorkingMinutes($userId)
+    /**
+     * 2ヶ月前の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 2ヶ月前の総労働時間（分単位）
+     */
+    private function calculateTwoMonthsAgoWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonths(2)->startOfMonth();
         $endDate = now()->subMonths(2)->endOfMonth();
@@ -161,7 +254,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateTwoMonthsAgoOvertimeMinutes($userId)
+    /**
+     * 2ヶ月前の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 2ヶ月前の総残業時間（分単位）
+     */
+    private function calculateTwoMonthsAgoOvertimeMinutes(int $userId): int
     {
         $startDate = now()->subMonths(2)->startOfMonth();
         $endDate = now()->subMonths(2)->endOfMonth();
@@ -173,7 +275,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateLastMonthWorkingMinutes($userId)
+    /**
+     * 先月の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 先月の総労働時間（分単位）
+     */
+    private function calculateLastMonthWorkingMinutes(int $userId): int
     {
         $startDate = now()->subMonth()->startOfMonth();
         $endDate = now()->subMonth()->endOfMonth();
@@ -185,7 +296,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateLastMonthOvertimeMinutes($userId)
+    /**
+     * 先月の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 先月の総残業時間（分単位）
+     */
+    private function calculateLastMonthOvertimeMinutes(int $userId): int
     {
         $startDate = now()->subMonth()->startOfMonth();
         $endDate = now()->subMonth()->endOfMonth();
@@ -197,7 +317,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateCurrentMonthWorkingMinutes($userId)
+    /**
+     * 当月の総労働時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalWorkingMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 当月の総労働時間（分単位）
+     */
+    private function calculateCurrentMonthWorkingMinutes(int $userId): int
     {
         $startDate = now()->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -209,7 +338,16 @@ class AttendanceReportService
         );
     }
 
-    private function calculateCurrentMonthOvertimeMinutes($userId)
+    /**
+     * 当月の総残業時間を分単位で集計。
+     *
+     * このメソッドでは対象期間を指定。
+     * 集計処理はcalculateTotalOvertimeMinutesにて行う。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 当月の総残業時間（分単位）
+     */
+    private function calculateCurrentMonthOvertimeMinutes(int $userId): int
     {
         $startDate = now()->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -221,7 +359,13 @@ class AttendanceReportService
         );
     }
 
-    private function calculateLateCount($userId)
+    /**
+     * 当月の遅刻回数を集計。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 当月の遅刻回数
+     */
+    private function calculateLateCount(int $userId): int
     {
         $startDate = now()->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -233,7 +377,13 @@ class AttendanceReportService
             ->count();
     }
 
-    private function calculateEarlyLeaveCount($userId)
+    /**
+     * 当月の早退回数を集計。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 当月の早退回数
+     */
+    private function calculateEarlyLeaveCount(int $userId): int
     {
         $startDate = now()->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -245,7 +395,13 @@ class AttendanceReportService
             ->count();
     }
 
-    private function calculateLongWorkingDayCount($userId)
+    /**
+     * 当月の長時間労働日数を集計。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 当月の長時間労働日数
+     */
+    private function calculateLongWorkingDayCount(int $userId): int
     {
         $startDate = now()->startOfMonth();
         $endDate = now()->endOfMonth();
@@ -257,9 +413,9 @@ class AttendanceReportService
             ->whereNotNull('clock_out')
             ->get();
 
-        return $attendanceRecords->filter(function ($attendanceRecord) {
+        return $attendanceRecords->filter(function ($attendanceRecord): bool {
             $breakMinutes = $attendanceRecord->breakRecords->sum(
-                function ($breakRecord) {
+                function ($breakRecord): int{
                     if (
                         !$breakRecord->break_in ||
                         !$breakRecord->break_out
@@ -283,7 +439,16 @@ class AttendanceReportService
         })->count();
     }
 
-    private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate)
+    /**
+     * 総労働時間を分単位で集計。
+     *
+     * 対象期間は別メソッドにて指定。
+     * このメソッドで集計処理を行い、指定元のメソッドに返す。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 総労働時間（分単位）
+     */
+    private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate): int
     {
         $attendanceRecords = AttendanceRecord::with('breakRecords')
             ->where('user_id', $userId)
@@ -291,13 +456,13 @@ class AttendanceReportService
             ->get();
 
         $totalWorkingMinutes = $attendanceRecords->sum(
-            function ($attendanceRecord) {
+            function ($attendanceRecord): int{
                 if (!$attendanceRecord->clock_in ||!$attendanceRecord->clock_out) {
                     return 0;
                 }
 
                 $breakMinutes = $attendanceRecord->breakRecords->sum(
-                    function ($breakRecord) {
+                    function ($breakRecord): int{
                         if (!$breakRecord->break_in ||!$breakRecord->break_out) {
                             return 0;
                         }
@@ -315,7 +480,16 @@ class AttendanceReportService
         return $totalWorkingMinutes;
     }
 
-    private function calculateTotalOvertimeMinutes(int $userId, Carbon $startDate, Carbon $endDate)
+    /**
+     * 総残業時間を分単位で集計。
+     *
+     * 対象期間は別メソッドにて指定。
+     * このメソッドで集計処理を行い、指定元のメソッドに返す。
+     *
+     * @param int $userId ログインユーザーのID
+     * @return int 総残業時間（分単位）
+     */
+    private function calculateTotalOvertimeMinutes(int $userId, Carbon $startDate, Carbon $endDate): int
     {
         $attendanceRecords = AttendanceRecord::with('breakRecords')
             ->where('user_id', $userId)
@@ -324,7 +498,7 @@ class AttendanceReportService
             ->get();
 
         $totalOvertimeMinutes = $attendanceRecords->sum(
-            function ($attendanceRecord) {
+            function ($attendanceRecord): int{
                 $overtimeStart = $attendanceRecord->clock_out
                     ->copy()
                     ->setTime(18, 0);
@@ -334,7 +508,7 @@ class AttendanceReportService
                 }
 
                 $breakMinutes = $attendanceRecord->breakRecords->sum(
-                    function ($breakRecord) use ($overtimeStart, $attendanceRecord) {
+                    function ($breakRecord) use ($overtimeStart, $attendanceRecord): int{
                         if (
                             !$breakRecord->break_in ||
                             !$breakRecord->break_out

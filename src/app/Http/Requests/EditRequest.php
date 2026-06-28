@@ -4,25 +4,26 @@ namespace App\Http\Requests;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class EditRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * リクエストの実行を許可するか判定する。
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * バリデーションルールを取得。
      *
-     * @return array
+     * @return array<string, array<int, string>>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'clock_in' => [
@@ -59,7 +60,12 @@ class EditRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * バリデーションエラーメッセージを取得する。
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
     {
         return [
             'clock_in.date_format' => '出勤時間は「HH:MM」形式で入力してください',
@@ -80,9 +86,17 @@ class EditRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator)
+    /**
+     * バリデーション後の追加検証を設定する。
+     *
+     * 休憩時間の重複をチェックしエラーメッセージを表示させる。
+     *
+     * @param Validator $validator バリデーター
+     * @return void
+     */
+    public function withValidator(Validator $validator): void
     {
-        $validator->after(function ($validator) {
+        $validator->after(function (Validator $validator): void {
             $breaks = $this->input('breaks', []);
 
             $ranges = [];

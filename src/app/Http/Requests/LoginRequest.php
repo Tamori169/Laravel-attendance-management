@@ -8,21 +8,21 @@ use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 class LoginRequest extends FortifyLoginRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * リクエストの実行を許可するか判定する。
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * バリデーションルールを取得。
      *
-     * @return array
+     * @return array<string, array<int, string>>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => ['required', 'email', 'exists:users,email'],
@@ -30,7 +30,12 @@ class LoginRequest extends FortifyLoginRequest
         ];
     }
 
-    public function messages()
+    /**
+     * バリデーションエラーメッセージを取得する。
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
