@@ -22,7 +22,7 @@ class AttendanceRecord extends Model
     ];
 
     /**
-     * 属性の型変換定義。
+     * 属性の型を変換する。
      *
      * @var array<string, string>
      */

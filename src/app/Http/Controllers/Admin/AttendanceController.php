@@ -84,7 +84,7 @@ class AttendanceController extends Controller
             $attendanceRecord->update([
                 'clock_in' => $attendanceRecord->date->format('Y-m-d') . ' ' . $request->clock_in . ':00',
                 'clock_out' => $attendanceRecord->date->format('Y-m-d') . ' ' . $request->clock_out . ':00',
-                // 'comment' => $request->comment,
+                'comment' => $request->comment,
                 ]);
 
             BreakRecord::where('attendance_record_id', $id)

@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * シリアライズ時に非表示にする属性。
      *
      * @var array<int, string>
      */
@@ -37,7 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * 属性の型変換定義。
+     * 属性の型を変換する。
      *
      * @var array<string, string>
      */

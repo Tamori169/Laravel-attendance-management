@@ -18,7 +18,7 @@ class CorrectionController extends Controller
      * @param Request $request 表示対象のステータスを指定するクエリ(タブ)を含むリクエストオブジェクト
      * @return View 各権限に応じた修正申請一覧画面のビュー
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         if ($request->user()?->role?->name === 'admin') {
             return app(AdminCorrectionController::class)->index($request);
