@@ -163,7 +163,7 @@ class AttendanceController extends Controller
      * なお、詳細画面では勤怠情報の修正申請が可能(Staff/CorrectionController@store)。
      * また、修正申請中は修正後の勤怠情報が表示される。
      *
-     * @param int $id 表示対象となる出勤レコードのid。
+     * @param int $id 表示対象となる出勤レコードのID
      * @return View 勤怠詳細画面のビュー
      */
     public function show(int $id): View

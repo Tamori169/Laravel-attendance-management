@@ -51,7 +51,7 @@ class CorrectionController extends Controller
      * 一般ユーザーによる修正申請レコードのうち、$attendance_correct_request_idで
      * 指定された修正申請レコード(休憩の修正申請レコードを含む)を取得し承認画面に表示。
      *
-     * @param int $attendance_correct_request_id 承認対象の修正申請レコードのid
+     * @param int $attendance_correct_request_id 承認対象の修正申請レコードのID
      * @return View 申請一覧画面のビュー
      */
     public function edit(int $attendance_correct_request_id): View
@@ -73,7 +73,7 @@ class CorrectionController extends Controller
      * また、入力情報に基づき勤怠レコードを更新。休憩レコードは既存分を削除後、新規作成する。
      * 処理後は修正申請承認画面にリダイレクト。
      *
-     * @param int $attendance_correct_request_id 承認対象の修正申請レコードのid
+     * @param int $attendance_correct_request_id 承認対象の修正申請レコードのID
      * @return RedirectResponse 修正申請承認画面へのリダイレクト
      */
     public function update(int $attendance_correct_request_id): RedirectResponse

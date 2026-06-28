@@ -17,6 +17,7 @@ class AttendanceReportController extends Controller
      *
      * ログインユーザーの当月を含む過去6ヶ月分の勤怠情報を集計しサマリー。
      * 集計結果をマイ勤怠レポート画面に表示。
+     * 集計処理はsrc/app/Services/AttendanceReportService.phpの各メソッドにて行う。
      *
      * @return View マイ勤怠レポート画面のビュー
      */

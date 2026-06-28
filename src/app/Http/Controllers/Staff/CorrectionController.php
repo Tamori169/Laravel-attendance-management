@@ -22,7 +22,7 @@ class CorrectionController extends Controller
      * 作成後は勤怠詳細画面にリダイレクトする。
      *
      * @param CorrectionRequest $request 修正情報(バリデーション済み)を含むリクエストオブジェクト
-     * @param int $id 対象となる出勤レコードのid
+     * @param int $id 対象となる出勤レコードのID
      * @return RedirectResponse 勤怠詳細画面へのリダイレクト
      */
     public function store(CorrectionRequest $request, int $id): RedirectResponse
@@ -101,7 +101,7 @@ class CorrectionController extends Controller
      * 指定された修正申請レコードを取得し勤怠詳細画面に表示。
      * なお、本画面は申請一覧(承認済み)の「詳細」から遷移した場合のみに表示される。
      *
-     * @param int $id 表示対象となる修正申請レコードのid
+     * @param int $id 表示対象となる修正申請レコードのID
      * @return View 勤怠詳細画面(修正申請承認済み)のビュー
      */
     public function show(int $id): View

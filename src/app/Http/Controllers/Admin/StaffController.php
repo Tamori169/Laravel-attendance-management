@@ -34,7 +34,7 @@ class StaffController extends Controller
      * 全一般ユーザーの名前およびメールアドレスを取得し一覧画面に表示。
      *
      * @param Request $request 表示対象となる年月情報(クエリパラメータ)を含むリクエストオブジェクト
-     * @param int $id 表示対象となる一般ユーザーのid
+     * @param int $id 表示対象となる一般ユーザーのID
      * @return View スタッフ別勤怠一覧画面のビュー
      */
     public function show(Request $request, int $id): View
@@ -71,7 +71,7 @@ class StaffController extends Controller
      * なお、年月指定がない場合は当月の勤怠実績が対象。
      *
      * @param Request $request 対象月（month）のクエリパラメータを含むリクエストオブジェクト
-     * @param int $id 出力対象となるユーザーのid
+     * @param int $id 出力対象となるユーザーのID
      * @return StreamedResponse CSVダウンロード用のストリームレスポンス
      */
     public function export(Request $request, int $id): StreamedResponse
