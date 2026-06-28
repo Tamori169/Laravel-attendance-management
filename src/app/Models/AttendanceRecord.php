@@ -56,7 +56,12 @@ class AttendanceRecord extends Model
         return $this->hasMany(AttendanceCorrectRequest::class);
     }
 
-    public function getBreakMinutesAttribute()
+    /**
+     * 休憩時間の合計を分単位で計算して取得。
+     *
+     * @return int 休憩時間の合計分数
+     */
+    public function getBreakMinutesAttribute(): int
     {
         return $this->breakRecords->sum(function ($breakRecord) {
             if (!$breakRecord->break_in || !$breakRecord->break_out) {
@@ -67,7 +72,12 @@ class AttendanceRecord extends Model
         });
     }
 
-    public function getWorkMinutesAttribute()
+    /**
+     * 勤務時間の合計を分単位で計算して取得。
+     *
+     * @return int 勤務時間の合計分数
+     */
+    public function getWorkMinutesAttribute(): int
     {
         if (!$this->clock_in || !$this->clock_out) {
             return 0;
@@ -76,7 +86,14 @@ class AttendanceRecord extends Model
         return $this->clock_in->diffInMinutes($this->clock_out) - $this->break_minutes;
     }
 
-    public function getFormattedBreakTimeAttribute()
+    /**
+     * 休憩時間をHH:MM形式に変換して表示。
+     *
+     * getBreakMinutesAttributeで取得された休憩時間を変換する。
+     *
+     * @return string HH:MM形式に変換された休憩時間
+     */
+    public function getFormattedBreakTimeAttribute(): string
     {
         $hours = floor($this->break_minutes / 60);
         $minutes = $this->break_minutes % 60;
@@ -84,7 +101,14 @@ class AttendanceRecord extends Model
         return sprintf('%d:%02d', $hours, $minutes);
     }
 
-    public function getFormattedWorkTimeAttribute()
+    /**
+     * 労働時間をHH:MM形式に変換して表示。
+     *
+     * getFormattedWorkTimeAttributeで取得された休憩時間を変換する。
+     *
+     * @return string HH:MM形式に変換された労働時間
+     */
+    public function getFormattedWorkTimeAttribute(): string
     {
         $hours = floor($this->work_minutes / 60);
         $minutes = $this->work_minutes % 60;

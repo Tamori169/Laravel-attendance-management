@@ -61,7 +61,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(AttendanceRecord::class);
     }
 
-    public function getAttendanceStatusAttribute()
+    /**
+     * 勤怠ステータスを取得。
+     *
+     * @return string 勤務外、出勤中、休憩中、退勤済のいずれか
+     */
+    public function getAttendanceStatusAttribute(): string
     {
         $attendanceRecord = AttendanceRecord::where('user_id', $this->id)
             ->whereDate('date', today('Asia/Tokyo'))

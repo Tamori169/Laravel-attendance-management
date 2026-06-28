@@ -18,19 +18,24 @@ class RequestStatus extends Model
         'name',
     ];
 
-    public function getLabelAttribute()
-    {
-        return match ($this->name) {
-            'pending' => '承認待ち',
-            'approved' => '承認済み',
-        };
-    }
-
     /**
      * @return HasMany<AttendanceCorrectRequest, $this>
      */
     public function attendanceCorrectRequests(): HasMany
     {
         return $this->hasMany(AttendanceCorrectRequest::class);
+    }
+
+    /**
+     * 修正申請中のステータスを表示用に変換。
+     *
+     * @return string 承認待ち、承認済みのいずれか
+     */
+    public function getLabelAttribute(): string
+    {
+        return match ($this->name) {
+            'pending' => '承認待ち',
+            'approved' => '承認済み',
+        };
     }
 }
