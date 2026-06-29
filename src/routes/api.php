@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AttendanceRecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::apiResource('attendance-records', AttendanceRecordController::class)
+        ->parameters([
+            'attendance-records' => 'attendanceRecord',
+        ])
+        ->only(['index', 'show']);
+
+    Route::apiResource('attendance-records', AttendanceRecordController::class)
+        ->parameters([
+            'attendance-records' => 'attendanceRecord',
+        ])
+        ->only(['store', 'update', 'destroy'])
+        ->middleware('auth:sanctum');
 });
