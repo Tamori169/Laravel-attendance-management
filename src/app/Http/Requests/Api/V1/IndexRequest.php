@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexAttendanceRecordRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
      * リクエストの実行を許可するか判定する。
