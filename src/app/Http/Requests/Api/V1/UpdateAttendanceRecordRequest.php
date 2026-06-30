@@ -52,6 +52,7 @@ class UpdateAttendanceRecordRequest extends FormRequest
         return [
             'date.required' => '勤怠日は必須です。',
             'date.date_format' => '勤怠日は YYYY-MM-DD 形式で指定してください。',
+            'date.unique' => 'この日付の勤怠は既に登録されています。',
             'clock_in.required' => '出勤時刻は必須です。',
             'clock_in.date_format' => '出勤時刻は HH:MM:SS 形式で指定してください。',
             'clock_out.date_format' => '退勤時刻は HH:MM:SS 形式で指定してください。',
