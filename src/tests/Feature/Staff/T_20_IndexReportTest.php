@@ -21,7 +21,7 @@ class T_20_IndexReportTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    public function test_「翌月」を押下した時に表示月の前月の情報が表示される()
+    public function test_認証ユーザーの統計情報が正しく計算される()
     {
         $this->seed(RoleSeeder::class);
         $user = User::factory()->staff()->create([
@@ -34,5 +34,33 @@ class T_20_IndexReportTest extends TestCase
 
         $response = $this->actingAs($user)->get('/attendance/report');
         $response->assertStatus(200);
+
+        $response->assertViewHas('reports', function ($reports) {
+            return isset($reports['summary']) &&
+            isset($reports['monthly_trend']) &&
+            isset($reports['anomalies']);
+        });
+    }
+
+    public function test_勤怠記録がないユーザーで安全に処理される()
+    {
+        $this->seed(RoleSeeder::class);
+        $user = User::factory()->staff()->create();
+
+        $response = $this->actingAs($user)->get('/attendance/report');
+        $response->assertStatus(200);
+
+        $response->assertViewHas('reports', function ($reports) {
+            return isset($reports['summary']) &&
+            isset($reports['monthly_trend']) &&
+            isset($reports['anomalies']);
+        });
+
+        $response->assertSeeInOrder(['総労働時間', '0h', '0m']);
+        $response->assertSeeInOrder(['総残業時間', '0h', '0m']);
+        $response->assertSeeInOrder(['平均労働時間/日', '0h', '0m']);
+        $response->assertSeeInOrder(['遅刻回数', '0回']);
+        $response->assertSeeInOrder(['早退回数', '0回']);
+        $response->assertSeeInOrder(['長時間労働日数', '0日']);
     }
 }

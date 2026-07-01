@@ -135,6 +135,10 @@ class AttendanceReportService
             ->whereNotNull('clock_out')
             ->count();
 
+        if ($totalWorkingDays === 0) {
+            return 0;
+        }
+
         $averageWorkingMinutes = $totalWorkingMinutes/ $totalWorkingDays;
 
         return round($averageWorkingMinutes);

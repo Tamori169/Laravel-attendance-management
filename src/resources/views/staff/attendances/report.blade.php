@@ -59,7 +59,7 @@
             @foreach ($reports['monthly_trend'] as $report)
             <tr class="attendance-trend__table-row">
                 <td class="attendance-trend__table-description">
-                    <time datetime="{{ $months['five_months_ago'] }}">
+                    <time datetime="{{ $report['month'] }}">
                         {{ $report['month'] }}
                     </time>
                 </td>
