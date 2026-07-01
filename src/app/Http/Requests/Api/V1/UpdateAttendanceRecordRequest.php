@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api\V1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class UpdateAttendanceRecordRequest extends FormRequest
 {
     /**
      * リクエストの実行を許可するか判定する。

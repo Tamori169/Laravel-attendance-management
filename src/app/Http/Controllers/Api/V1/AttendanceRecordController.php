@@ -3,28 +3,28 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\IndexRequest;
-use App\Http\Requests\Api\V1\StoreRequest;
-use App\Http\Requests\Api\V1\UpdateRequest;
+use App\Http\Requests\Api\V1\IndexAttendanceRecordRequest;
+use App\Http\Requests\Api\V1\StoreAttendanceRecordRequest;
+use App\Http\Requests\Api\V1\UpdateAttendanceRecordRequest;
 use App\Http\Resources\AttendanceRecordResource;
 use App\Models\AttendanceRecord;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AttendanceRecordController extends Controller
 {
     /**
-     * 一覧データを取得してResourceに渡す処理を行う。
+     * 一覧データを取得してResourceに渡す。
      *
      * ユーザーID、日付、月、１ページあたり表示件数の検索条件に指定がある場合は
      * 絞り込み後のデータを返す。
      *
-     * @param IndexRequest $request 検索条件(バリデーション済み)を含むリクエストオブジェクト
+     * @param IndexAttendanceRecordRequest $request 検索条件(バリデーション済み)を含むリクエストオブジェクト
      * @return AnonymousResourceCollection 取得した勤怠データのコレクション
      */
-    public function index(IndexRequest $request): AnonymousResourceCollection
+    public function index(IndexAttendanceRecordRequest $request): AnonymousResourceCollection
     {
         $userId = $request->user_id;
         $date = $request->date;
@@ -62,14 +62,14 @@ class AttendanceRecordController extends Controller
     /**
      * 勤怠レコードを新規作成する。
      *
-     * @param  StoreRequest  $request 登録する勤怠情報(バリデーション済み)を含むリクエストオブジェクト
-     * @return JsonResponse 201ステータスコードを含むJSONレスポンス
+     * @param  StoreAttendanceRecordRequest  $request 登録する勤怠情報(バリデーション済み)を含むリクエストオブジェクト
+     * @return JsonResponse 整形済みの勤怠データ及び紐づくユーザーデータ、休憩データ、201ステータスコードを含むJSONレスポンス
      */
-    public function store(StoreRequest $request): JsonResponse
+    public function store(StoreAttendanceRecordRequest $request): JsonResponse
     {
         $validated =[
             'date' => $request->date,
-            'clock_in' => $request->date->format('Y-m-d'). ''. $request->clock_in,
+            'clock_in' => $request->date->format('Y-m-d'). ' ' . $request->clock_in,
             'clock_out' => $request->clock_out ? $request->date->format('Y-m-d') . ' ' . $request->clock_out : null,
             'comment' => $request->comment,
         ];
@@ -84,7 +84,7 @@ class AttendanceRecordController extends Controller
     }
 
     /**
-     * 特定の勤怠情報を取得してResourceに渡す処置を行う。
+     * 特定の勤怠レコードを取得してResourceに渡す。
      *
      * @param  AttendanceRecord  $attendanceRecord ルートバインディングされた勤怠レコード
      * @return AttendanceRecordResource 整形済みの勤怠データ及び紐づく休憩データ、修正申請データ
@@ -102,25 +102,44 @@ class AttendanceRecordController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 特定の勤怠レコードを更新する。
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  UpdateAttendanceRecordRequest  $request 更新する勤怠情報(バリデーション済み)を含むリクエストオブジェクト
+     * @param  AttendanceRecord  $attendanceRecord ルートバインディングされた勤怠レコード
+     * @return JsonResponse 整形済みの勤怠データ及び紐づくユーザーデータ、休憩データ、200ステータスコードを含むJSONレスポンス
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAttendanceRecordRequest $request, AttendanceRecord $attendanceRecord): JsonResponse
     {
-        //
+        $this->authorize('update', $attendanceRecord);
+
+        $validated = [
+            'date' => $request->date,
+            'clock_in' => $request->date->format('Y-m-d') . ' ' . $request->clock_in,
+            'clock_out' => $request->clock_out ? $request->date->format('Y-m-d') . ' ' . $request->clock_out : null,
+            'comment' => $request->comment,
+        ];
+
+        $attendanceRecord->update($validated);
+
+        $attendanceRecord->load(['user', 'breakRecords']);
+
+        return (new AttendanceRecordResource($attendanceRecord))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 特定の勤怠レコードを削除する。
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  AttendanceRecord  $attendanceRecord ルートバインディングされた勤怠レコード
+     * @return Response 204ステータスコードを含むレスポンス
      */
-    public function destroy($id)
+    public function destroy(AttendanceRecord $attendanceRecord): Response
     {
-        //
+        $this->authorize('delete', $attendanceRecord);
+
+        $attendanceRecord->delete();
+
+        return response()->noContent();
     }
 }
