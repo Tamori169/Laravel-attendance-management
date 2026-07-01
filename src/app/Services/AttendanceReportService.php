@@ -447,24 +447,11 @@ class AttendanceReportService
             ->get();
 
         return $attendanceRecords->filter(function ($attendanceRecord): bool {
-            $breakMinutes = $attendanceRecord->breakRecords->sum(
-                function ($breakRecord): int{
-                    if (
-                        !$breakRecord->break_in ||
-                        !$breakRecord->break_out
-                    ) {
-                        return 0;
-                    }
+            $breakMinutes = $attendanceRecord->breakRecords
+                ->filter(fn($breakRecord) => $breakRecord->break_in && $breakRecord->break_out)
+                ->sum(fn($breakRecord) => $breakRecord->break_in->diffInMinutes($breakRecord->break_out));
 
-                    return $breakRecord->break_in->diffInMinutes(
-                        $breakRecord->break_out
-                    );
-                }
-            );
-
-            $attendanceMinutes = $attendanceRecord->clock_in->diffInMinutes(
-                $attendanceRecord->clock_out
-            );
+            $attendanceMinutes = $attendanceRecord->clock_in->diffInMinutes($attendanceRecord->clock_out);
 
             $workingMinutes = $attendanceMinutes - $breakMinutes;
 
@@ -483,32 +470,19 @@ class AttendanceReportService
      */
     private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate): int
     {
-        $attendanceRecords = AttendanceRecord::with('breakRecords')
+        $totalWorkingMinutes = AttendanceRecord::with('breakRecords')
             ->where('user_id', $userId)
             ->whereBetween('date', [$startDate, $endDate])
-            ->get();
+            ->get()
+            ->filter(fn($attendanceRecord) => $attendanceRecord->clock_in && $attendanceRecord->clock_out)
+            ->map(function ($attendanceRecord): int {
+                $breakMinutes = $attendanceRecord->breakRecords
+                    ->filter(fn($breakRecord) => $breakRecord->break_in && $breakRecord->break_out)
+                    ->sum(fn($breakRecord) => $breakRecord->break_in->diffInMinutes($breakRecord->break_out));
 
-        $totalWorkingMinutes = $attendanceRecords->sum(
-            function ($attendanceRecord): int{
-                if (!$attendanceRecord->clock_in ||!$attendanceRecord->clock_out) {
-                    return 0;
-                }
-
-                $breakMinutes = $attendanceRecord->breakRecords->sum(
-                    function ($breakRecord): int{
-                        if (!$breakRecord->break_in ||!$breakRecord->break_out) {
-                            return 0;
-                        }
-
-                        return $breakRecord->break_in->diffInMinutes($breakRecord->break_out);
-                    }
-                );
-
-                $attendanceMinutes =$attendanceRecord->clock_in->diffInMinutes($attendanceRecord->clock_out);
-
-                return $attendanceMinutes - $breakMinutes;
-            }
-        );
+                return $attendanceRecord->clock_in->diffInMinutes($attendanceRecord->clock_out) - $breakMinutes;
+            })
+            ->sum();
 
         return $totalWorkingMinutes;
     }
@@ -524,52 +498,35 @@ class AttendanceReportService
      */
     private function calculateTotalOvertimeMinutes(int $userId, Carbon $startDate, Carbon $endDate): int
     {
-        $attendanceRecords = AttendanceRecord::with('breakRecords')
+        $totalOvertimeMinutes = AttendanceRecord::with('breakRecords')
             ->where('user_id', $userId)
             ->whereBetween('date', [$startDate, $endDate])
             ->whereTime('clock_out', '>', '18:00:00')
-            ->get();
-
-        $totalOvertimeMinutes = $attendanceRecords->sum(
-            function ($attendanceRecord): int{
-                $overtimeStart = $attendanceRecord->clock_out
-                    ->copy()
-                    ->setTime(18, 0);
+            ->get()
+            ->filter(fn($attendanceRecord) => $attendanceRecord->clock_in && $attendanceRecord->clock_out)
+            ->map(function ($attendanceRecord): int {
+                $overtimeStart = $attendanceRecord->clock_out->copy()->setTime(18, 0);
 
                 if ($attendanceRecord->clock_in->gt($overtimeStart)) {
                     $overtimeStart = $attendanceRecord->clock_in;
                 }
 
-                $breakMinutes = $attendanceRecord->breakRecords->sum(
-                    function ($breakRecord) use ($overtimeStart, $attendanceRecord): int{
-                        if (
-                            !$breakRecord->break_in ||
-                            !$breakRecord->break_out
-                        ) {
-                            return 0;
-                        }
-
+                $breakMinutes = $attendanceRecord->breakRecords
+                    ->filter(fn($breakRecord) => $breakRecord->break_in && $breakRecord->break_out)
+                    ->map(function ($breakRecord) use ($overtimeStart): int {
                         $breakStart = $breakRecord->break_in->gt($overtimeStart)
                             ? $breakRecord->break_in
                             : $overtimeStart;
 
-                        $breakEnd = $breakRecord->break_out;
+                        return $breakRecord->break_out->lte($breakStart)
+                            ? 0
+                            : $breakStart->diffInMinutes($breakRecord->break_out);
+                    })
+                    ->sum();
 
-                        if ($breakEnd->lte($breakStart)) {
-                            return 0;
-                        }
-
-                        return $breakStart->diffInMinutes($breakEnd);
-                    }
-                );
-
-                $overtimeEnd = $attendanceRecord->clock_out;
-
-                $overtimeMinutes = $overtimeStart->diffInMinutes($overtimeEnd);
-
-                return $overtimeMinutes - $breakMinutes;
-            }
-        );
+                return $overtimeStart->diffInMinutes($attendanceRecord->clock_out) - $breakMinutes;
+            })
+            ->sum();
 
         return $totalOvertimeMinutes;
     }
