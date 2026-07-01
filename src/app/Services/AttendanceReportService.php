@@ -15,25 +15,58 @@ class AttendanceReportService
      */
     public function make(int $userId): array
     {
+        $five_months_ago = now()->subMonths(5)->startOfMonth()->format('Y-m');
+        $four_months_ago = now()->subMonths(4)->startOfMonth()->format('Y-m');
+        $three_months_ago = now()->subMonths(3)->startOfMonth()->format('Y-m');
+        $two_months_ago = now()->subMonths(2)->startOfMonth()->format('Y-m');
+        $last_month = now()->subMonths(1)->startOfMonth()->format('Y-m');
+        $current_month = now()->startOfMonth()->format('Y-m');
+
         return[
-            'six_months_working_minutes' => $this->calculateSixMonthsWorkingMinutes($userId),
-            'six_months_overtime_minutes' => $this->calculateSixMonthsOvertimeMinutes($userId),
-            'six_months_average_working_minutes' => $this->calculateSixMonthsAverageWorkingMinutes($userId),
-            'five_month_ago_working_minutes' => $this->calculateFiveMonthsAgoWorkingMinutes($userId),
-            'five_month_ago_overtime_minutes' => $this->calculateFiveMonthsAgoOvertimeMinutes($userId),
-            'four_month_ago_working_minutes' => $this->calculateFourMonthsAgoWorkingMinutes($userId),
-            'four_month_ago_overtime_minutes' => $this->calculateFourMonthsAgoOvertimeMinutes($userId),
-            'three_month_ago_working_minutes' => $this->calculateThreeMonthsAgoWorkingMinutes($userId),
-            'three_month_ago_overtime_minutes' => $this->calculateThreeMonthsAgoOvertimeMinutes($userId),
-            'two_month_ago_working_minutes' => $this->calculateTwoMonthsAgoWorkingMinutes($userId),
-            'two_month_ago_overtime_minutes' => $this->calculateTwoMonthsAgoOvertimeMinutes($userId),
-            'last_month_working_minutes' => $this->calculateLastMonthWorkingMinutes($userId),
-            'last_month_overtime_minutes' => $this->calculateLastMonthOvertimeMinutes($userId),
-            'current_month_working_minutes' => $this->calculateCurrentMonthWorkingMinutes($userId),
-            'current_month_overtime_minutes' => $this->calculateCurrentMonthOvertimeMinutes($userId),
-            'late_count' => $this->calculateLateCount($userId),
-            'early_leave_count' => $this->calculateEarlyLeaveCount($userId),
-            'long_working_day_count' => $this->calculateLongWorkingDayCount($userId),
+            'summary' => [
+                'six_months_working_minutes' => $this->calculateSixMonthsWorkingMinutes($userId),
+                'six_months_overtime_minutes' => $this->calculateSixMonthsOvertimeMinutes($userId),
+                'six_months_average_working_minutes' => $this->calculateSixMonthsAverageWorkingMinutes($userId),
+            ],
+
+            'monthly_trend' => [
+                [
+                    'month' => $five_months_ago,
+                    'working_minutes' => $this->calculateFiveMonthsAgoWorkingMinutes($userId),
+                    'overtime_minutes' => $this->calculateFiveMonthsAgoOvertimeMinutes($userId),
+                ],
+                [
+                    'month' => $four_months_ago,
+                    'working_minutes' => $this->calculateFourMonthsAgoWorkingMinutes($userId),
+                    'overtime_minutes' => $this->calculateFourMonthsAgoOvertimeMinutes($userId),
+                ],
+                [
+                    'month' => $three_months_ago,
+                    'working_minutes' => $this->calculateThreeMonthsAgoWorkingMinutes($userId),
+                    'overtime_minutes' => $this->calculateThreeMonthsAgoOvertimeMinutes($userId),
+                ],
+                [
+                    'month' => $two_months_ago,
+                    'working_minutes' => $this->calculateTwoMonthsAgoWorkingMinutes($userId),
+                    'overtime_minutes' => $this->calculateTwoMonthsAgoOvertimeMinutes($userId),
+                ],
+                [
+                    'month' => $last_month,
+                    'working_minutes' => $this->calculateLastMonthWorkingMinutes($userId),
+                    'overtime_minutes' => $this->calculateLastMonthOvertimeMinutes($userId),
+                ],
+                [
+                    'month' => $current_month,
+                    'working_minutes' => $this->calculateCurrentMonthWorkingMinutes($userId),
+                    'overtime_minutes' => $this->calculateCurrentMonthOvertimeMinutes($userId),
+                ],
+            ],
+
+            'anomalies' => [
+                'late_count' => $this->calculateLateCount($userId),
+                'early_leave_count' => $this->calculateEarlyLeaveCount($userId),
+                'long_working_day_count' => $this->calculateLongWorkingDayCount($userId),
+            ],
         ];
     }
 
