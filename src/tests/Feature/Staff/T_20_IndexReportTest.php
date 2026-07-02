@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Staff;
 
-use App\Models\AttendanceRecord;
-use App\Models\BreakRecord;
 use App\Models\User;
 use Database\Seeders\AttendanceRecordSeeder;
 use Database\Seeders\RoleSeeder;

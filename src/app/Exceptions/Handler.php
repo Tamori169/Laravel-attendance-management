@@ -2,9 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Models\AttendanceRecord;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -40,16 +42,33 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function (ModelNotFoundException $e, $request) {
-            if ($request->is('api/*')) {
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            $previous = $e->getPrevious();
+
+            if (
+                ($request->wantsJson() || $request->is('api/*')) &&
+                $previous instanceof ModelNotFoundException &&
+                $previous->getModel() === AttendanceRecord::class
+            ) {
                 return response()->json([
-                    'error' => '勤怠情報が見つかりませんでした。'
+                    'error' => '勤怠情報が見つかりませんでした。',
+                ], 404);
+            }
+        });
+
+        $this->renderable(function (ModelNotFoundException $e, $request) {
+            if (
+                ($request->wantsJson() || $request->is('api/*')) &&
+                $e->getModel() === AttendanceRecord::class
+            ) {
+                return response()->json([
+                    'error' => '勤怠情報が見つかりませんでした。',
                 ], 404);
             }
         });
 
         $this->renderable(function (AuthorizationException $e, $request) {
-            if ($request->is('api/*')) {
+            if ($request->wantsJson() || $request->is('api/*')) {
                 return response()->json([
                     'error' => $e->getMessage() ?: 'この操作を実行する権限がありません。'
                 ], 403);

@@ -69,8 +69,8 @@ class AttendanceRecordController extends Controller
     {
         $validated =[
             'date' => $request->date,
-            'clock_in' => $request->date->format('Y-m-d'). ' ' . $request->clock_in,
-            'clock_out' => $request->clock_out ? $request->date->format('Y-m-d') . ' ' . $request->clock_out : null,
+            'clock_in' => $request->date. ' ' . $request->clock_in,
+            'clock_out' => $request->clock_out ? $request->date . ' ' . $request->clock_out : null,
             'comment' => $request->comment,
         ];
 
@@ -114,8 +114,8 @@ class AttendanceRecordController extends Controller
 
         $validated = [
             'date' => $request->date,
-            'clock_in' => $request->date->format('Y-m-d') . ' ' . $request->clock_in,
-            'clock_out' => $request->clock_out ? $request->date->format('Y-m-d') . ' ' . $request->clock_out : null,
+            'clock_in' => $request->date . ' ' . $request->clock_in,
+            'clock_out' => $request->clock_out ? $request->date . ' ' . $request->clock_out : null,
             'comment' => $request->comment,
         ];
 

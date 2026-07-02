@@ -15,14 +15,10 @@ class AttendanceRecordResource extends JsonResource
      * @param Request $request HTTPリクエストオブジェクト
      * @return array<string, mixed> 整形済みの配列データ、または配列に変換可能なオブジェクト
      */
-    public function toArray(Request $request): array|JsonResource|JsonSerializable
+    public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'user_name' => $this->whenLoaded('user', function () {
-                return $this->user->name;
-            }),
             'user' => $this->whenLoaded('user', function () {
                 return [
                     'id' => $this->user->id,
@@ -49,7 +45,6 @@ class AttendanceRecordResource extends JsonResource
                     return [
                         'id' => $attendanceCorrectRequest->id,
                         'attendance_record_id' => $attendanceCorrectRequest->attendance_record_id,
-                        'request_status_id' => $attendanceCorrectRequest->request_status_id,
                         'request_status' => $attendanceCorrectRequest->relationLoaded('requestStatus')
                             ? [
                                 'id' => $attendanceCorrectRequest->requestStatus->id,
