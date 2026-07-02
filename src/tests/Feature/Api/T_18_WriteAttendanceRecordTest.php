@@ -7,7 +7,6 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class T_18_WriteAttendanceRecordTest extends TestCase
@@ -165,9 +164,9 @@ class T_18_WriteAttendanceRecordTest extends TestCase
             'comment' => 'Test comment',
         ];
 
-        $postResponse = $this->putJson("/api/v1/attendance-records/{$attendanceRecord->id}", $data);
+        $putResponse = $this->putJson("/api/v1/attendance-records/{$attendanceRecord->id}", $data);
 
-        $postResponse->assertStatus(200);
+        $putResponse->assertStatus(200);
 
         $this->assertDatabaseHas('attendance_records', [
             'user_id' => $user->id,
@@ -200,15 +199,15 @@ class T_18_WriteAttendanceRecordTest extends TestCase
             'comment' => 'Test comment',
         ];
 
-        $postResponse = $this->putJson("/api/v1/attendance-records/2", $data);
+        $putResponse = $this->putJson("/api/v1/attendance-records/2", $data);
 
-        $postResponse->assertStatus(404);
-        $postResponse->assertJson([
+        $putResponse->assertStatus(404);
+        $putResponse->assertJson([
             'error' => '勤怠情報が見つかりませんでした。',
         ]);
     }
 
-    public function test_DELETEで勤怠が削除される()
+    public function test_DELETEで勤怠が削除される_既存勤怠に対してDELETEを送信()
     {
         $this->seed(RoleSeeder::class);
         $user = User::factory()->staff()->create();
@@ -222,9 +221,9 @@ class T_18_WriteAttendanceRecordTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $postResponse = $this->deleteJson("/api/v1/attendance-records/{$attendanceRecord->id}");
+        $deleteResponse = $this->deleteJson("/api/v1/attendance-records/{$attendanceRecord->id}");
 
-        $postResponse->assertStatus(204);
+        $deleteResponse->assertStatus(204);
 
         $this->assertDatabaseMissing('attendance_records', [
             'user_id' => $user->id,
@@ -249,10 +248,10 @@ class T_18_WriteAttendanceRecordTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $postResponse = $this->deleteJson("/api/v1/attendance-records/2");
+        $deleteResponse = $this->deleteJson("/api/v1/attendance-records/2");
 
-        $postResponse->assertStatus(404);
-        $postResponse->assertJson([
+        $deleteResponse->assertStatus(404);
+        $deleteResponse->assertJson([
             'error' => '勤怠情報が見つかりませんでした。',
         ]);
     }

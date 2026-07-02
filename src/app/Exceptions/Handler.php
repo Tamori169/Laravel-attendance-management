@@ -6,6 +6,7 @@ use App\Models\AttendanceRecord;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -71,6 +72,14 @@ class Handler extends ExceptionHandler
             if ($request->wantsJson() || $request->is('api/*')) {
                 return response()->json([
                     'error' => $e->getMessage() ?: 'この操作を実行する権限がありません。'
+                ], 403);
+            }
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e, $request) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'error' => 'この操作を実行する権限がありません。',
                 ], 403);
             }
         });

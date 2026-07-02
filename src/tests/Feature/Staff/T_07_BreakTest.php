@@ -77,9 +77,9 @@ class T_07_BreakTest extends TestCase
 
         Carbon::setTestNow(now()->addMinutes(30));
 
-        $postResponse = $this->actingAs($user)->patch('/attendance/break_out');
+        $patchResponse = $this->actingAs($user)->patch('/attendance/break_out');
 
-        $postResponse->assertRedirect('/attendance');
+        $patchResponse->assertRedirect('/attendance');
 
         $response->assertSeeInOrder(['attendance-buttons__break_in']);
         $response->assertSee('休憩入');

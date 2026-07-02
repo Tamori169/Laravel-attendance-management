@@ -207,8 +207,8 @@ class T_15_ApproveRequestTest extends TestCase
             ['attendance_correct_request_id' => $attendanceCorrectRequest->id]
         );
 
-        $response = $this->actingAs($admin)->patch($url);
-        $response->assertStatus(302);
+        $patchResponse = $this->actingAs($admin)->patch($url);
+        $patchResponse->assertStatus(302);
 
         $response = $this->actingAs($admin)->get($url);
 

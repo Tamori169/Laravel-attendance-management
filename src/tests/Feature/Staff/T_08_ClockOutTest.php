@@ -35,9 +35,9 @@ class T_08_ClockOutTest extends TestCase
 
         Carbon::setTestNow(now()->addMinutes(30));
 
-        $postResponse = $this->actingAs($user)->patch('/attendance/clock_out');
+        $patchResponse = $this->actingAs($user)->patch('/attendance/clock_out');
 
-        $postResponse->assertRedirect('/attendance');
+        $patchResponse->assertRedirect('/attendance');
 
         $response = $this->actingAs($user)->get('/attendance');
         $response->assertStatus(200);
