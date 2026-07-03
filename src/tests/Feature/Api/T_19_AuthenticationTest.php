@@ -115,7 +115,7 @@ class T_19_AuthenticationTest extends TestCase
             'clock_out' => '18:00:00',
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, ['*']);
 
         $data = [
             'date' => '2026-06-24',
@@ -149,7 +149,7 @@ class T_19_AuthenticationTest extends TestCase
             'clock_out' => '18:00:00',
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, ['*']);
 
         $deleteResponse = $this->deleteJson("/api/v1/attendance-records/{$attendanceRecord->id}");
 
@@ -176,7 +176,7 @@ class T_19_AuthenticationTest extends TestCase
             'clock_out' => '18:00:00',
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, ['*']);
 
         $data = [
             'date' => '2026-06-24',
@@ -206,7 +206,7 @@ class T_19_AuthenticationTest extends TestCase
             'clock_out' => '18:00:00',
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, ['*']);
 
         $deleteResponse = $this->deleteJson("/api/v1/attendance-records/{$attendanceRecord->id}");
 

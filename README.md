@@ -45,6 +45,7 @@ docker-compose exec php bash
 ```
 composer install
 ```
+※ Laravel Sanctum は導入済みのため、追加で `composer require laravel/sanctum` を実行する必要はありません。
 
 ### 5. .envファイルを作成
 
@@ -87,7 +88,7 @@ chmod -R 777 storage
 `.env.example` をもとに `.env` を作成し、以下の項目を設定してください。
 
 - `APP_KEY`
-  - `php artisan key:generate` で生成（「環境構築」項目を参照）
+  - `php artisan key:generate` で生成
 - `DB_HOST=mysql`
 - `DB_DATABASE=laravel_db`
 - `DB_USERNAME=laravel_user`
@@ -100,24 +101,30 @@ chmod -R 777 storage
 
 ## URL一覧
 
-作成中（以下URL一覧は参考）
+### 1. 一般ユーザーがアクセス可能なページ一覧
 
-### 1. 認証不要でアクセス可能なページ一覧
+- 認証不要
+  - 会員登録画面（トップ画面）：`http://localhost/register`
+  - ログイン画面：`http://localhost/login`
+  - メール認証誘導画面：`http://localhost/email/verify`
+- 認証要
+  - 出勤登録画面：`http://localhost/attendance`
+  - 勤怠一覧画面：`http://localhost/attendance/list`
+  - 勤怠詳細画面：`http://localhost/attendance/detail/{id}`
+  - 申請一覧画面：`http://localhost/attendance/stamp_correction_request/list`
+  - マイ勤怠レポート画面：`http://localhost/attendance/report`
 
-- 商品一覧画面(トップ画面)：`http://localhost/`
-- 商品詳細画面：`http://localhost/item/{item_id}`
-- 会員登録画面：`http://localhost/register`
-- ログイン画面：`http://localhost/login`
+### 2. 管理者がアクセス可能なページ一覧
 
-### 2. 認証後にアクセス可能なページ一覧
-
-- メール認証誘導画面： `http://localhost/email/verify`
-- プロフィール設定画面： `http://localhost/setup-profile`
-- 商品購入画面： `http://localhost/purchase/{item_id}`
-- 送付先住所変更画面： `http://localhost/purchase/address/{item_id}`
-- プロフィール画面： `http://localhost/mypage`
-- プロフィール編集画面： `http://localhost/mypage/profile`
-- 商品出品画面： `http://localhost/sell`
+- 認証不要
+  - ログイン画面：`http://localhost/login`
+- 認証要
+  - 勤怠一覧画面（トップ画面）：`http://localhost/admin/attendance/list`
+  - 勤怠詳細画面：`http://localhost/admin/attendance/{id}`
+  - スタッフ一覧画面：`http://localhost/admin/staff/list`
+  - スタッフ別勤怠一覧画面：`http://localhost/admin/attendance/staff/{id}`
+  - 申請一覧画面：`http://localhost/stamp_correction_request/list`
+  - 修正申請承認画面：`http://localhost/stamp_correction_request/approve/{attendance_correct_request_id}`
 
 ### 3. DB管理画面
 
@@ -154,24 +161,34 @@ docker-compose exec mysql bash
 
 ```
 mysql -u root -p
-パスワードは `root` を入力してください。
 ```
+パスワードは `root` を入力してください。
 
 ### 3. テスト用DBを作成
 
 ```
 CREATE DATABASE laravel_attendance_management_test;
+```
+
+### 4. MySQLを終了
+
+```
 exit
 ```
 
-### 4. .env.testingを作成
+### 5. PHPコンテナに入る
 
 ```
 docker-compose exec php bash
+```
+
+### 6. .env.testingを作成
+
+```
 cp .env .env.testing
 ```
 
-### 5. 環境変数設定
+### 7. 環境変数設定
 
 ```.env.testing
 APP_ENV=testing
@@ -180,20 +197,20 @@ DB_USERNAME=root
 DB_PASSWORD=root
 ```
 
-### 6. 設定キャッシュをクリア
+### 8. 設定キャッシュをクリア
 
 ```
 php artisan config:clear
 php artisan cache:clear
 ```
 
-### 7. データベースマイグレーション
+### 9. データベースマイグレーション
 
 ```
 php artisan migrate --env=testing
 ```
 
-### 8. テスト実行
+### 10. テスト実行
 
 ```
 php artisan test
@@ -205,19 +222,119 @@ php artisan test
 
 シーディングにより、下記３名の動作確認用テストユーザーが作成されます。  
 各ユーザーの認証状況および権限は下記の通りです。  
-また、各ユーザーに応じた想定用途も記載しているので、それぞれ動作確認に活用してください。
+また、シーディングにより一般ユーザーは6ヶ月分の勤怠情報が作成されます。
 
-テストユーザー1：メール認証済み
 
-- ユーザ名：田中太郎
-- メールアドレス：tanaka@example.com
-- パスワード：tanakatanaka
-- 権限：一般ユーザ
-- 想定用途：ログイン後の各機能動作確認
+テストユーザー1
 
-テストユーザー2：メール認証未済
+- ユーザ名：ユーザー１
+- メールアドレス：user1@example.com
+- パスワード：password
+- メール認証：済
+- 権限：一般ユーザー
 
-- ユーザ名：佐藤次郎
-- メールアドレス：sato@example.com
-- パスワード：satosato
-- 権限：あああ
+テストユーザー2
+
+- ユーザ名：ユーザー２
+- メールアドレス：user2@example.com
+- パスワード：password
+- メール認証：済
+- 権限：一般ユーザー
+
+テストユーザー３
+
+- ユーザ名：ユーザー３
+- メールアドレス：user3@example.com
+- パスワード：password
+- メール認証：未済（権限上メール認証は不要）
+- 権限：管理者
+
+
+## API仕様
+
+本アプリケーションでは、勤怠情報を取得・登録・更新・削除するAPIを実装しています。  
+APIのバージョンは `v1` です。
+
+### エンドポイント一覧
+
+| メソッド | URL | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/api/v1/attendance-records` | 勤怠情報一覧を取得 | 不要 |
+| GET | `/api/v1/attendance-records/{attendanceRecord}` | 勤怠情報詳細を取得 | 不要 |
+| POST | `/api/v1/attendance-records` | 勤怠情報を登録 | 必要 |
+| PUT/PATCH | `/api/v1/attendance-records/{attendanceRecord}` | 勤怠情報を更新 | 必要 |
+| DELETE | `/api/v1/attendance-records/{attendanceRecord}` | 勤怠情報を削除 | 必要 |
+
+### 認証・認可
+
+書き込み系APIでは Laravel Sanctum によるBearerトークン認証を使用しています。  
+更新・削除では `AttendanceRecordPolicy` により、本人または管理者のみ操作可能です。  
+本アプリケーションではAPI用のログイン・トークン発行エンドポイントは用意していません。  
+機能テストでは `Sanctum::actingAs($user, ['*'])` を使用して認証済みユーザーとしてリクエストを実行しています。
+
+### リクエスト例
+
+#### 勤怠一覧取得
+
+```http
+GET /api/v1/attendance-records?user_id=1&month=2026-07&per_page=20
+```
+
+| パラメータ | 説明 | 例 |
+| --- | --- | --- |
+| `user_id` | ユーザーIDで絞り込み | `1` |
+| `date` | 日付で絞り込み | `2026-07-03` |
+| `month` | 月で絞り込み | `2026-07` |
+| `per_page` | 1ページあたりの取得件数 | `20` |
+
+#### 勤怠登録・更新
+
+```json
+{
+  "date": "2026-07-03",
+  "clock_in": "09:00",
+  "clock_out": "18:00",
+  "comment": "通常勤務"
+}
+```
+
+### レスポンス例
+
+```json
+{
+  "data": {
+    "id": 1,
+    "user": {
+      "id": 1,
+      "name": "ユーザー１"
+    },
+    "date": "2026-07-03",
+    "clock_in": "09:00:00",
+    "clock_out": "18:00:00",
+    "total_time": "08:00",
+    "total_break_time": "01:00",
+    "comment": "通常勤務",
+    "breaks": [
+      {
+        "id": 1,
+        "break_in": "12:00:00",
+        "break_out": "13:00:00"
+      }
+    ]
+  }
+}
+```
+
+### エラーレスポンス例
+
+```json
+{
+  "error": "勤怠情報が見つかりませんでした。"
+}
+```
+
+```json
+{
+  "error": "この操作を実行する権限がありません。"
+}
+```
