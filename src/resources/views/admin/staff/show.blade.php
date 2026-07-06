@@ -44,52 +44,60 @@
         </div>
     </div>
     <table class="attendance-list">
-        <tr class="attendance-list__row">
-            <th class="attendance-list__header">日付</th>
-            <th class="attendance-list__header">出勤</th>
-            <th class="attendance-list__header">退勤</th>
-            <th class="attendance-list__header">休憩</th>
-            <th class="attendance-list__header">合計</th>
-            <th class="attendance-list__header">詳細</th>
-        </tr>
-        @foreach($attendanceRecordList as $attendanceRecordItem)
-        <tr class="attendance-list__row">
-            @php
-            $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
-            @endphp
-            <td class="attendance-list__description">
-                <time class="attendance-list__description-date"
-                    datetime="{{ $attendanceRecordItem['date']->format('Y-m-d') }}">
-                    {{ $attendanceRecordItem['date']->format('m/d') }}
-                    ({{ $weekdays[$attendanceRecordItem['date']->dayOfWeek] }})
-                </time>
-            </td>
-            <td class="attendance-list__description">
-                <time class="attendance-list__description-clock-in"
-                    datetime="{{ $attendanceRecordItem['attendance_record']?->clock_in?->format('Y-m-d H:i') }}">
-                    {{ $attendanceRecordItem['attendance_record']?->clock_in?->format('H:i') }}
-                </time>
-            </td>
-            <td class="attendance-list__description">
-                <time class="attendance-list__description-clock-out"
-                    datetime="{{ $attendanceRecordItem['attendance_record']?->clock_out?->format('Y-m-d H:i') }}">
-                    {{ $attendanceRecordItem['attendance_record']?->clock_out?->format('H:i') }}
-                </time>
-            </td>
-            <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->formatted_break_time }}</td>
-            <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->formatted_work_time }}</td>
-            <td class="attendance-list__description">
-                @if ($attendanceRecordItem['attendance_record'])
-                <a class="attendance-list__link"
-                    href="{{ route('adminAttendance.show', ['id' => $attendanceRecordItem['attendance_record']->id]) }}">
-                    詳細
-                </a>
-                @else
-                <span class="attendance-list__alternate">詳細</span>
-                @endif
-            </td>
-        </tr>
-        @endforeach
+        <thead>
+            <tr class="attendance-list__row">
+                <th class="attendance-list__header" scope="col">日付</th>
+                <th class="attendance-list__header" scope="col">出勤</th>
+                <th class="attendance-list__header" scope="col">退勤</th>
+                <th class="attendance-list__header" scope="col">休憩</th>
+                <th class="attendance-list__header" scope="col">合計</th>
+                <th class="attendance-list__header" scope="col">詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($attendanceRecordList as $attendanceRecordItem)
+            <tr class="attendance-list__row">
+                @php
+                $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+                @endphp
+                <td class="attendance-list__description">
+                    <time class="attendance-list__description-date"
+                        datetime="{{ $attendanceRecordItem['date']->format('Y-m-d') }}">
+                        {{ $attendanceRecordItem['date']->format('m/d') }}
+                        ({{ $weekdays[$attendanceRecordItem['date']->dayOfWeek] }})
+                    </time>
+                </td>
+                <td class="attendance-list__description">
+                    @if ($attendanceRecordItem['attendance_record']?->clock_in)
+                        <time class="attendance-list__description-clock-in"
+                            datetime="{{ $attendanceRecordItem['attendance_record']?->clock_in?->format('Y-m-d H:i') }}">
+                            {{ $attendanceRecordItem['attendance_record']?->clock_in?->format('H:i') }}
+                        </time>
+                    @endif
+                </td>
+                <td class="attendance-list__description">
+                    @if ($attendanceRecordItem['attendance_record']?->clock_out)
+                        <time class="attendance-list__description-clock-out"
+                            datetime="{{ $attendanceRecordItem['attendance_record']?->clock_out?->format('Y-m-d H:i') }}">
+                            {{ $attendanceRecordItem['attendance_record']?->clock_out?->format('H:i') }}
+                        </time>
+                    @endif
+                </td>
+                <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->formatted_break_time }}</td>
+                <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->formatted_work_time }}</td>
+                <td class="attendance-list__description">
+                    @if ($attendanceRecordItem['attendance_record'])
+                    <a class="attendance-list__link"
+                        href="{{ route('adminAttendance.show', ['id' => $attendanceRecordItem['attendance_record']->id]) }}">
+                        詳細
+                    </a>
+                    @else
+                    <span class="attendance-list__alternate">詳細</span>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
     </table>
     <form class="export__button" action="{{ route('adminStaff.export',['id' => $user->id]) }}" method="get">
         @csrf

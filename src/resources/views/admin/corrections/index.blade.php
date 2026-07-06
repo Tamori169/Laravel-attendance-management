@@ -28,46 +28,50 @@
         </div>
     </div>
     <table class="correction-list">
-        <tr class="correction-list__row">
-            <th class="correction-list__header">状態</th>
-            <th class="correction-list__header">名前</th>
-            <th class="correction-list__header">対象日時</th>
-            <th class="correction-list__header">申請理由</th>
-            <th class="correction-list__header">申請日時</th>
-            <th class="correction-list__header">詳細</th>
-        </tr>
-        @foreach($attendanceCorrectRequests as $attendanceCorrectRequest)
-        <tr class="correction-list__row">
-            <td class="correction-list__description">
-                {{ $attendanceCorrectRequest->requestStatus->label }}
-            </td>
-            <td class="correction-list__description">
-                {{ $attendanceCorrectRequest->attendanceRecord->user->name }}
-            </td>
-            <td class="correction-list__description">
-                <time class="correction-list__description-date"
-                    datetime="{{ $attendanceCorrectRequest->attendanceRecord->date->format('Y-m-d') }}">
-                    {{ $attendanceCorrectRequest->attendanceRecord->date->format('Y/m/d') }}
-                </time>
-            </td>
-            <td class="correction-list__description">
-                {{ $attendanceCorrectRequest->comment }}
-            </td>
-            <td class="correction-list__description">
-                <time class="correction-list__description-date"
-                    datetime="{{ $attendanceCorrectRequest->created_at->format('Y-m-d') }}">
-                    {{ $attendanceCorrectRequest->created_at->format('Y/m/d') }}
-                </time>
-            </td>
-            <td class="correction-list__description">
-                <a class="correction-list__link"
-                    href="{{ route('adminCorrection.edit',
-                    ['attendance_correct_request_id' => $attendanceCorrectRequest->id]) }}">
-                    詳細
-                </a>
-            </td>
-        </tr>
-        @endforeach
+        <thead>
+            <tr class="correction-list__row">
+                <th class="correction-list__header" scope="col">状態</th>
+                <th class="correction-list__header" scope="col">名前</th>
+                <th class="correction-list__header" scope="col">対象日時</th>
+                <th class="correction-list__header" scope="col">申請理由</th>
+                <th class="correction-list__header" scope="col">申請日時</th>
+                <th class="correction-list__header" scope="col">詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($attendanceCorrectRequests as $attendanceCorrectRequest)
+            <tr class="correction-list__row">
+                <td class="correction-list__description">
+                    {{ $attendanceCorrectRequest->requestStatus->label }}
+                </td>
+                <td class="correction-list__description">
+                    {{ $attendanceCorrectRequest->attendanceRecord->user->name }}
+                </td>
+                <td class="correction-list__description">
+                    <time class="correction-list__description-date"
+                        datetime="{{ $attendanceCorrectRequest->attendanceRecord->date->format('Y-m-d') }}">
+                        {{ $attendanceCorrectRequest->attendanceRecord->date->format('Y/m/d') }}
+                    </time>
+                </td>
+                <td class="correction-list__description">
+                    {{ $attendanceCorrectRequest->comment }}
+                </td>
+                <td class="correction-list__description">
+                    <time class="correction-list__description-date"
+                        datetime="{{ $attendanceCorrectRequest->created_at->format('Y-m-d') }}">
+                        {{ $attendanceCorrectRequest->created_at->format('Y/m/d') }}
+                    </time>
+                </td>
+                <td class="correction-list__description">
+                    <a class="correction-list__link"
+                        href="{{ route('adminCorrection.edit',
+                        ['attendance_correct_request_id' => $attendanceCorrectRequest->id]) }}">
+                        詳細
+                    </a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
     </table>
 </div>
 

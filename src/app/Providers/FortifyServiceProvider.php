@@ -4,17 +4,14 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\RedirectIfWrongLoginType;
-use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Fortify;
 
@@ -35,8 +32,9 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(
             \Laravel\Fortify\Http\Responses\RegisterResponse::class,
             new class implements \Laravel\Fortify\Contracts\RegisterResponse {
-                public function toResponse($request) {
-                    return redirect('/email/verify'); 
+                public function toResponse($request)
+                {
+                    return redirect('/email/verify');
                 }
             }
         );

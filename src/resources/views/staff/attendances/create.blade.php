@@ -52,8 +52,8 @@
             <button class="attendance-buttons__break_out" formaction="{{ route('staffAttendance.breakOut') }}" type="submit">休憩戻</button>
         </form>
         @elseif(auth()->user()->attendance_status === '退勤済')
-        <div class="massage">
-            <p class="massage__text">お疲れ様でした。</p>
+        <div class="message">
+            <p class="message__text">お疲れ様でした。</p>
         </div>
         @endif
     </div>

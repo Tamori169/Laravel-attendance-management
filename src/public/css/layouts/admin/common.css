@@ -108,7 +108,7 @@ body {
         display: flex;
     }
 
-    .header_nav-items {
+    .header__nav-items {
         margin-bottom: 10px;
     }
 }
