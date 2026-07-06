@@ -45,13 +45,19 @@
                 {{ $attendanceCorrectRequest->attendanceRecord->user->name }}
             </td>
             <td class="correction-list__description">
-                {{ $attendanceCorrectRequest->attendanceRecord->date->format('Y/m/d') }}
+                <time class="correction-list__description-date"
+                    datetime="{{ $attendanceCorrectRequest->attendanceRecord->date->format('Y-m-d') }}">
+                    {{ $attendanceCorrectRequest->attendanceRecord->date->format('Y/m/d') }}
+                </time>
             </td>
             <td class="correction-list__description">
                 {{ $attendanceCorrectRequest->comment }}
             </td>
             <td class="correction-list__description">
-                {{ $attendanceCorrectRequest->created_at->format('Y/m/d') }}
+                <time class="correction-list__description-date"
+                    datetime="{{ $attendanceCorrectRequest->created_at->format('Y-m-d') }}">
+                    {{ $attendanceCorrectRequest->created_at->format('Y/m/d') }}
+                </time>
             </td>
             <td class="correction-list__description">
                 <a class="correction-list__link"

@@ -31,9 +31,9 @@
                 <rect x="7" y="17" width="2" height="2" fill="currentColor" />
                 <rect x="11" y="17" width="2" height="2" fill="currentColor" />
             </svg>
-            <span class="date-navigation__text">
+            <time class="date-navigation__text" datetime="{{ $today->format('Y-m-d') }}">
                 {{ $today->format('Y/m/d') }}
-            </span>
+            </time>
         </div>
         <div class="date-navigation__next-day">
             <a class="date-navigation__link"
@@ -55,8 +55,18 @@
         @foreach($attendanceRecords as $attendanceRecord)
         <tr class="attendance-list__row">
             <td class="attendance-list__description">{{ $attendanceRecord->user->name }}</td>
-            <td class="attendance-list__description">{{ $attendanceRecord->clock_in->format('H:i') }}</td>
-            <td class="attendance-list__description">{{ $attendanceRecord->clock_out?->format('H:i') }}</td>
+            <td class="attendance-list__description">
+                <time class="attendance-list__description-clock-in"
+                    datetime="{{ $attendanceRecord->clock_in->format('Y-m-d H:i') }}">
+                    {{ $attendanceRecord->clock_in->format('H:i') }}
+                </time>
+            </td>
+            <td class="attendance-list__description">
+                <time class="attendance-list__description-clock-out"
+                    datetime="{{ $attendanceRecord->clock_out?->format('Y-m-d H:i') }}">
+                    {{ $attendanceRecord->clock_out?->format('H:i') }}
+                </time>
+            </td>
             <td class="attendance-list__description">{{ $attendanceRecord->formatted_break_time }}</td>
             <td class="attendance-list__description">{{ $attendanceRecord->formatted_work_time }}</td>
             <td class="attendance-list__description">

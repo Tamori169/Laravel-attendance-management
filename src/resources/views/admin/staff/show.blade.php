@@ -31,9 +31,9 @@
                 <rect x="7" y="17" width="2" height="2" fill="currentColor" />
                 <rect x="11" y="17" width="2" height="2" fill="currentColor" />
             </svg>
-            <span class="month-navigation__text">
+            <time class="month-navigation__text" datetime="{{ $currentMonth->format('Y-m') }}">
                 {{ $currentMonth->format('Y/n') }}
-            </span>
+            </time>
         </div>
         <div class="month-navigation__next-month">
             <a class="month-navigation__link"
@@ -57,10 +57,25 @@
             @php
             $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
             @endphp
-            <td class="attendance-list__description">{{ $attendanceRecordItem['date']->format('m/d') }}
-                ({{ $weekdays[$attendanceRecordItem['date']->dayOfWeek] }})</td>
-            <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->clock_in?->format('H:i') }}</td>
-            <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->clock_out?->format('H:i') }}</td>
+            <td class="attendance-list__description">
+                <time class="attendance-list__description-date"
+                    datetime="{{ $attendanceRecordItem['date']->format('Y-m-d') }}">
+                    {{ $attendanceRecordItem['date']->format('m/d') }}
+                    ({{ $weekdays[$attendanceRecordItem['date']->dayOfWeek] }})
+                </time>
+            </td>
+            <td class="attendance-list__description">
+                <time class="attendance-list__description-clock-in"
+                    datetime="{{ $attendanceRecordItem['attendance_record']?->clock_in?->format('Y-m-d H:i') }}">
+                    {{ $attendanceRecordItem['attendance_record']?->clock_in?->format('H:i') }}
+                </time>
+            </td>
+            <td class="attendance-list__description">
+                <time class="attendance-list__description-clock-out"
+                    datetime="{{ $attendanceRecordItem['attendance_record']?->clock_out?->format('Y-m-d H:i') }}">
+                    {{ $attendanceRecordItem['attendance_record']?->clock_out?->format('H:i') }}
+                </time>
+            </td>
             <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->formatted_break_time }}</td>
             <td class="attendance-list__description">{{ $attendanceRecordItem['attendance_record']?->formatted_work_time }}</td>
             <td class="attendance-list__description">

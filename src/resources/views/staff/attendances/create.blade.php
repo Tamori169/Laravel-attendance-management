@@ -20,12 +20,12 @@
             $now = now('Asia/Tokyo');
             $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
             @endphp
-            <span class="current-time__date" id="current-date">
+            <time class="current-time__date" id="current-date" datetime="{{ $now->format('Y-m-d') }}">
                 {{ $now->format('Y年n月j日') }}({{ $weekdays[$now->dayOfWeek] }})
-            </span>
-            <span class="current-time__time" id="current-time">
+            </time>
+            <time class="current-time__time" id="current-time" datetime="{{ now('Asia/Tokyo')->format('H:i') }}">
                 {{ now('Asia/Tokyo')->format('H:i') }}
-            </span>
+            </time>
         </div>
         <!-- ボタン -->
         @if(auth()->user()->attendance_status === '勤務外')
@@ -63,13 +63,21 @@
     function updateCurrentDateTime() {
         const now = new Date();
 
-        const dateText = new Intl.DateTimeFormat('ja-JP', {
+        const dateParts = new Intl.DateTimeFormat('ja-JP', {
             timeZone: 'Asia/Tokyo',
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
             weekday: 'short'
-        }).format(now);
+        }).formatToParts(now);
+
+        const year = dateParts.find(part => part.type === 'year').value;
+        const month = dateParts.find(part => part.type === 'month').value;
+        const day = dateParts.find(part => part.type === 'day').value;
+        const weekday = dateParts.find(part => part.type === 'weekday').value;
+
+        const dateText = `${year}年${month}月${day}日（${weekday}）`;
+        const dateValue = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 
         const timeText = new Intl.DateTimeFormat('ja-JP', {
             timeZone: 'Asia/Tokyo',
@@ -78,10 +86,11 @@
             hour12: false
         }).format(now);
 
-        const formattedDateText = dateText.replace('/', '年').replace('/', '月').replace('(', '日（').replace(')', '）');
+        document.getElementById('current-date').textContent = dateText;
+        document.getElementById('current-date').setAttribute('datetime', dateValue);
 
-        document.getElementById('current-date').textContent = formattedDateText;
         document.getElementById('current-time').textContent = timeText;
+        document.getElementById('current-time').setAttribute('datetime', timeText);
     }
 
     updateCurrentDateTime();

@@ -25,28 +25,36 @@
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">日付</th>
                 <td class="attendance-detail__description">
-                    {{$attendanceCorrectRequest->attendanceRecord->date->format('Y年')}}
+                    <time class="requested-time__text"
+                    datetime="{{ $attendanceCorrectRequest->attendanceRecord->date->format('Y-m-d') }}">
+                        {{ $attendanceCorrectRequest->attendanceRecord->date->format('Y年') }}
+                    </time>
                 </td>
                 <td class="attendance-detail__tilde"></td>
                 <td class="attendance-detail__description">
-                    {{$attendanceCorrectRequest->attendanceRecord->date->format('n月j日')}}
+                    <time class="requested-time__text"
+                    datetime="{{ $attendanceCorrectRequest->attendanceRecord->date->format('Y-m-d') }}">
+                        {{ $attendanceCorrectRequest->attendanceRecord->date->format('n月j日') }}
+                    </time>
                 </td>
                 <td class="attendance-detail__description"></td>
             </tr>
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__header">出勤・退勤</th>
                 <td class="attendance-detail__description">
-                    <span class="requested-time__text">
+                    <time class="requested-time__text"
+                        datetime="{{ $attendanceCorrectRequest->requested_clock_in->format('H:i') }}">
                         {{ $attendanceCorrectRequest->requested_clock_in->format('H:i') }}
-                    </span>
+                    </time>
                 </td>
                 <td class="attendance-detail__tilde">
                     <span class="attendance-detail__tilde-text">〜</span>
                 </td>
                 <td class="attendance-detail__description">
-                    <span class="requested-time__text">
+                    <time class="requested-time__text"
+                        datetime="{{ $attendanceCorrectRequest->requested_clock_out->format('H:i') }}">
                         {{ $attendanceCorrectRequest->requested_clock_out->format('H:i') }}
-                    </span>
+                    </time>
                 </td>
                 <td class="attendance-detail__description"></td>
             </tr>
@@ -56,17 +64,19 @@
                     休憩{{ $loop->iteration === 1 ? '' : $loop->iteration }}
                 </th>
                 <td class="attendance-detail__description">
-                    <span class="requested-time__text">
+                    <time class="requested-time__text"
+                        datetime="{{ $breakCorrectRequest->requested_break_in->format('H:i') }}">
                         {{ $breakCorrectRequest->requested_break_in->format('H:i') }}
-                    </span>
+                    </time>
                 </td>
                 <td class="attendance-detail__tilde">
                     <span class="attendance-detail__tilde-text">〜</span>
                 </td>
                 <td class="attendance-detail__description">
-                    <span class="requested-time__text">
+                    <time class="requested-time__text"
+                        datetime="{{ $breakCorrectRequest->requested_break_out->format('H:i') }}">
                         {{ $breakCorrectRequest->requested_break_out->format('H:i') }}
-                    </span>
+                    </time>
                 </td>
                 <td class="attendance-detail__description"></td>
             </tr>
