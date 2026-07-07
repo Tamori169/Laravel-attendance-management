@@ -73,7 +73,7 @@
 
 .attendance-trend__table-header:first-of-type {
     text-align: left;
-    width: 60%;
+    width: 50%;
 }
 
 .attendance-trend__table-header:nth-of-type(2),

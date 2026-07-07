@@ -39,7 +39,7 @@
                 </li>
                 <!-- 申請一覧 -->
                 <li class="header__nav-items">
-                    <a class="correction-index__link" href="{{ route('correction.index') }}">申請</a>
+                    <a class="correction-index__link" href="{{ route('correction.index') }}">申請一覧</a>
                 </li>
                 <!-- レポート -->
                 <li class="header__nav-items">

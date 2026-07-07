@@ -81,20 +81,26 @@
             今月の異常検知
         </h3>
         <p class="attendance-report__addition-text">
-            基準: 始業09:00/終業18:00/長時間労働は1日10時間超
+            基準: 始業 09:00 / 終業 18:00 / 長時間労働は 1日 10時間超
         </p>
         <div class="attendance-report__detection-content">
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">遅刻回数</span>
-                <span class="attendance-report__detection-value">{{ $reports['anomalies']['late_count'] }}回</span>
+                <span class="attendance-report__detection-value">
+                    {{ $reports['anomalies']['late_count'] }} 回
+                </span>
             </div>
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">早退回数</span>
-                <span class="attendance-report__detection-value">{{ $reports['anomalies']['early_leave_count'] }}回</span>
+                <span class="attendance-report__detection-value">
+                    {{ $reports['anomalies']['early_leave_count'] }} 回
+                </span>
             </div>
             <div class="attendance-report__detection-wrapper">
                 <span class="attendance-report__detection-label">長時間労働日数</span>
-                <span class="attendance-report__detection-value">{{ $reports['anomalies']['long_working_day_count'] }}日</span>
+                <span class="attendance-report__detection-value">
+                    {{ $reports['anomalies']['long_working_day_count'] }} 日
+                </span>
             </div>
         </div>
     </div>

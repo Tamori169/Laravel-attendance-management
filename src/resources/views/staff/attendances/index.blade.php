@@ -32,7 +32,7 @@
                 <rect x="11" y="17" width="2" height="2" fill="currentColor" />
             </svg>
             <time class="month-navigation__text" datetime="{{ $currentMonth->format('Y-m') }}">
-                {{ $currentMonth->format('Y/n') }}
+                {{ $currentMonth->format('Y/m') }}
             </time>
         </div>
         <div class="month-navigation__next-month">
