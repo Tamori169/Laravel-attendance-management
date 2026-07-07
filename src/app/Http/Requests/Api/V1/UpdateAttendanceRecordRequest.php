@@ -32,8 +32,8 @@ class UpdateAttendanceRecordRequest extends FormRequest
                 'date_format:Y-m-d',
                 Rule::unique('attendance_records')
                     ->ignore($attendanceRecord?->id)
-                    ->where(function ($query) {
-                        return $query->where('user_id', $this->user()?->id);
+                    ->where(function ($query) use ($attendanceRecord) {
+                        return $query->where('user_id', $attendanceRecord?->user_id);
                     })
             ],
             'clock_in' => ['required', 'date_format:H:i:s'],
