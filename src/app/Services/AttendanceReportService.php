@@ -13,10 +13,10 @@ class AttendanceReportService
     private const MONTHLY_TREND_MONTHS = 6;
 
     /**
-     * 勤怠レポートのデータを作成。
+     * 勤怠レポートデータを作成。
      *
      * @param int $userId ログインユーザーのID
-     * @return array array<string, int> 勤怠レポートのデータ
+     * @return array<string, mixed> 勤怠レポートのデータ
      */
     public function make(int $userId): array
     {
@@ -28,10 +28,10 @@ class AttendanceReportService
     }
 
     /**
-     * 直近6ヶ月間の総労働時間および総残業時間、平均労働時間を分単位で集計。
+     * サマリー用データを集計。
      *
      * @param int $userId ログインユーザーのID
-     * @return array 直近6ヶ月間の総労働時間および総残業時間、平均労働時間（分単位）
+     * @return array<string, int> 直近6ヶ月間の総労働時間および総残業時間、平均労働時間（分単位）
      */
     private function makeSummary(int $userId): array
     {
@@ -62,10 +62,10 @@ class AttendanceReportService
     }
 
     /**
-     * 直近6ヶ月について、各月の総労働時間および総残業時間を分単位で集計。
+     * 月次トレンド用データを集計。
      *
      * @param int $userId ログインユーザーのID
-     * @return array 直近6ヶ月の総労働時間および総残業時間（分単位）
+     * @return array<int, array{month: string, working_minutes: int, overtime_minutes: int}> 直近6ヶ月の単月ごとの総労働時間、総残業時間間（分単位）
      */
     private function makeMonthlyTrend(int $userId): array
     {
@@ -87,10 +87,10 @@ class AttendanceReportService
     }
 
     /**
-     * 当月の遅刻回数および早退回数、長時間労働日数を集計。
+     * 異常検知用データを集計。
      *
      * @param int $userId ログインユーザーのID
-     * @return array 当月の遅刻回数、早退回数、長時間労働日数
+     * @return array<string, int> 当月の遅刻回数、早退回数、長時間労働日数
      */
     private function makeAnomalies(int $userId): array
     {
@@ -136,6 +136,8 @@ class AttendanceReportService
      * 総労働時間を分単位で集計。
      *
      * @param int $userId ログインユーザーのID
+     * @param Carbon $startDate 集計開始日
+     * @param Carbon $endDate 集計終了日
      * @return int 総労働時間（分単位）
      */
     private function calculateTotalWorkingMinutes(int $userId, Carbon $startDate, Carbon $endDate): int
@@ -161,6 +163,8 @@ class AttendanceReportService
      * 総残業時間を分単位で集計。
      *
      * @param int $userId ログインユーザーのID
+     * @param Carbon $startDate 集計開始日
+     * @param Carbon $endDate 集計終了日
      * @return int 総残業時間（分単位）
      */
     private function calculateTotalOvertimeMinutes(int $userId, Carbon $startDate, Carbon $endDate): int

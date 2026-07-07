@@ -18,8 +18,7 @@ class AttendanceRecordController extends Controller
     /**
      * 一覧データを取得してResourceに渡す。
      *
-     * ユーザーID、日付、月、１ページあたり表示件数の検索条件に指定がある場合は
-     * 絞り込み後のデータを返す。
+     * ユーザーID、日付、月、１ページあたり表示件数の検索条件に指定がある場合は絞り込み後のデータを返す。
      *
      * @param IndexAttendanceRecordRequest $request 検索条件(バリデーション済み)を含むリクエストオブジェクト
      * @return AnonymousResourceCollection 取得した勤怠データのコレクション

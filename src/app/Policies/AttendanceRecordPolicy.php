@@ -16,7 +16,7 @@ class AttendanceRecordPolicy
      *
      * @param User $user ログイン中のユーザーレコード
      * @param string $ability 実行しようとしている操作名
-     * @return bool
+     * @return bool|null 管理者の場合はtrue、一般ユーザーの場合はnullを返す
      */
     public function before(User $user, string $ability): ?bool
     {

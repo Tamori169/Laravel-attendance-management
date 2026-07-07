@@ -104,7 +104,7 @@ class AttendanceRecord extends Model
     /**
      * 労働時間をHH:MM形式に変換して表示。
      *
-     * getFormattedWorkTimeAttributeで取得された休憩時間を変換する。
+     * getWorkMinutesAttributeで取得された労働時間を変換する。
      *
      * @return string HH:MM形式に変換された労働時間
      */

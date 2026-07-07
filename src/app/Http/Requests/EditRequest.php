@@ -92,7 +92,7 @@ class EditRequest extends FormRequest
      * 休憩時間の重複をチェックしエラーメッセージを表示させる。
      *
      * @param Validator $validator バリデーター
-     * @return void
+     * @return void 重複があればtrue、なければfalseを返す
      */
     public function withValidator(Validator $validator): void
     {
