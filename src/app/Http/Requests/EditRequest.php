@@ -51,7 +51,7 @@ class EditRequest extends FormRequest
                 'before_or_equal:clock_out',
                 'required_with:breaks.*.break_in',
                 'nullable',
-                'after_or_equal:break_in',
+                'after_or_equal:breaks.*.break_in',
             ],
             'comment' => [
                 'required',

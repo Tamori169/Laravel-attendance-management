@@ -51,7 +51,7 @@ class CorrectionRequest extends FormRequest
                 'before_or_equal:requested_clock_out',
                 'required_with:requested_breaks.*.break_in',
                 'nullable',
-                'after_or_equal:requested_break_in',
+                'after_or_equal:requested_breaks.*.break_in',
             ],
             'comment' => [
                 'required',
