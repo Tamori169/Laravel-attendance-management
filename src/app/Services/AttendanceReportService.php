@@ -9,6 +9,7 @@ class AttendanceReportService
 {
     private const STANDARD_CLOCK_IN = '09:00:00';
     private const STANDARD_CLOCK_OUT = '18:00:00';
+    private const STANDARD_WORKING_MINUTES = 480;
     private const LONG_WORKING_DAY_MINUTES = 600;
     private const MONTHLY_TREND_MONTHS = 6;
 
@@ -169,36 +170,21 @@ class AttendanceReportService
      */
     private function calculateTotalOvertimeMinutes(int $userId, Carbon $startDate, Carbon $endDate): int
     {
-        $totalOvertimeMinutes = AttendanceRecord::with('breakRecords')
+        return AttendanceRecord::with('breakRecords')
             ->where('user_id', $userId)
             ->whereBetween('date', [$startDate, $endDate])
-            ->whereTime('clock_out', '>', self::STANDARD_CLOCK_OUT)
             ->get()
             ->filter(fn($attendanceRecord) => $attendanceRecord->clock_in && $attendanceRecord->clock_out)
             ->map(function ($attendanceRecord): int {
-                $overtimeStart = $attendanceRecord->clock_out->copy()->setTime(18, 0);
-
-                if ($attendanceRecord->clock_in->gt($overtimeStart)) {
-                    $overtimeStart = $attendanceRecord->clock_in;
-                }
-
                 $breakMinutes = $attendanceRecord->breakRecords
                     ->filter(fn($breakRecord) => $breakRecord->break_in && $breakRecord->break_out)
-                    ->map(function ($breakRecord) use ($overtimeStart): int {
-                        $breakStart = $breakRecord->break_in->gt($overtimeStart)
-                            ? $breakRecord->break_in
-                            : $overtimeStart;
-
-                        return $breakRecord->break_out->lte($breakStart)
-                            ? 0
-                            : $breakStart->diffInMinutes($breakRecord->break_out);
-                    })
+                    ->map(fn($breakRecord): int => $breakRecord->break_in->diffInMinutes($breakRecord->break_out))
                     ->sum();
 
-                return $overtimeStart->diffInMinutes($attendanceRecord->clock_out) - $breakMinutes;
+                $workingMinutes = $attendanceRecord->clock_in->diffInMinutes($attendanceRecord->clock_out) - $breakMinutes;
+
+                return max(0, $workingMinutes - self::STANDARD_WORKING_MINUTES);
             })
             ->sum();
-
-        return $totalOvertimeMinutes;
     }
 }
