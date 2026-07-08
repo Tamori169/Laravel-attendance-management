@@ -106,8 +106,8 @@ chmod -R 777 storage
 - 認証不要
   - 会員登録画面（トップ画面）：`http://localhost/register`
   - ログイン画面：`http://localhost/login`
-  - メール認証誘導画面：`http://localhost/email/verify`
 - 認証要
+  - メール認証誘導画面：`http://localhost/email/verify`
   - 出勤登録画面：`http://localhost/attendance`
   - 勤怠一覧画面：`http://localhost/attendance/list`
   - 勤怠詳細画面：`http://localhost/attendance/detail/{id}`
