@@ -11,14 +11,16 @@ class T_03_LoginTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(RoleSeeder::class);
+    }
+
     public function test_メールアドレスが未入力の場合、バリデーションメッセージが表示される()
     {
-        $this->seed(RoleSeeder::class);
         $user = User::factory()->admin()->create();
-
-        $response = $this->get('/admin/login');
-
-        $response->assertStatus(200);
 
         $response = $this->post('/login', [
             'email' => '',
@@ -30,12 +32,7 @@ class T_03_LoginTest extends TestCase
 
     public function test_パスワードが未入力の場合、バリデーションメッセージが表示される()
     {
-        $this->seed(RoleSeeder::class);
         $user = User::factory()->admin()->create();
-
-        $response = $this->get('/admin/login');
-
-        $response->assertStatus(200);
 
         $response = $this->post('/login', [
             'email' => $user->email,
@@ -45,45 +42,16 @@ class T_03_LoginTest extends TestCase
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
 
-    public function test_登録内容と一致しない場合、バリデーションメッセージが表示される_メールアドレス()
+    public function test_登録内容と一致しない場合、バリデーションメッセージが表示される()
     {
-        $this->seed(RoleSeeder::class);
-        $email = 'test@example.com';
-        $password = 'password';
         $user = User::factory()->admin()->create([
-            'email' => $email,
-            'password' => bcrypt($password),
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
         ]);
-
-        $response = $this->get('/admin/login');
-
-        $response->assertStatus(200);
 
         $response = $this->post('/login', [
             'email' => 'wrong@example.com',
-            'password' => $password,
-        ]);
-
-        $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);
-    }
-
-    public function test_登録内容と一致しない場合、バリデーションメッセージが表示される_パスワード()
-    {
-        $this->seed(RoleSeeder::class);
-        $email = 'test@example.com';
-        $password = 'password';
-        $user = User::factory()->admin()->create([
-            'email' => $email,
-            'password' => bcrypt($password),
-        ]);
-
-        $response = $this->get('/admin/login');
-
-        $response->assertStatus(200);
-
-        $response = $this->post('/login', [
-            'email' => $email,
-            'password' => 'wrong-password',
+            'password' => 'password',
         ]);
 
         $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);

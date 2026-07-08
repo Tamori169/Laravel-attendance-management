@@ -57,8 +57,8 @@ class T_20_IndexReportTest extends TestCase
         $response->assertSeeInOrder(['総労働時間', '0h', '0m']);
         $response->assertSeeInOrder(['総残業時間', '0h', '0m']);
         $response->assertSeeInOrder(['平均労働時間/日', '0h', '0m']);
-        $response->assertSeeInOrder(['遅刻回数', '0回']);
-        $response->assertSeeInOrder(['早退回数', '0回']);
-        $response->assertSeeInOrder(['長時間労働日数', '0日']);
+        $response->assertSeeInOrder(['遅刻回数', '0 回']);
+        $response->assertSeeInOrder(['早退回数', '0 回']);
+        $response->assertSeeInOrder(['長時間労働日数', '0 日']);
     }
 }

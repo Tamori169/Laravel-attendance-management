@@ -14,10 +14,6 @@ class T_01_RegistrationTest extends TestCase
 
     public function test_名前が未入力の場合、バリデーションメッセージが表示される()
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-
         $response = $this->post('/register', [
             'name' => '',
             'email' => 'test@example.com',
@@ -30,10 +26,6 @@ class T_01_RegistrationTest extends TestCase
 
     public function test_メールアドレスが未入力の場合、バリデーションメッセージが表示される()
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => '',
@@ -46,10 +38,6 @@ class T_01_RegistrationTest extends TestCase
 
     public function test_パスワードが8文字未満の場合、バリデーションメッセージが表示される()
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -62,10 +50,6 @@ class T_01_RegistrationTest extends TestCase
 
     public function test_パスワードが一致しない場合、バリデーションメッセージが表示される()
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -78,10 +62,6 @@ class T_01_RegistrationTest extends TestCase
 
     public function test_パスワードが未入力の場合、バリデーションメッセージが表示される()
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -97,11 +77,7 @@ class T_01_RegistrationTest extends TestCase
     {
         $this->seed(RoleSeeder::class);
 
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-
-        $response = $this->post(route('register'), [
+        $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',

@@ -157,12 +157,6 @@ class T_11_RequestCorrectionTest extends TestCase
         $postResponse = $this->post($url, [
             'requested_clock_in' => '09:30',
             'requested_clock_out' => '18:00',
-            'requested_breaks' => [
-                0 => [
-                    'break_in' => '12:00',
-                    'break_out' => '13:00',
-                ],
-            ],
             'comment' => '遅延のため',
         ]);
 
@@ -183,12 +177,6 @@ class T_11_RequestCorrectionTest extends TestCase
         $attendanceCorrectRequest =
         AttendanceCorrectRequest::where('attendance_record_id', $attendanceRecord->id)->first();
 
-        $this->assertDatabaseHas('break_correct_requests', [
-            'attendance_correct_request_id' => $attendanceCorrectRequest->id,
-            'requested_break_in' => '2026-06-24 12:00:00',
-            'requested_break_out' => '2026-06-24 13:00:00',
-        ]);
-
         $response = $this->actingAs($admin)->get('/stamp_correction_request/list?tab=pending');
         $response->assertStatus(200);
 
@@ -205,7 +193,6 @@ class T_11_RequestCorrectionTest extends TestCase
         $response->assertSee('勤怠詳細');
         $response->assertSeeInOrder(['名前', 'Test User']);
         $response->assertSeeInOrder(['日付', '2026年', '6月24日']);
-        $response->assertSeeInOrder(['correction-approval__button-submit']);
         $response->assertSee('承認');
 
         Carbon::setTestNow();

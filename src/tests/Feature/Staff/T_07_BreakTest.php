@@ -13,227 +13,170 @@ class T_07_BreakTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_休憩ボタンが正しく機能する()
+    private Carbon $knownDate;
+    private User $user;
+    private AttendanceRecord $attendanceRecord;
+
+    protected function setUp(): void
     {
-        $knownDate = Carbon::create(2026, 6, 24, 9, 0, 0, 'Asia/Tokyo');
-        Carbon::setTestNow($knownDate);
+        parent::setUp();
+
+        $this->knownDate = Carbon::create(2026, 6, 24, 9, 0, 0, 'Asia/Tokyo');
+        Carbon::setTestNow($this->knownDate);
 
         $this->seed(RoleSeeder::class);
-        $user = User::factory()->staff()->create();
-
-        $attendanceRecord = AttendanceRecord::create([
-            'user_id' => $user->id,
-            'date' => $knownDate->format('Y-m-d'),
-            'clock_in' => $knownDate->format('Y-m-d H:i:s'),
+        $this->user = User::factory()->staff()->create();
+        $this->attendanceRecord = AttendanceRecord::create([
+            'user_id' => $this->user->id,
+            'date' => $this->knownDate->format('Y-m-d'),
+            'clock_in' => $this->knownDate->format('Y-m-d H:i:s'),
         ]);
+    }
 
-        $response = $this->actingAs($user)->get('/attendance');
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+
+        parent::tearDown();
+    }
+
+    public function test_休憩ボタンが正しく機能する()
+    {
+        $response = $this->actingAs($this->user)->get('/attendance');
         $response->assertStatus(200);
 
         $response->assertSeeInOrder(['attendance-buttons__break_in']);
         $response->assertSee('休憩入');
 
-        Carbon::setTestNow(now()->addMinutes(30));
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(30));
 
-        $postResponse = $this->actingAs($user)->post('/attendance/break_in');
+        $postResponse = $this->actingAs($this->user)->post('/attendance/break_in');
 
         $postResponse->assertRedirect('/attendance');
 
-        $response = $this->actingAs($user)->get('/attendance');
+        $response = $this->actingAs($this->user)->get('/attendance');
         $response->assertStatus(200);
 
         $response->assertSee('休憩中');
 
         $this->assertDatabaseHas('break_records', [
-            'attendance_record_id' => $attendanceRecord->id,
+            'attendance_record_id' => $this->attendanceRecord->id,
             'break_in' => '2026-06-24 09:30:00',
         ]);
-
-        Carbon::setTestNow();
     }
 
     public function test_休憩は一日に何回でもできる()
     {
-        $knownDate = Carbon::create(2026, 6, 24, 9, 0, 0, 'Asia/Tokyo');
-        Carbon::setTestNow($knownDate);
 
-        $this->seed(RoleSeeder::class);
-        $user = User::factory()->staff()->create();
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(30));
 
-        $attendanceRecord = AttendanceRecord::create([
-            'user_id' => $user->id,
-            'date' => $knownDate->format('Y-m-d'),
-            'clock_in' => $knownDate->format('Y-m-d H:i:s'),
-        ]);
-
-        $response = $this->actingAs($user)->get('/attendance');
-        $response->assertStatus(200);
-
-        Carbon::setTestNow(now()->addMinutes(30));
-
-        $postResponse = $this->actingAs($user)->post('/attendance/break_in');
+        $postResponse = $this->actingAs($this->user)->post('/attendance/break_in');
 
         $postResponse->assertRedirect('/attendance');
 
-        Carbon::setTestNow(now()->addMinutes(30));
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(60));
 
-        $patchResponse = $this->actingAs($user)->patch('/attendance/break_out');
+        $patchResponse = $this->actingAs($this->user)->patch('/attendance/break_out');
 
         $patchResponse->assertRedirect('/attendance');
+
+        $response = $this->actingAs($this->user)->get('/attendance');
+        $response->assertStatus(200);
 
         $response->assertSeeInOrder(['attendance-buttons__break_in']);
         $response->assertSee('休憩入');
 
         $this->assertDatabaseHas('break_records', [
-            'attendance_record_id' => $attendanceRecord->id,
+            'attendance_record_id' => $this->attendanceRecord->id,
             'break_in' => '2026-06-24 09:30:00',
             'break_out' => '2026-06-24 10:00:00',
         ]);
-
-        Carbon::setTestNow();
     }
 
     public function test_休憩戻ボタンが正しく機能する()
     {
-        $knownDate = Carbon::create(2026, 6, 24, 9, 0, 0, 'Asia/Tokyo');
-        Carbon::setTestNow($knownDate);
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(30));
 
-        $this->seed(RoleSeeder::class);
-        $user = User::factory()->staff()->create();
-
-        $attendanceRecord = AttendanceRecord::create([
-            'user_id' => $user->id,
-            'date' => $knownDate->format('Y-m-d'),
-            'clock_in' => $knownDate->format('Y-m-d H:i:s'),
-        ]);
-
-        $response = $this->actingAs($user)->get('/attendance');
-        $response->assertStatus(200);
-
-        Carbon::setTestNow(now()->addMinutes(30));
-
-        $postResponse = $this->actingAs($user)->post('/attendance/break_in');
+        $postResponse = $this->actingAs($this->user)->post('/attendance/break_in');
 
         $postResponse->assertRedirect('/attendance');
 
-        $response = $this->actingAs($user)->get('/attendance');
+        $response = $this->actingAs($this->user)->get('/attendance');
 
         $response->assertSeeInOrder(['attendance-buttons__break_out']);
         $response->assertSee('休憩戻');
 
-        Carbon::setTestNow(now()->addMinutes(30));
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(60));
 
-        $postResponse = $this->actingAs($user)->patch('/attendance/break_out');
+        $postResponse = $this->actingAs($this->user)->patch('/attendance/break_out');
 
         $postResponse->assertRedirect('/attendance');
 
-        $response = $this->actingAs($user)->get('/attendance');
+        $response = $this->actingAs($this->user)->get('/attendance');
 
         $response->assertSee('出勤中');
 
         $this->assertDatabaseHas('break_records', [
-            'attendance_record_id' => $attendanceRecord->id,
+            'attendance_record_id' => $this->attendanceRecord->id,
             'break_in' => '2026-06-24 09:30:00',
             'break_out' => '2026-06-24 10:00:00',
         ]);
-
-        Carbon::setTestNow();
     }
 
     public function test_休憩戻は一日に何回でもできる()
     {
-        $knownDate = Carbon::create(2026, 6, 24, 9, 0, 0, 'Asia/Tokyo');
-        Carbon::setTestNow($knownDate);
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(30));
 
-        $this->seed(RoleSeeder::class);
-        $user = User::factory()->staff()->create();
-
-        $attendanceRecord = AttendanceRecord::create([
-            'user_id' => $user->id,
-            'date' => $knownDate->format('Y-m-d'),
-            'clock_in' => $knownDate->format('Y-m-d H:i:s'),
-        ]);
-
-        $response = $this->actingAs($user)->get('/attendance');
-        $response->assertStatus(200);
-
-        Carbon::setTestNow(now()->addMinutes(30));
-
-        $postResponse = $this->actingAs($user)->post('/attendance/break_in');
+        $postResponse = $this->actingAs($this->user)->post('/attendance/break_in');
 
         $postResponse->assertRedirect('/attendance');
 
-        Carbon::setTestNow(now()->addMinutes(30));
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(60));
 
-        $postResponse = $this->actingAs($user)->patch('/attendance/break_out');
-
-        $postResponse->assertRedirect('/attendance');
-
-        Carbon::setTestNow(now()->addMinutes(30));
-
-        $postResponse = $this->actingAs($user)->post('/attendance/break_in');
+        $postResponse = $this->actingAs($this->user)->patch('/attendance/break_out');
 
         $postResponse->assertRedirect('/attendance');
 
-        $response = $this->actingAs($user)->get('/attendance');
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(90));
+
+        $postResponse = $this->actingAs($this->user)->post('/attendance/break_in');
+
+        $postResponse->assertRedirect('/attendance');
+
+        $response = $this->actingAs($this->user)->get('/attendance');
 
         $response->assertSeeInOrder(['attendance-buttons__break_out']);
         $response->assertSee('休憩戻');
 
         $this->assertDatabaseHas('break_records', [
-            'attendance_record_id' => $attendanceRecord->id,
+            'attendance_record_id' => $this->attendanceRecord->id,
             'break_in' => '2026-06-24 09:30:00',
             'break_out' => '2026-06-24 10:00:00',
         ]);
 
         $this->assertDatabaseHas('break_records', [
-            'attendance_record_id' => $attendanceRecord->id,
+            'attendance_record_id' => $this->attendanceRecord->id,
             'break_in' => '2026-06-24 10:30:00',
         ]);
-
-        Carbon::setTestNow();
     }
 
     public function test_休憩時刻が勤怠一覧画面で確認できる()
     {
-        $knownDate = Carbon::create(2026, 6, 24, 9, 0, 0, 'Asia/Tokyo');
-        Carbon::setTestNow($knownDate);
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(30));
 
-        $this->seed(RoleSeeder::class);
-        $user = User::factory()->staff()->create();
-
-        $attendanceRecord = AttendanceRecord::create([
-            'user_id' => $user->id,
-            'date' => $knownDate->format('Y-m-d'),
-            'clock_in' => $knownDate->format('Y-m-d H:i:s'),
-        ]);
-
-        $response = $this->actingAs($user)->get('/attendance');
-        $response->assertStatus(200);
-
-        Carbon::setTestNow(now()->addMinutes(30));
-
-        $postResponse = $this->actingAs($user)->post('/attendance/break_in');
+        $postResponse = $this->actingAs($this->user)->post('/attendance/break_in');
 
         $postResponse->assertRedirect('/attendance');
 
-        Carbon::setTestNow(now()->addMinutes(30));
+        Carbon::setTestNow($this->knownDate->copy()->addMinutes(60));
 
-        $postResponse = $this->actingAs($user)->patch('/attendance/break_out');
+        $postResponse = $this->actingAs($this->user)->patch('/attendance/break_out');
 
         $postResponse->assertRedirect('/attendance');
 
-        $this->assertDatabaseHas('break_records', [
-            'attendance_record_id' => $attendanceRecord->id,
-            'break_in' => '2026-06-24 09:30:00',
-            'break_out' => '2026-06-24 10:00:00',
-        ]);
-
-        $response = $this->actingAs($user)->get('/attendance/list?month=2026-06');
+        $response = $this->actingAs($this->user)->get('/attendance/list?month=2026-06');
         $response->assertStatus(200);
 
         $response->assertSeeInOrder(['06/24', '09:00', '0:30']);
-
-        Carbon::setTestNow();
     }
 }
