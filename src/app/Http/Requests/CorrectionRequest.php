@@ -70,7 +70,7 @@ class CorrectionRequest extends FormRequest
         return [
             'requested_clock_in.required' => '出勤時間を入力してください',
             'requested_clock_in.date_format' => '出勤時間は「HH:MM」形式で入力してください',
-            'requested_clock_out.required' => '出勤時間を入力してください',
+            'requested_clock_out.required' => '退勤時間を入力してください',
             'requested_clock_out.date_format' => '退勤時間は「HH:MM」形式で入力してください',
             'requested_clock_out.after_or_equal' => '出勤時間もしくは退勤時間が不適切な値です',
             'requested_breaks.*.break_in.date_format' => '休憩時間は「HH:MM」形式で入力してください',
