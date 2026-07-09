@@ -193,5 +193,6 @@ class T_11_RequestCorrectionTest extends TestCase
         $response->assertSee('勤怠詳細');
         $response->assertSeeInOrder(['名前', $this->user->name]);
         $response->assertSeeInOrder(['日付', '2026年', '6月24日']);
+        $response->assertSeeInOrder(['出勤・退勤', '09:30', '18:00']);
     }
 }
